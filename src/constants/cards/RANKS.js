@@ -1,0 +1,13 @@
+export const ACE = Symbol('Cards.Ranks.Ace');
+export const TWO = Symbol('Cards.Ranks.Two');
+export const THREE = Symbol('Cards.Ranks.Three');
+export const FOUR = Symbol('Cards.Ranks.Four');
+export const FIVE = Symbol('Cards.Ranks.Five');
+export const SIX = Symbol('Cards.Ranks.Six');
+export const SEVEN = Symbol('Cards.Ranks.Seven');
+export const EIGHT = Symbol('Cards.Ranks.Eight');
+export const NINE = Symbol('Cards.Ranks.Nine');
+export const TEN = Symbol('Cards.Ranks.Ten');
+export const JACK = Symbol('Cards.Ranks.Jack');
+export const QUEEN = Symbol('Cards.Ranks.Queen');
+export const KING = Symbol('Cards.Ranks.King');
