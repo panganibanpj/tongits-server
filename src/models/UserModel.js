@@ -1,6 +1,6 @@
 // @flow
 import { Schema, model } from 'mongoose';
-import { CreateTime } from '../util/model-helpers';
+import { CreateTime, User } from '../util/model-helpers';
 
 export default model('user', new Schema({
   username: {
@@ -14,6 +14,10 @@ export default model('user', new Schema({
   isConnected: {
     type: Boolean,
     required: true,
+  },
+  friends: {
+    type: [User],
+    default: [],
   },
   facebookId: {
     type: String,
