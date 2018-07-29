@@ -1,8 +1,8 @@
 // @flow
 import { Schema, model } from 'mongoose';
+import { CreateTime } from '../util/model-helpers';
 
-export const NAME = 'user';
-export default model(NAME, new Schema({
+export default model('user', new Schema({
   username: {
     type: String,
     unique: true,
@@ -10,10 +10,7 @@ export default model(NAME, new Schema({
   },
   email: String, // @TODO: email validation
   picture: String, // @TODO: url validation. gravatar? FB? G+?
-  joinDate: {
-    type: Date,
-    default: Date.now,
-  },
+  joinDate: CreateTime,
   isConnected: {
     type: Boolean,
     required: true,

@@ -1,7 +1,12 @@
 // @flow
 import { Schema, model } from 'mongoose';
-import { NAME as User } from './UserModel';
+import { CreateTime, NaturalNumber, User } from '../util/model-helpers';
 import { NAME as Series } from './SeriesModel';
+
+const Cards = [{
+  type: String,
+  match: /[SHDC][A2-90JQK]/,
+}];
 
 export default model('match', new Schema({
   seriesId: {
@@ -9,45 +14,16 @@ export default model('match', new Schema({
     ref: Series,
     required: true,
   },
-  round: {
-    type: Number,
-    default: 0,
-    min: 0,
-    validate: Number.isInteger,
-  },
-  better: {
-    type: Schema.Types.ObjectId,
-    ref: User,
-    default: null,
-  },
-  createTime: {
-    type: Date,
-    default: Date.now,
-  },
-  startTime: Date,
+  round: NaturalNumber,
+  better: User,
+  createTime: CreateTime,
+  startTime: Date, // inidicator that game has started
   endTime: Date,
-  winner: {
-    type: Schema.Types.ObjectId,
-    ref: User,
-    default: null,
-  },
-  jackpot: {
-    type: Number,
-    default: 0,
-    min: 0,
-    validate: Number.isInteger,
-  },
-  turn: {
-    type: Number,
-    default: 0,
-    min: 0,
-    validate: Number.isInteger,
-  },
+  winner: User,
+  jackpot: NaturalNumber,
+  turn: NaturalNumber,
   pile: {
-    type: [{
-      type: String,
-      match: /[SHDC][A2-90JQK]/,
-    }],
+    type: Cards,
     default: null,
   },
   turnStarted: {
@@ -60,58 +36,41 @@ export default model('match', new Schema({
   },
   players: {
     type: [{
-      userId: {
-        type: Schema.Types.ObjectId,
-        ref: User,
-        default: null,
-      },
-      pesos: {
-        type: Number,
-        default: 0,
-        min: 0,
-        validate: Number.isInteger,
-      },
+      userId: User,
+      pesos: NaturalNumber, // pesos count for this series
       hand: {
-        type: [{
-          type: String,
-          match: /[SHDC][A2-90JQK]/,
-        }],
+        type: Cards,
         default: [],
       },
       discard: {
-        type: [{
-          type: String,
-          match: /[SHDC][A2-90JQK]/,
-        }],
+        type: Cards,
         default: [],
       },
       melds: {
         sets: {
           type: Map,
-          of: [{
-            type: String,
-            match: /[SHDC][A2-90JQK]/,
-          }],
+          of: Cards,
           default: {},
         },
         runs: {
-          type: [[{
-            type: String,
-            match: /[SHDC][A2-90JQK]/,
-          }]],
+          type: [Cards],
           default: [],
         },
       },
+      // is calling or started the bet
       bet: {
         type: Boolean,
         default: null,
       },
+      // turns left before can bet
       blockedTurns: {
         type: Number,
         default: -1,
         min: -1,
         validate: Number.isInteger,
       },
+      // time ante'd into match
+      // also indicator that player has ante'd up
       joinTime: {
         type: Date,
         default: null,
@@ -119,6 +78,7 @@ export default model('match', new Schema({
     }],
     default: [],
   },
+  // if true, button is first player
   button: {
     type: Boolean,
     default: false,
