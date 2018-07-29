@@ -1,0 +1,11 @@
+{
+  "BASIC": {
+    "FIRST_ANTE": 5,
+    "ANTE": 1,
+    "TONG_ITS": 2,
+    "SECRET": 2,
+    "LAST_BUNOT": 1,
+    "CALL_BET": 3,
+    "FOLD_BET": 1,
+  },
+}
