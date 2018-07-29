@@ -1,9 +1,11 @@
 // @flow
 import express from 'express';
-import bodyParser from 'body-parser'; // eslint-disable-line import/no-extraneous-dependencies
+// eslint-disable-next-line import/no-extraneous-dependencies
+import bodyParser from 'body-parser';
 import database from './database';
 
 const PORT: number = parseInt(process.env.PORT, 10) || 1337;
+(bodyParser: *);
 
 (async () => {
   const app = express();

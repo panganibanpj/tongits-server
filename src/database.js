@@ -1,10 +1,4 @@
 // @flow
-import Sequelize from 'sequelize';
+import mongoose from 'mongoose';
 
-const DB_NAME = 'tong-its';
-const DB_FILE = './.data/tong-its.db';
-
-export default new Sequelize(DB_NAME, null, null, {
-  dialect: 'sqlite',
-  storage: DB_FILE,
-});
+export default mongoose.connect('mongodb://localhost:27017/tong-its');
