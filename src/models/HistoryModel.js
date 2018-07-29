@@ -1,8 +1,8 @@
 // @flow
-import { Schema, model } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { CreateTime, NaturalNumber, User } from '../util/model-helpers';
 
-export default model('history', new Schema({
+export default mongoose.model('history', new Schema({
   createTime: CreateTime,
   matchId: {
     type: Schema.Types.ObjectId,

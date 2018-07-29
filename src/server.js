@@ -12,7 +12,7 @@ const PORT: number = parseInt(process.env.PORT, 10) || 1337;
   app.use(bodyParser.urlencoded({ extended: true }));
 
   try {
-    await database.authenticate();
+    await database;
   } catch (error) {
     console.error(error); // eslint-disable-line no-console
   }

@@ -1,9 +1,9 @@
 // @flow
-import { Schema, model } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { CreateTime, NaturalNumber, User } from '../util/model-helpers';
 
 export const NAME = 'series';
-export default model(NAME, new Schema({
+export default mongoose.model(NAME, new Schema({
   createTime: CreateTime,
   round: NaturalNumber,
   betType: {

@@ -1,8 +1,8 @@
 // @flow
-import { Schema, model } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { CreateTime, User } from '../util/model-helpers';
 
-export default model('user', new Schema({
+export default mongoose.model('user', new Schema({
   username: {
     type: String,
     unique: true,

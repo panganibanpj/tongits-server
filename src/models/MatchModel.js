@@ -1,5 +1,5 @@
 // @flow
-import { Schema, model } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { CreateTime, NaturalNumber, User } from '../util/model-helpers';
 import { NAME as Series } from './SeriesModel';
 
@@ -8,7 +8,7 @@ const Cards = [{
   match: /[SHDC][A2-90JQK]/,
 }];
 
-export default model('match', new Schema({
+export default mongoose.model('match', new Schema({
   seriesId: {
     type: Schema.Types.ObjectId,
     ref: Series,
