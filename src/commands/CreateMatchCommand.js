@@ -1,11 +1,6 @@
 // @flow
 import Match, { type MatchType } from '../models/MatchModel';
-
-export class NotEnoughPlayersError extends RangeError {
-  constructor() {
-    super('Requires at least 1 player');
-  }
-}
+import NotEnoughPlayersError from '../utils/NotEnoughPlayersError';
 
 export default class CreateMatchCommand {
   matchData: MatchType;
