@@ -19,11 +19,12 @@ describe('commands/CreateSeriesCommand', () => {
       betType: 'BASIC',
       players: [{ userId: new Types.ObjectId() }],
     });
-    return command.execute()
-      .then(
-        () => { throw new Error('was supposed to fail!'); },
-        error => assert.instanceOf(error, UserNotFoundError),
-      );
+    try {
+      await command.execute();
+    } catch(error) {
+      return assert.instanceOf(error, UserNotFoundError)
+    }
+    throw new Error('was supposed to fail!');
   });
   it('creates a series', async () => {
     const user = await User.create({
