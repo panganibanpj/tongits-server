@@ -8,7 +8,7 @@ export default class CreateUserCommand {
     this.userData = userData;
   }
 
-  async execute(): Promise<User> {
+  execute(): Promise<User> {
     return User.create(this.userData);
   }
 
