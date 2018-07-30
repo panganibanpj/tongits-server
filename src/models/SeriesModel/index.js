@@ -14,6 +14,15 @@ class SeriesClass extends BaseModel {
   twoHits: ?MongoId;
   jackpot: number;
   players: Array<InvitedPlayerType | JoinedPlayerType>;
+
+  hasPlayer(userId: ?MongoId): boolean {
+    return this.players.some(({ userId: playerId }) => playerId === userId);
+  }
+
+  hasPlayers(userIds: Array<?MongoId> = []): boolean {
+    if (!userIds.length) return false;
+    return userIds.every(userId => this.hasPlayer(userId));
+  }
 }
 
 schema.loadClass(SeriesClass);
