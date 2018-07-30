@@ -1,9 +1,23 @@
 // @flow
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema, type BSONObjectId } from 'mongoose';
 import { CreateTime, NaturalNumber, User } from '../util/model-helpers';
+import type { BetTypesType } from '../types/betTypes';
 
-export const NAME = 'series';
-export default mongoose.model(NAME, new Schema({
+type PlayerType = {|
+  pesos: number,
+  userId: string,
+|};
+
+export type SeriesType = {|
+  betType: BetTypesType,
+  createTime?: Date,
+  jackpot?: number,
+  players?: Array<PlayerType>,
+  round?: number,
+  twoHits?: BSONObjectId,
+|};
+
+const schema = new Schema({
   createTime: CreateTime,
   round: NaturalNumber,
   betType: {
@@ -20,4 +34,16 @@ export default mongoose.model(NAME, new Schema({
     }],
     default: [],
   },
-}));
+});
+
+schema.loadClass(class Series /* :: extends Mongoose$Document */ {
+  createTime: Date;
+  round: number;
+  betType: BetTypesType;
+  twoHits: ?BSONObjectId;
+  jackpot: number;
+  players: Array<PlayerType>;
+});
+
+export const COLLECTION_NAME = 'series';
+export default mongoose.model(COLLECTION_NAME, schema);

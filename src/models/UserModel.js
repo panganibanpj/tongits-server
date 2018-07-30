@@ -1,8 +1,19 @@
 // @flow
-import mongoose, { Schema } from 'mongoose';
-import { CreateTime, User } from '../util/model-helpers';
+import mongoose, { Schema, type BSONObjectId } from 'mongoose';
+import { CreateTime, User as UserRef } from '../util/model-helpers';
 
-export default mongoose.model('user', new Schema({
+export type UserType = {|
+  email?: string,
+  facebookId?: string,
+  friends?: Array<BSONObjectId>,
+  googleId?: string,
+  isConnected?: boolean,
+  joinDate?: Date,
+  picture?: string,
+  username: string,
+|};
+
+const schema = new Schema({
   username: {
     type: String,
     unique: true,
@@ -16,7 +27,7 @@ export default mongoose.model('user', new Schema({
     required: true,
   },
   friends: {
-    type: [User],
+    type: [UserRef],
     default: [],
   },
   facebookId: {
@@ -27,4 +38,19 @@ export default mongoose.model('user', new Schema({
     type: String,
     unique: true,
   },
-}));
+});
+
+class User /* :: extends Mongoose$Document */ {
+  username: string;
+  email: ?string;
+  picture: ?string;
+  joinDate: Date;
+  isConnected: boolean;
+  friends: Array<BSONObjectId>;
+  facebookId: ?string;
+  googleId: ?string;
+}
+
+schema.loadClass(User);
+
+export default mongoose.model('user', schema);
