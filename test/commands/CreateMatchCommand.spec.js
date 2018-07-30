@@ -4,8 +4,8 @@ import { Types } from 'mongoose';
 import Series from '../../src/models/SeriesModel';
 import Match from '../../src/models/MatchModel';
 import NotEnoughPlayersError from '../../src/utils/NotEnoughPlayersError';
+import SeriesNotFoundError from '../../src/utils/SeriesNotFoundError';
 import CreateMatchCommand, {
-  SeriesNotFoundError,
   PlayersNotInSeriesError,
 } from '../../src/commands/CreateMatchCommand';
 

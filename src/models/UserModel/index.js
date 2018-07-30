@@ -15,7 +15,7 @@ class UserClass extends BaseModel {
   facebookId: ?string;
   googleId: ?string;
 
-  static async allExist(userIds: Array<?BSONObjectId> = []): Promise<boolean> {
+  static async allExist(userIds: Array<BSONObjectId> = []): Promise<boolean> {
     if (!userIds.length) return Promise.resolve(false);
     const existences = await Promise.all(
       userIds.map(userId => this.exists(userId)),

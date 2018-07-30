@@ -26,12 +26,7 @@ describe('models/UserModel', () => {
     it('returns false if some do not exist', async () => {
       const userIds = await createUserIds(3);
       userIds.push(new Types.ObjectId());
-      let allExist = await User.allExist(userIds);
-      assert(!allExist);
-
-      userIds.pop();
-      userIds.push(null);
-      allExist = await User.allExist(userIds);
+      const allExist = await User.allExist(userIds);
       assert(!allExist);
     });
 
