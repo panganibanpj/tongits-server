@@ -1,5 +1,5 @@
 // @flow
-import mongoose, { Schema, type MongoId } from 'mongoose';
+import mongoose, { Schema, type BSONObjectId } from 'mongoose';
 import BaseModel from '../BaseModel';
 import SeriesSchema from './SeriesSchema';
 import type { BetTypesType } from '../../types/betTypes';
@@ -11,17 +11,17 @@ class SeriesClass extends BaseModel {
   createTime: Date;
   round: number;
   betType: BetTypesType;
-  twoHits: ?MongoId;
+  twoHits: ?BSONObjectId;
   jackpot: number;
   players: Array<InvitedPlayerType | JoinedPlayerType>;
 
-  hasPlayer(userId: ?MongoId): boolean {
+  hasPlayer(userId: ?BSONObjectId): boolean {
     const userIdString = userId.toString();
     const isGivenUser = playerId => playerId.toString() === userIdString;
     return this.players.some(({ userId: playerId }) => isGivenUser(playerId));
   }
 
-  hasPlayers(userIds: Array<?MongoId> = []): boolean {
+  hasPlayers(userIds: Array<?BSONObjectId> = []): boolean {
     if (!userIds.length) return false;
     return userIds.every(userId => this.hasPlayer(userId));
   }

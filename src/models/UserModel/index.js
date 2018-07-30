@@ -1,5 +1,5 @@
 // @flow
-import mongoose, { Schema, type MongoId } from 'mongoose';
+import mongoose, { Schema, type BSONObjectId } from 'mongoose';
 import BaseModel from '../BaseModel';
 import UserSchema from './UserSchema';
 
@@ -11,11 +11,11 @@ class UserClass extends BaseModel {
   picture: ?string;
   joinDate: Date;
   isConnected: boolean;
-  friends: Array<MongoId>;
+  friends: Array<BSONObjectId>;
   facebookId: ?string;
   googleId: ?string;
 
-  static async allExist(userIds: Array<MongoId> = []): Promise<boolean> {
+  static async allExist(userIds: Array<BSONObjectId> = []): Promise<boolean> {
     if (!userIds.length) return Promise.resolve(false);
     const existences = await Promise.all(
       userIds.map(userId => this.exists(userId)),

@@ -1,17 +1,17 @@
 // @flow
-import type { MongoId } from 'mongoose';
+import type { BSONObjectId } from 'mongoose';
 import Match, { type MatchType } from '../models/MatchModel';
 import Series from '../models/SeriesModel';
 import NotEnoughPlayersError from '../utils/NotEnoughPlayersError';
 
 export class SeriesNotFoundError extends RangeError {
-  constructor(seriesId: MongoId) {
+  constructor(seriesId: BSONObjectId) {
     super(`Cannot find series: "${seriesId}"`);
   }
 }
 
 export class PlayersNotInSeriesError extends RangeError {
-  constructor(seriesId: MongoId, userIds: Array<MongoId>) {
+  constructor(seriesId: BSONObjectId, userIds: Array<BSONObjectId>) {
     super(`Some users "${userIds.join('", "')}" are not in series "${seriesId}"`);
   }
 }

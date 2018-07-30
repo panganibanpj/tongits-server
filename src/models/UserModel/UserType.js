@@ -1,10 +1,10 @@
 // @flow
-import type { MongoId } from 'mongoose';
+import type { BSONObjectId } from 'mongoose';
 
 export type UserType = {|
   email?: string,
   facebookId?: string,
-  friends?: Array<MongoId>,
+  friends?: Array<BSONObjectId>,
   googleId?: string,
   isConnected: boolean,
   joinDate?: Date,

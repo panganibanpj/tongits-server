@@ -1,5 +1,5 @@
 // @flow
-import mongoose, { Schema, type MongoId } from 'mongoose';
+import mongoose, { Schema, type BSONObjectId } from 'mongoose';
 import { CreateTime, NaturalNumber, User } from '../utils/model-helpers';
 import COMMANDS, { type CommandsType } from '../commands';
 import { COLLECTION_NAME as Match } from './MatchModel';
@@ -10,7 +10,7 @@ export type HistoryType = {|
   matchId: bson$ObjectId,
   turn: number,
   undo?: boolean,
-  userId: MongoId,
+  userId: BSONObjectId,
 |};
 
 const schema = new Schema({
@@ -45,7 +45,7 @@ class History /* :: extends Mongoose$Document */ {
   createTime: Date;
   matchId: bson$ObjectId;
   turn: number;
-  userId: MongoId;
+  userId: BSONObjectId;
   command: CommandsType;
   undo: boolean;
 }

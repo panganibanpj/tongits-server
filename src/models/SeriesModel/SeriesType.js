@@ -1,14 +1,15 @@
 // @flow
+import type { BSONObjectId } from 'mongoose';
 import type { BetTypesType } from '../../types/betTypes';
 
 // Before players join the series they will not have many fields populated
 export type InvitedPlayerType = {|
-  userId: MongoId,
+  userId: BSONObjectId,
 |};
 
 export type JoinedPlayerType = {|
   pesos: number,
-  userId: MongoId,
+  userId: BSONObjectId,
 |};
 
 export type SeriesType = {|
@@ -17,5 +18,5 @@ export type SeriesType = {|
   jackpot?: number,
   players: Array<InvitedPlayerType | JoinedPlayerType>,
   round?: number,
-  twoHits?: MongoId,
+  twoHits?: BSONObjectId,
 |};
