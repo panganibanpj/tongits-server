@@ -7,7 +7,7 @@ export type UserType = {|
   facebookId?: string,
   friends?: Array<BSONObjectId>,
   googleId?: string,
-  isConnected?: boolean,
+  isConnected: boolean,
   joinDate?: Date,
   picture?: string,
   username: string,
@@ -52,5 +52,4 @@ class User /* :: extends Mongoose$Document */ {
 }
 
 schema.loadClass(User);
-
 export default mongoose.model('user', schema);
