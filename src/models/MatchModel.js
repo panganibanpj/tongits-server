@@ -1,12 +1,12 @@
 // @flow
-import mongoose, { Schema, type BSONObjectId } from 'mongoose';
+import mongoose, { Schema, type MongoId } from 'mongoose';
 import { CreateTime, NaturalNumber, User } from '../utils/model-helpers';
 import { COLLECTION_NAME as Series } from './SeriesModel';
 import type { CardType } from '../types/deck';
 
 // Before players join the match they will not have many fields populated
 type InvitedPlayerType = {|
-  userId: BSONObjectId,
+  userId: MongoId,
 |};
 
 type JoinedPlayerType = {|
@@ -20,11 +20,11 @@ type JoinedPlayerType = {|
     sets: { [string]: Array<CardType> },
   |},
   pesos: number,
-  userId: BSONObjectId,
+  userId: MongoId,
 |};
 
 export type MatchType = {|
-  better?: BSONObjectId,
+  better?: MongoId,
   button?: boolean,
   createTime?: Date,
   endTime?: Date,
@@ -32,22 +32,22 @@ export type MatchType = {|
   pile?: Array<CardType>,
   players: Array<InvitedPlayerType | JoinedPlayerType>,
   round?: number,
-  seriesId: BSONObjectId,
+  seriesId: MongoId,
   startTime?: ?Date,
   turn?: number,
   turnEnded?: boolean,
   turnStarted?: boolean,
-  winner?: BSONObjectId,
+  winner?: MongoId,
 |};
 
 class Match /* :: extends Mongoose$Document */ {
-  seriesId: BSONObjectId;
+  seriesId: MongoId;
   round: number;
-  better: ?BSONObjectId;
+  better: ?MongoId;
   createTime: Date;
   startTime: ?Date;
   endTime: ?Date;
-  winner: ?BSONObjectId;
+  winner: ?MongoId;
   jackpot: ?number;
   turn: ?number;
   pile: Array<CardType>;

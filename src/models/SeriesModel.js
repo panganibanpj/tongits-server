@@ -1,17 +1,17 @@
 // @flow
-import mongoose, { Schema, type BSONObjectId } from 'mongoose';
+import mongoose, { Schema, type MongoId } from 'mongoose';
 // import BET_TYPES from '../constants/BET_TYPES';
 import { CreateTime, NaturalNumber, User } from '../utils/model-helpers';
 import type { /* BetType, */ BetTypesType } from '../types/betTypes';
 
 // Before players join the series they will not have many fields populated
 type InvitedPlayerType = {|
-  userId: BSONObjectId,
+  userId: MongoId,
 |};
 
 type JoinedPlayerType = {|
   pesos: number,
-  userId: BSONObjectId,
+  userId: MongoId,
 |};
 
 export type SeriesType = {|
@@ -20,14 +20,14 @@ export type SeriesType = {|
   jackpot?: number,
   players: Array<InvitedPlayerType | JoinedPlayerType>,
   round?: number,
-  twoHits?: BSONObjectId,
+  twoHits?: MongoId,
 |};
 
 class Series /* :: extends Mongoose$Document */ {
   createTime: Date;
   round: number;
   betType: BetTypesType;
-  twoHits: ?BSONObjectId;
+  twoHits: ?MongoId;
   jackpot: number;
   players: Array<InvitedPlayerType | JoinedPlayerType>;
 }
