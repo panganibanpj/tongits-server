@@ -1,6 +1,6 @@
 // @flow
 import mongoose, { Schema, type BSONObjectId } from 'mongoose';
-import { CreateTime, NaturalNumber, User } from '../util/model-helpers';
+import { CreateTime, NaturalNumber, User } from '../utils/model-helpers';
 import { COLLECTION_NAME as Series } from './SeriesModel';
 import type { CardType } from '../types/deck';
 

@@ -1,6 +1,6 @@
 // @flow
 import mongoose, { Schema, type BSONObjectId } from 'mongoose';
-import { CreateTime, User as UserRef } from '../util/model-helpers';
+import { CreateTime, User as UserRef } from '../utils/model-helpers';
 
 export type UserType = {|
   email?: string,

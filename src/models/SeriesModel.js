@@ -1,7 +1,7 @@
 // @flow
 import mongoose, { Schema, type BSONObjectId } from 'mongoose';
 // import BET_TYPES from '../constants/BET_TYPES';
-import { CreateTime, NaturalNumber, User } from '../util/model-helpers';
+import { CreateTime, NaturalNumber, User } from '../utils/model-helpers';
 import type { /* BetType, */ BetTypesType } from '../types/betTypes';
 
 // Before players join the series they will not have many fields populated
