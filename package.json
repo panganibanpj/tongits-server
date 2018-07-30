@@ -18,7 +18,7 @@
     "test:unit": "npm run test:unit-one -- 'test/**/*.spec.js'",
     "test:unit-one": "mocha -r @babel/register ./test/setup.js",
     "coverage": "run-p coverage:flow coverage:unit",
-    "coverage:flow": "flow-coverage-report -i 'src/**/*.js' -i 'test/**/*.js' -o ./coverage/flow",
+    "coverage:flow": "flow-coverage-report -i 'src/**/*.js' -i 'test/**/*.js' -t html -t text -o ./coverage/flow",
     "coverage:unit": "BABEL_ENV=test nyc npm run test:unit"
   },
   "repository": {
