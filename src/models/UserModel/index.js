@@ -14,6 +14,14 @@ class UserClass extends BaseModel {
   friends: Array<MongoId>;
   facebookId: ?string;
   googleId: ?string;
+
+  static async allExist(userIds: Array<MongoId> = []): Promise<boolean> {
+    if (!userIds.length) return Promise.resolve(false);
+    const existences = await Promise.all(
+      userIds.map(userId => this.exists(userId)),
+    );
+    return existences.every(exists => exists);
+  }
 }
 
 schema.loadClass(UserClass);
