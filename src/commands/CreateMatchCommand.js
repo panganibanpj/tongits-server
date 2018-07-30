@@ -1,10 +1,8 @@
 // @flow
 import type { MongoId } from 'mongoose';
 import Match, { type MatchType } from '../models/MatchModel';
-import User from '../models/UserModel';
 import Series from '../models/SeriesModel';
 import NotEnoughPlayersError from '../utils/NotEnoughPlayersError';
-import UserNotFoundError from '../utils/UserNotFoundError';
 
 export class SeriesNotFoundError extends RangeError {
   constructor(seriesId: MongoId) {

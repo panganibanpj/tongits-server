@@ -3,9 +3,7 @@ import { assert } from 'chai';
 import { Types } from 'mongoose';
 import Series from '../../src/models/SeriesModel';
 import Match from '../../src/models/MatchModel';
-import User from '../../src/models/UserModel';
 import NotEnoughPlayersError from '../../src/utils/NotEnoughPlayersError';
-import UserNotFoundError from '../../src/utils/UserNotFoundError';
 import CreateMatchCommand, {
   SeriesNotFoundError,
   PlayersNotInSeriesError,
@@ -29,7 +27,7 @@ describe('commands/CreateMatchCommand', () => {
       });
       try {
         await command.execute();
-      } catch(error) {
+      } catch (error) {
         return assert.instanceOf(error, SeriesNotFoundError);
       }
       throw new Error('was supposed to fail!');
@@ -45,7 +43,7 @@ describe('commands/CreateMatchCommand', () => {
       });
       try {
         await command.execute();
-      } catch(error) {
+      } catch (error) {
         return assert.instanceOf(error, PlayersNotInSeriesError);
       }
       throw new Error('was supposed to fail!');
