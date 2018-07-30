@@ -21,9 +21,11 @@ export default {
   facebookId: {
     type: String,
     unique: true,
+    sparse: true,
   },
   googleId: {
     type: String,
     unique: true,
+    sparse: true,
   },
 };
