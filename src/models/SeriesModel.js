@@ -4,9 +4,7 @@ import mongoose, { Schema, type BSONObjectId } from 'mongoose';
 import { CreateTime, NaturalNumber, User } from '../util/model-helpers';
 import type { /* BetType, */ BetTypesType } from '../types/betTypes';
 
-// Players to add to series
-// Type used to validate player shape when constructing or adding new players to series
-type ConstructorPlayerType = {|
+type PlayerType = {|
   pesos?: number,
   userId: BSONObjectId,
 |};
@@ -15,10 +13,19 @@ export type SeriesType = {|
   betType: BetTypesType,
   createTime?: Date,
   jackpot?: number,
-  players: Array<ConstructorPlayerType>,
+  players: Array<PlayerType>,
   round?: number,
   twoHits?: BSONObjectId,
 |};
+
+class Series /* :: extends Mongoose$Document */ {
+  createTime: Date;
+  round: number;
+  betType: BetTypesType;
+  twoHits: ?BSONObjectId;
+  jackpot: number;
+  players: Array<PlayerType>;
+}
 
 const schema = new Schema({
   createTime: CreateTime,
@@ -35,22 +42,6 @@ const schema = new Schema({
     pesos: NaturalNumber,
   }],
 });
-
-// Players already added to series
-// Type used to validate access of player properties
-type ExistingPlayerType = {|
-  pesos: number,
-  userId: BSONObjectId,
-|};
-
-class Series /* :: extends Mongoose$Document */ {
-  createTime: Date;
-  round: number;
-  betType: BetTypesType;
-  twoHits: ?BSONObjectId;
-  jackpot: number;
-  players: Array<ExistingPlayerType>;
-}
 
 schema.loadClass(Series);
 export const COLLECTION_NAME = 'series';
