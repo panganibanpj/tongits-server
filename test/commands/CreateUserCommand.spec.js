@@ -4,9 +4,9 @@ import User from '../../src/models/UserModel';
 import CreateUserCommand from '../../src/commands/CreateUserCommand';
 
 describe('commands/CreateUserCommand', () => {
-  it('creates a user on execute', async () => {
-    let foo = await User.findOne({ username: 'foo' }).exec();
-    assert.notExists(foo);
+  it('creates a user w given username', async () => {
+    let user = await User.findOne({ username: 'foo' }).exec();
+    assert.notExists(user);
 
     const command = new CreateUserCommand({
       username: 'foo',
@@ -14,7 +14,8 @@ describe('commands/CreateUserCommand', () => {
     });
     await command.execute();
 
-    foo = await User.findOne({ username: 'foo' }).exec();
-    assert.exists(foo);
+    user = await User.findOne({ username: 'foo' }).exec();
+    assert.exists(user);
   });
+  // @TODO: test w full fields
 });
