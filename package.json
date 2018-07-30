@@ -16,7 +16,7 @@
     "test:lint": "npm run lint-one -- .",
     "test:lint-one": "eslint --ext .js --ignore-path .gitignore",
     "test:unit": "npm run test-one -- 'test/**/*.spec.js'",
-    "test:unit-one": "mocha -r @babel/register"
+    "test:unit-one": "mocha -r @babel/register ./test/setup.js"
   },
   "repository": {
     "type": "git",
