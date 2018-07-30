@@ -3,12 +3,7 @@ import type { BSONObjectId } from 'mongoose';
 import Match, { type MatchType } from '../models/MatchModel';
 import Series from '../models/SeriesModel';
 import NotEnoughPlayersError from '../utils/NotEnoughPlayersError';
-
-export class SeriesNotFoundError extends RangeError {
-  constructor(seriesId: BSONObjectId) {
-    super(`Cannot find series: "${seriesId.toString()}"`);
-  }
-}
+import SeriesNotFoundError from '../utils/SeriesNotFoundError';
 
 export class PlayersNotInSeriesError extends RangeError {
   constructor(seriesId: BSONObjectId, userIds: Array<BSONObjectId>) {
@@ -24,10 +19,8 @@ export default class CreateMatchCommand {
   matchData: MatchType;
 
   constructor(matchData: MatchType) {
-    // must have at least 1 player
     if (!matchData.players.length) throw new NotEnoughPlayersError();
 
-    // can add more players later (e.g. players decline, matchmake is async)
     this.matchData = matchData;
   }
 
@@ -43,7 +36,6 @@ export default class CreateMatchCommand {
       throw new PlayersNotInSeriesError(seriesId, userIds);
     }
 
-    // should create match? pending players can't see cards
     return Match.create(matchData);
   }
 }

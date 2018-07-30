@@ -8,7 +8,8 @@ export default class BaseModel /* :: extends Mongoose$Document */ {
     return !!doc;
   }
 
-  // @NOTE: accessing model._id returns bson$ObjectId, but only
+  // @NOTE: accessing model._id returns bson$ObjectId
+  //  but only BSONObjectId is exported
   getId(): BSONObjectId {
     const { _id: id } = this;
     // $FlowFixMe
