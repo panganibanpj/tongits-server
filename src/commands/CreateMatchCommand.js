@@ -6,13 +6,17 @@ import NotEnoughPlayersError from '../utils/NotEnoughPlayersError';
 
 export class SeriesNotFoundError extends RangeError {
   constructor(seriesId: BSONObjectId) {
-    super(`Cannot find series: "${seriesId}"`);
+    super(`Cannot find series: "${seriesId.toString()}"`);
   }
 }
 
 export class PlayersNotInSeriesError extends RangeError {
   constructor(seriesId: BSONObjectId, userIds: Array<BSONObjectId>) {
-    super(`Some users "${userIds.join('", "')}" are not in series "${seriesId}"`);
+    const userIdsString = userIds.join('", "');
+    const seriesIdString = seriesId.toString();
+    super(
+      `Some users "${userIdsString}" are not in series "${seriesIdString}"`,
+    );
   }
 }
 
