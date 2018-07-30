@@ -1,7 +1,8 @@
 // @flow
 import mongoose, { Schema, type BSONObjectId } from 'mongoose';
+// import BET_TYPES from '../constants/BET_TYPES';
 import { CreateTime, NaturalNumber, User } from '../util/model-helpers';
-import type { BetTypesType } from '../types/betTypes';
+import type { /* BetType, */ BetTypesType } from '../types/betTypes';
 
 type PlayerType = {|
   pesos: number,
@@ -22,7 +23,7 @@ const schema = new Schema({
   round: NaturalNumber,
   betType: {
     type: String,
-    enum: ['BASIC'],
+    enum: ['BASIC'], // @TODO: Object.keys(BET_TYPES),
     required: true,
   },
   twoHits: User,
