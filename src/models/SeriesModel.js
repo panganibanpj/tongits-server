@@ -4,8 +4,13 @@ import mongoose, { Schema, type BSONObjectId } from 'mongoose';
 import { CreateTime, NaturalNumber, User } from '../util/model-helpers';
 import type { /* BetType, */ BetTypesType } from '../types/betTypes';
 
-type PlayerType = {|
-  pesos?: number,
+// Before players join the series they will not have many fields populated
+type InvitedPlayerType = {|
+  userId: BSONObjectId,
+|};
+
+type JoinedPlayerType = {|
+  pesos: number,
   userId: BSONObjectId,
 |};
 
@@ -13,7 +18,7 @@ export type SeriesType = {|
   betType: BetTypesType,
   createTime?: Date,
   jackpot?: number,
-  players: Array<PlayerType>,
+  players: Array<InvitedPlayerType | JoinedPlayerType>,
   round?: number,
   twoHits?: BSONObjectId,
 |};
@@ -24,7 +29,7 @@ class Series /* :: extends Mongoose$Document */ {
   betType: BetTypesType;
   twoHits: ?BSONObjectId;
   jackpot: number;
-  players: Array<PlayerType>;
+  players: Array<InvitedPlayerType | JoinedPlayerType>;
 }
 
 const schema = new Schema({
@@ -36,10 +41,10 @@ const schema = new Schema({
     required: true,
   },
   twoHits: User,
-  jackpot: NaturalNumber, // current round's jackpot
+  jackpot: NaturalNumber, // current jackpot
   players: [{
     userId: User,
-    pesos: NaturalNumber,
+    pesos: NaturalNumber, // pesos for series
   }],
 });
 
