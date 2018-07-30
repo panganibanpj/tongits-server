@@ -135,7 +135,7 @@ type ExistingPlayerType = {|
   userId: BSONObjectId,
 |};
 
-schema.loadClass(class Match /* :: extends Mongoose$Document */ {
+class Match /* :: extends Mongoose$Document */ {
   seriesId: BSONObjectId;
   round: number;
   better: ?BSONObjectId;
@@ -150,7 +150,8 @@ schema.loadClass(class Match /* :: extends Mongoose$Document */ {
   turnEnded: boolean;
   players: Array<ExistingPlayerType>;
   button: boolean;
-});
+}
 
+schema.loadClass(Match);
 export const COLLECTION_NAME = 'match';
 export default mongoose.model(COLLECTION_NAME, schema);

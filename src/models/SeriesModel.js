@@ -36,14 +36,15 @@ const schema = new Schema({
   },
 });
 
-schema.loadClass(class Series /* :: extends Mongoose$Document */ {
+class Series /* :: extends Mongoose$Document */ {
   createTime: Date;
   round: number;
   betType: BetTypesType;
   twoHits: ?BSONObjectId;
   jackpot: number;
   players: Array<PlayerType>;
-});
+}
 
+schema.loadClass(Series);
 export const COLLECTION_NAME = 'series';
 export default mongoose.model(COLLECTION_NAME, schema);

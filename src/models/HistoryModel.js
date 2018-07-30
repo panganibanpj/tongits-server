@@ -41,13 +41,14 @@ const schema = new Schema({
   },
 });
 
-schema.loadClass(class History /* :: extends Mongoose$Document */ {
+class History /* :: extends Mongoose$Document */ {
   createTime: Date;
   matchId: bson$ObjectId;
   turn: number;
   userId: BSONObjectId;
   command: CommandsType;
   undo: boolean;
-});
+}
 
+schema.loadClass(History);
 export default mongoose.model('history', schema);
