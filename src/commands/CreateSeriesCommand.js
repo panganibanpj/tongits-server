@@ -1,11 +1,8 @@
 // @flow
 import Series, { type SeriesType } from '../models/SeriesModel';
-
-export class NotEnoughPlayersError extends RangeError {
-  constructor() {
-    super('Requires at least 1 player');
-  }
-}
+import User from '../models/UserModel';
+import NotEnoughPlayersError from '../utils/NotEnoughPlayersError';
+import UserNotFoundError from '../utils/UserNotFoundError';
 
 export default class CreateSeriesCommand {
   seriesData: SeriesType;
@@ -18,7 +15,10 @@ export default class CreateSeriesCommand {
     this.seriesData = seriesData;
   }
 
-  execute(): Promise<Series> {
+  async execute(): Promise<Series> {
+    const userIds = this.seriesData.players.map(({ userId }) => userId);
+    if (!(await User.allExist(userIds))) throw new UserNotFoundError(userIds);
+
     // should create match? pending players can't see cards
     return Series.create(this.seriesData);
   }
