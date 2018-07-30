@@ -33,8 +33,11 @@
     "import/no-commonjs": "error",
     "import/no-amd": "error",
 
-    "max-lines": "warn",
-    "no-unused-expressions": "off",
+    "lines-between-class-members": [
+      "error",
+      "always",
+      { "exceptAfterSingleLine": true }
+    ],
     "no-unused-vars": "error"
   }
 }
