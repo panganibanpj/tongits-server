@@ -16,7 +16,9 @@ class SeriesClass extends BaseModel {
   players: Array<InvitedPlayerType | JoinedPlayerType>;
 
   hasPlayer(userId: ?MongoId): boolean {
-    return this.players.some(({ userId: playerId }) => playerId === userId);
+    const userIdString = userId.toString();
+    const isGivenUser = playerId => playerId.toString() === userIdString;
+    return this.players.some(({ userId: playerId }) => isGivenUser(playerId));
   }
 
   hasPlayers(userIds: Array<?MongoId> = []): boolean {
