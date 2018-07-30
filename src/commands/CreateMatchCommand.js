@@ -1,6 +1,22 @@
 // @flow
+import type { MongoId } from 'mongoose';
 import Match, { type MatchType } from '../models/MatchModel';
+import User from '../models/UserModel';
+import Series from '../models/SeriesModel';
 import NotEnoughPlayersError from '../utils/NotEnoughPlayersError';
+import UserNotFoundError from '../utils/UserNotFoundError';
+
+export class SeriesNotFoundError extends RangeError {
+  constructor(seriesId: MongoId) {
+    super(`Cannot find series: "${seriesId}"`);
+  }
+}
+
+export class PlayersNotInSeriesError extends RangeError {
+  constructor(seriesId: MongoId, userIds: Array<MongoId>) {
+    super(`Some users "${userIds.join('", "')}" are not in series "${seriesId}"`);
+  }
+}
 
 export default class CreateMatchCommand {
   matchData: MatchType;
@@ -13,8 +29,19 @@ export default class CreateMatchCommand {
     this.matchData = matchData;
   }
 
-  execute(): Promise<Match> {
+  async execute(): Promise<Match> {
+    const { matchData } = this;
+    const { players, seriesId } = matchData;
+
+    const series = await Series.findById(seriesId);
+    if (!series) throw new SeriesNotFoundError(seriesId);
+
+    const userIds = players.map(({ userId }) => userId);
+    if (!series.hasPlayers(userIds)) {
+      throw new PlayersNotInSeriesError(seriesId, userIds);
+    }
+
     // should create match? pending players can't see cards
-    return Match.create(this.matchData);
+    return Match.create(matchData);
   }
 }
