@@ -21,8 +21,8 @@ describe('commands/CreateSeriesCommand', () => {
     });
     try {
       await command.execute();
-    } catch(error) {
-      return assert.instanceOf(error, UserNotFoundError)
+    } catch (error) {
+      return assert.instanceOf(error, UserNotFoundError);
     }
     throw new Error('was supposed to fail!');
   });

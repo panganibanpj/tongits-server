@@ -2,9 +2,7 @@
 import type { BSONObjectId } from 'mongoose';
 
 const getUserId = (userId: BSONObjectId | Array<BSONObjectId>) => (
-  Array.isArray(userId)
-    ? userId[0]
-    : userId
+  Array.isArray(userId) ? userId[0] : userId
 );
 
 export default class UserNotFoundError extends RangeError {
