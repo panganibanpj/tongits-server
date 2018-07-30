@@ -17,5 +17,6 @@ describe('commands/CreateUserCommand', () => {
     user = await User.findOne({ username: 'foo' }).exec();
     assert.exists(user);
   });
-  // @TODO: test w full fields
+  // @NOTE: to be used for administration or testing
+  it('creates a user with many fields loaded');
 });

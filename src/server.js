@@ -4,8 +4,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import database from './database';
 
-const PORT: number = parseInt(process.env.PORT, 10) || 1337;
-(bodyParser: *);
+const PORT = parseInt(process.env.PORT, 10) || 1337;
 
 (async () => {
   const app = express();

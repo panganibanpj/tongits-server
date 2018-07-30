@@ -25,4 +25,6 @@ describe('commands/CreateSeriesCommand', () => {
     series = await Series.findOne({ 'players.userId': userId });
     assert.exists(series);
   });
+  // @NOTE: to be used for administration or testing
+  it('creates a series with 3 existing players');
 });
