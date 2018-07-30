@@ -11,8 +11,4 @@ export default class CreateUserCommand {
   execute(): Promise<User> {
     return User.create(this.userData);
   }
-
-  // undo() {
-  //   // delete the user
-  // }
 }
