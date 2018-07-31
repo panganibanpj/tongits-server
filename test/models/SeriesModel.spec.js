@@ -23,6 +23,8 @@ describe('models/SeriesModel', () => {
     it('returns false otherwise', () => {
       const userId = new Types.ObjectId();
       assert(!series.hasPlayer(userId));
+      assert(!series.hasPlayer());
+      assert(!series.hasPlayer(null));
     });
   });
 
@@ -49,6 +51,8 @@ describe('models/SeriesModel', () => {
       const userIds = players.map(({ userId }) => userId);
       userIds.push(new Types.ObjectId());
       assert(!series.hasPlayers(userIds));
+      assert(!series.hasPlayers([]));
+      assert(!series.hasPlayers());
     });
   });
 });
