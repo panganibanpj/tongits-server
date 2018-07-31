@@ -5,14 +5,14 @@ export default {
   username: {
     type: String,
     unique: true,
-    required: true,
+    // required: true,
   },
   email: String, // @TODO: email validation
   picture: String, // @TODO: url validation. gravatar? FB? G+?
   joinDate: CreateTime,
   isConnected: {
     type: Boolean,
-    required: true,
+    // required: true,
   },
   friends: {
     type: [UserRef],

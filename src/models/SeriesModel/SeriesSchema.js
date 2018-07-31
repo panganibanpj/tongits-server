@@ -9,7 +9,7 @@ export default {
   betType: {
     type: String,
     enum: ['BASIC'], // @TODO: Object.keys(BET_TYPES),
-    required: true,
+    // required: true,
   },
   twoHits: User,
   jackpot: NaturalNumber, // current jackpot
