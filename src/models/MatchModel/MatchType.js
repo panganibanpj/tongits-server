@@ -3,9 +3,9 @@ import type { BSONObjectId } from 'mongoose';
 import type { CardType } from '../../types/deck';
 
 // Before players join the match they will not have many fields populated
-export type InvitedPlayerType = {|
+export type InvitedPlayerType = {
   userId: BSONObjectId,
-|};
+};
 
 export type JoinedPlayerType = {|
   bet: boolean,

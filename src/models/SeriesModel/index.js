@@ -15,17 +15,6 @@ class SeriesClass extends BaseModel {
   jackpot: number;
   players: Array<InvitedPlayerType | JoinedPlayerType>;
 
-  hasPlayer(userId: ?BSONObjectId): boolean {
-    if (!userId) return false;
-    const userIdString = userId.toString();
-    const isGivenUser = playerId => playerId.toString() === userIdString;
-    return this.players.some(({ userId: playerId }) => isGivenUser(playerId));
-  }
-
-  hasPlayers(userIds: Array<BSONObjectId> = []): boolean {
-    if (!userIds.length) return false;
-    return userIds.every(userId => this.hasPlayer(userId));
-  }
 }
 
 schema.loadClass(SeriesClass);

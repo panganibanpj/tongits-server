@@ -2,6 +2,7 @@
 import type { BSONObjectId } from 'mongoose';
 import Match, { type MatchType } from '../models/MatchModel';
 import Series from '../models/SeriesModel';
+import hasPlayers from '../utils/hasPlayers';
 import NotEnoughPlayersError from '../utils/NotEnoughPlayersError';
 import SeriesNotFoundError from '../utils/SeriesNotFoundError';
 
@@ -32,7 +33,7 @@ export default class CreateMatchCommand {
     if (!series) throw new SeriesNotFoundError(seriesId);
 
     const userIds = players.map(({ userId }) => userId);
-    if (!series.hasPlayers(userIds)) {
+    if (!hasPlayers(series.players, userIds)) {
       throw new PlayersNotInSeriesError(seriesId, userIds);
     }
 
