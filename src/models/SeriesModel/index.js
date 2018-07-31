@@ -14,7 +14,6 @@ class SeriesClass extends BaseModel {
   twoHits: ?BSONObjectId;
   jackpot: number;
   players: Array<InvitedPlayerType | JoinedPlayerType>;
-
 }
 
 schema.loadClass(SeriesClass);
