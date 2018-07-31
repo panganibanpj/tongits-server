@@ -1,5 +1,5 @@
 // @flow
-import { CreateTime, User as UserRef } from '../../utils/model-helpers';
+import { CreateTime, User as UserRef } from '../../utils/modelHelpers';
 
 export default {
   username: {

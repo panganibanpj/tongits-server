@@ -1,5 +1,5 @@
 // @flow
-import { CreateTime, NaturalNumber, User } from '../../utils/model-helpers';
+import { CreateTime, NaturalNumber, User } from '../../utils/modelHelpers';
 // import BET_TYPES from '../constants/BET_TYPES';
 // import type { BetType } from '../../types/betTypes';
 

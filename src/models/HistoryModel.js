@@ -1,6 +1,6 @@
 // @flow
 import mongoose, { Schema, type BSONObjectId } from 'mongoose';
-import { CreateTime, NaturalNumber, User } from '../utils/model-helpers';
+import { CreateTime, NaturalNumber, User } from '../utils/modelHelpers';
 import COMMANDS, { type CommandsType } from '../commands';
 import { COLLECTION_NAME as Match } from './MatchModel';
 
