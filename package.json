@@ -61,16 +61,15 @@
     "sinon": "^6.1.4"
   },
   "nyc": {
-    "require": ["@babel/register"],
+    "all": true,
+    "include": [
+      "src/**"
+    ],
     "reporter": [
       "lcov",
       "text"
     ],
-    "all": true,
-    "clean": true,
-    "sourceMap": false,
-    "instrument": false,
-    "include": ["src/**"],
-    "exclude": ["flow-typed/**"]
+    "skipEmpty": true,
+    "sourceMap": false
   }
 }
