@@ -1,3 +1,9 @@
+/**
+ *  This is not likely to be called directly
+ *  Use`CreateSeriesCommand` w `createMatch=true` or `RematchCommand` instead
+ *  That will tightly couple Matches to Series and is less validation intensive
+ */
+
 // @flow
 import type { BSONObjectId } from 'mongoose';
 import Match, { type MatchType } from '../models/MatchModel';
