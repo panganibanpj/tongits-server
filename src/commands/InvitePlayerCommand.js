@@ -8,8 +8,7 @@ import SeriesNotFoundError from '../utils/SeriesNotFoundError';
 
 export class SeriesAlreadyStartedError extends RangeError {
   constructor(seriesId: ObjectId) {
-    const seriesIdString = seriesId.toString();
-    super(`Either no matches or series already started: "${seriesIdString}"`);
+    super(`Series already started: "${seriesId.toString()}"`);
   }
 }
 
@@ -31,7 +30,7 @@ export default class InvitePlayerCommand {
 
     const series = await Series.findById(seriesId);
     if (!series) throw new SeriesNotFoundError(seriesId);
-    if (series.startTime) throw new SeriesAlreadyStartedError(seriesId);
+    if (series.started()) throw new SeriesAlreadyStartedError(seriesId);
 
     // max player count?
 

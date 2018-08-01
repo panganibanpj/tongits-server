@@ -59,6 +59,10 @@ class Series extends BaseModel {
     this.players.push(...newPlayers);
     return this.save();
   }
+
+  started() {
+    return !!this.startTime;
+  }
 }
 
 schema.loadClass(Series);
