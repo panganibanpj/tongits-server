@@ -16,7 +16,7 @@ export default class InvitePlayerCommand {
   seriesId: ObjectId;
   userIds: ObjectId[]
 
-  constructor(seriesId: ObjectId, userIds: ObjectId[] = []) {
+  constructor(seriesId: ObjectId, userIds: ObjectId[]) {
     if (!userIds.length) throw new NotEnoughPlayersError();
 
     this.seriesId = seriesId;

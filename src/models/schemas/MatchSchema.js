@@ -43,7 +43,7 @@ export default {
   seriesId: {
     type: Schema.Types.ObjectId,
     ref: Series,
-    required: true,
+    // required: true,
   },
   round: NaturalNumber,
   better: User,

@@ -2,7 +2,7 @@
 import { assert } from 'chai';
 import Series from '../../src/models/SeriesModel';
 import Match from '../../src/models/MatchModel';
-import { createUser, createId } from '../testHelpers';
+import { createUserId, randomId } from '../testHelpers';
 import NotEnoughPlayersError from '../../src/utils/NotEnoughPlayersError';
 import UserNotFoundError from '../../src/utils/UserNotFoundError';
 import CreateSeriesCommand from '../../src/commands/CreateSeriesCommand';
@@ -18,7 +18,7 @@ describe('commands/CreateSeriesCommand', () => {
     it('throws if a given player does not exist', async () => {
       const command = new CreateSeriesCommand({
         betType: 'BASIC',
-        players: [{ userId: createId() }],
+        players: [{ userId: randomId() }],
       });
       try {
         await command.execute();
@@ -32,7 +32,7 @@ describe('commands/CreateSeriesCommand', () => {
   describe('success', () => {
     let userId;
     before(async () => {
-      userId = (await createUser()).getId();
+      userId = await createUserId();
       const series = await Series.findOne({ 'players.userId': userId });
       // sanity check
       assert.notExists(series);

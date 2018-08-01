@@ -1,6 +1,6 @@
 // @flow
 import { assert } from 'chai';
-import { createUser, createId } from '../testHelpers';
+import { createUser, randomId } from '../testHelpers';
 import User from '../../src/models/UserModel';
 
 xdescribe('models/UserModel', () => {
@@ -22,7 +22,7 @@ xdescribe('models/UserModel', () => {
 
     it('returns false if some do not exist', async () => {
       const userIds = await createUserIds(3);
-      userIds.push(createId());
+      userIds.push(randomId());
       const allExist = await User.allExist(userIds);
       assert(!allExist);
     });

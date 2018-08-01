@@ -4,14 +4,14 @@ import Series from '../../src/models/SeriesModel';
 import NotEnoughPlayersError from '../../src/utils/NotEnoughPlayersError';
 import UserNotFoundError from '../../src/utils/UserNotFoundError';
 import SeriesNotFoundError from '../../src/utils/SeriesNotFoundError';
-import { createUser, createId } from '../testHelpers';
+import { randomId, createUserId, createSeriesId } from '../testHelpers';
 import InvitePlayerCommand, {
   SeriesAlreadyStartedError,
 } from '../../src/commands/InvitePlayerCommand';
 
 describe('commands/InvitePlayerCommand', () => {
   it('throws if not enough players', () => {
-    const seriesId = createId();
+    const seriesId = randomId();
     const userIds = [];
     assert.throws(
       () => new InvitePlayerCommand(seriesId, userIds),
@@ -19,8 +19,8 @@ describe('commands/InvitePlayerCommand', () => {
     );
   });
   it('throws if a given User does not exist', async () => {
-    const seriesId = createId();
-    const userId = createId();
+    const seriesId = randomId();
+    const userId = randomId();
     const command = new InvitePlayerCommand(seriesId, [userId]);
 
     let foundError = null;
@@ -32,8 +32,8 @@ describe('commands/InvitePlayerCommand', () => {
     assert.instanceOf(foundError, UserNotFoundError);
   });
   it('throws if given Series does not exist', async () => {
-    const seriesId = createId();
-    const userId = (await createUser()).getId();
+    const seriesId = randomId();
+    const userId = await createUserId();
     const command = new InvitePlayerCommand(seriesId, [userId]);
 
     let foundError = null;
@@ -45,8 +45,8 @@ describe('commands/InvitePlayerCommand', () => {
     assert.instanceOf(foundError, SeriesNotFoundError);
   });
   it('throws if given Series has already started', async () => {
-    const seriesId = (await Series.create({ startTime: new Date() })).getId();
-    const userId = (await createUser()).getId();
+    const seriesId = await createSeriesId({ startTime: new Date() });
+    const userId = await createUserId();
     const command = new InvitePlayerCommand(seriesId, [userId]);
 
     let foundError = null;
@@ -58,8 +58,8 @@ describe('commands/InvitePlayerCommand', () => {
     assert.instanceOf(foundError, SeriesAlreadyStartedError);
   });
   it('adds players to series', async () => {
-    const seriesId = (await Series.create({})).getId();
-    const userId = (await createUser()).getId();
+    const seriesId = await createSeriesId();
+    const userId = await createUserId();
     const command = new InvitePlayerCommand(seriesId, [userId]);
     await command.execute();
 
@@ -69,9 +69,9 @@ describe('commands/InvitePlayerCommand', () => {
     assert.equal(series.players[0].userId.toString(), userId.toString());
   });
   it('does not duplicate or overwrite players in series', async () => {
-    const userId = (await createUser()).getId();
+    const userId = await createUserId();
     const players = [{ userId, pesos: 100 }];
-    const seriesId = (await Series.create({ players })).getId();
+    const seriesId = await createSeriesId({ players });
     const command = new InvitePlayerCommand(seriesId, [userId]);
     await command.execute();
 

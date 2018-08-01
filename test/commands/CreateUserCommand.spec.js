@@ -6,7 +6,7 @@ import CreateUserCommand from '../../src/commands/CreateUserCommand';
 describe('commands/CreateUserCommand', () => {
   it('creates a user w given username', async () => {
     const username = 'commands.CreateUserCommand.test1';
-    let user = await User.findOne({ username }).exec();
+    let user = await User.findOne({ username });
     assert.notExists(user);
 
     const command = new CreateUserCommand({
@@ -15,7 +15,7 @@ describe('commands/CreateUserCommand', () => {
     });
     await command.execute();
 
-    user = await User.findOne({ username }).exec();
+    user = await User.findOne({ username });
     assert.exists(user);
   });
 });
