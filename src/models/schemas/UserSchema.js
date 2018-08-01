@@ -9,7 +9,7 @@ export default {
   },
   email: String, // @TODO: email validation
   picture: String, // @TODO: url validation. gravatar? FB? G+?
-  joinDate: CreateTime,
+  createTime: CreateTime,
   isConnected: {
     type: Boolean,
     // required: true,

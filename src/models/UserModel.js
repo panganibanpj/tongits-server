@@ -9,7 +9,7 @@ class User extends BaseModel {
   username: string;
   email: ?string;
   picture: ?string;
-  joinDate: Date;
+  createTime: Date;
   isConnected: boolean;
   friends: ObjectId[];
   facebookId: ?string;

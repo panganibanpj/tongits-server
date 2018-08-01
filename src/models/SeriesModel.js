@@ -14,7 +14,7 @@ export type PlayerType = {|
 
 class Series extends BaseModel {
   createTime: Date;
-  startTime: Date;
+  startTime: ?Date;
   round: number;
   betType: BetTypesType;
   twoHits: ?ObjectId;

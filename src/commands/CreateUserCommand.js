@@ -3,12 +3,12 @@ import type { ObjectId } from 'mongoose';
 import User from '../models/UserModel';
 
 type UserDataType = {|
+  createTime?: Date,
   email?: string,
   facebookId?: string,
   friends?: ObjectId[],
   googleId?: string,
   isConnected: boolean,
-  joinDate?: Date,
   picture?: string,
   username: string,
 |};

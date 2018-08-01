@@ -28,18 +28,19 @@ class Match extends BaseModel {
   startTime: ?Date;
   endTime: ?Date;
   winner: ?ObjectId;
-  jackpot: ?number;
-  turn: ?number;
+  jackpot: number;
+  turn: number;
   pile: ?CardType[];
   turnStarted: ?boolean;
   turnEnded: ?boolean;
-  players: ?PlayerType[];
+  players: PlayerType[];
   button: ?boolean;
 
   static defaults() {
     return {
-      round: 0,
+      turn: 0,
       jackpot: 0,
+      players: [],
     };
   }
 
