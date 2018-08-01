@@ -2,6 +2,7 @@
 import mongoose, { Schema, type ObjectId } from 'mongoose';
 import BaseModel from './BaseModel';
 import MatchSchema from './schemas/MatchSchema';
+import { includesId } from './modelHelpers';
 import type { CardType } from '../types/deck';
 
 const schema = new Schema(MatchSchema);
@@ -51,11 +52,36 @@ class Match extends BaseModel {
     };
   }
 
+  hasPlayer(userId: ObjectId): boolean {
+    const { players } = this;
+    const userIdString = userId.toString();
+    return players.some(player => player.userId.toString() === userIdString);
+  }
+
+  hasPlayers(userIds: ObjectId[]): boolean {
+    if (!userIds.length) return false;
+    return userIds.every(userId => this.hasPlayer(userId));
+  }
+
   static makeNewPlayer(userId: ObjectId): PlayerType {
     return {
       ...Match.playerDefaults(),
       userId,
     };
+  }
+
+  started() {
+    return !!this.startTime;
+  }
+
+  async playersJoined(userIds: ObjectId[], joinTime?: Date) {
+    const sharedJoinTime = joinTime || new Date();
+    this.players.forEach((player, i) => {
+      if (includesId(userIds, player.userId)) {
+        this.players[i].joinTime = sharedJoinTime;
+      }
+    });
+    await this.save();
   }
 }
 

@@ -2,6 +2,7 @@
 import mongoose, { Schema, type ObjectId } from 'mongoose';
 import BaseModel from './BaseModel';
 import SeriesSchema from './schemas/SeriesSchema';
+import { includesId, pluckUserIds, equalIds } from './modelHelpers';
 import type { BetTypesType } from '../types/betTypes';
 
 const schema = new Schema(SeriesSchema);
@@ -62,6 +63,19 @@ class Series extends BaseModel {
 
   started() {
     return !!this.startTime;
+  }
+
+  async playersJoined(userIds: ObjectId[], joinTime?: Date) {
+    this.players.forEach((player, i) => {
+      if (includesId(userIds, player.userId)) {
+        this.players[i].joinTime = sharedJoinTime;
+      }
+    });
+    await this.save();
+  }
+
+  getPlayer(userId: ObjectId): ?PlayerType {
+    return this.players.find(player => equalIds(player.userId, userId));
   }
 }
 
