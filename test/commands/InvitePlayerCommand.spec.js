@@ -1,108 +1,90 @@
 // @flow
 import { assert } from 'chai';
-import { Types, type BSONObjectId } from 'mongoose';
-import User from '../../src/models/UserModel';
-import Match from '../../src/models/MatchModel';
 import Series from '../../src/models/SeriesModel';
 import NotEnoughPlayersError from '../../src/utils/NotEnoughPlayersError';
 import UserNotFoundError from '../../src/utils/UserNotFoundError';
-import hasPlayers from '../../src/utils/hasPlayers';
+import SeriesNotFoundError from '../../src/utils/SeriesNotFoundError';
+import { createUser, createId } from '../testHelpers';
 import InvitePlayerCommand, {
-  MatchNotFoundError,
-  MatchAlreadyStartedError,
   SeriesAlreadyStartedError,
 } from '../../src/commands/InvitePlayerCommand';
 
 describe('commands/InvitePlayerCommand', () => {
   describe('constructor', () => {
     it('throws if not enough players', () => {
-      const matchId = new Types.ObjectId();
+      const seriesId = createId();
       const userIds = [];
       assert.throws(
-        () => new InvitePlayerCommand(matchId, userIds),
+        () => new InvitePlayerCommand(seriesId, userIds),
         NotEnoughPlayersError,
       );
     });
   });
 
   describe('execute', () => {
-    const testExecutionError = async (
-      matchId: BSONObjectId,
-      userIds: Array<BSONObjectId>,
-    ): Promise<?Error> => {
-      const command = new InvitePlayerCommand(matchId, userIds);
+    it('throws if a given User does not exist', async () => {
+      const seriesId = createId();
+      const userId = createId();
+      const command = new InvitePlayerCommand(seriesId, [userId]);
+
+      let foundError = null;
       try {
         await command.execute();
       } catch (error) {
-        return error;
+        foundError = error;
       }
-      return null;
-    };
-    it('throws if a given user does not exist', async () => {
-      const matchId = new Types.ObjectId();
-      const userId = new Types.ObjectId();
-      const error = await testExecutionError(matchId, [userId]);
-      assert.instanceOf(error, UserNotFoundError);
+      assert.instanceOf(foundError, UserNotFoundError);
     });
-    it('throws if given match does not exist', async () => {
-      const matchId = new Types.ObjectId();
-      const username = 'commands.InvitePlayerCommand.1';
-      const user = await User.create({ username, isConnected: true });
-      const error = await testExecutionError(matchId, [user.getId()]);
-      assert.instanceOf(error, MatchNotFoundError);
-    });
-    it('throws if given match has already started', async () => {
-      const match = await Match.create({
-        seriesId: new Types.ObjectId(),
-        startTime: new Date(),
-      });
-      const username = 'commands.InvitePlayerCommand.2';
-      const user = await User.create({ username, isConnected: true });
-      const error = await testExecutionError(match.getId(), [user.getId()]);
-      assert.instanceOf(error, MatchAlreadyStartedError);
-    });
-    it('throws if not the first match', async () => {
-      const match = await Match.create({
-        seriesId: new Types.ObjectId(),
-        round: 4,
-      });
-      const username = 'commands.InvitePlayerCommand.3';
-      const user = await User.create({ username, isConnected: true });
-      const error = await testExecutionError(match.getId(), [user.getId()]);
-      assert.instanceOf(error, SeriesAlreadyStartedError);
-    });
-    it('adds players to series and match iff not already in it', async () => {
-      const username = 'commands.InvitePlayerCommand.4';
-      const user = await User.create({ username, isConnected: true });
-      const series = await Series.create({ betType: 'BASIC' });
-      const match = await Match.create({ seriesId: series.getId() });
-      const username2 = 'commands.InvitePlayerCommand.5';
-      const user2 = await User.create({
-        username: username2,
-        isConnected: true,
-      });
-      const error = await testExecutionError(match.getId(), [
-        user.getId(),
-        user2.getId(),
-      ]);
-      assert.isNotOk(error);
+    it('throws if given Series does not exist', async () => {
+      const seriesId = createId();
+      const userId = (await createUser()).getId();
+      const command = new InvitePlayerCommand(seriesId, [userId]);
 
-      await Promise.all([
-        async () => {
-          const sameSeries = await Series.findById(series.getId());
-          if (!sameSeries) throw new Error();
-          const players = sameSeries.players.map(({ userId }) => ({ userId }));
-          assert(hasPlayers(players, [user2.getId()]));
-          assert.lengthOf(players, 2);
-        },
-        async () => {
-          const sameMatch = await Match.findById(match.getId());
-          if (!sameMatch) throw new Error();
-          const players = sameMatch.players.map(({ userId }) => ({ userId }));
-          assert(hasPlayers(players, [user2.getId()]));
-          assert.lengthOf(players, 2);
-        },
-      ]);
+      let foundError = null;
+      try {
+        await command.execute();
+      } catch (error) {
+        foundError = error;
+      }
+      assert.instanceOf(foundError, SeriesNotFoundError);
+    });
+    it('throws if given Series has already started', async () => {
+      const seriesId = (await Series.create({ startTime: new Date() })).getId();
+      const userId = (await createUser()).getId();
+      const command = new InvitePlayerCommand(seriesId, [userId]);
+
+      let foundError = null;
+      try {
+        await command.execute();
+      } catch (error) {
+        foundError = error;
+      }
+      assert.instanceOf(foundError, SeriesAlreadyStartedError);
+    });
+    it('adds players to series', async () => {
+      const seriesId = (await Series.create({})).getId();
+      const userId = (await createUser()).getId();
+      const command = new InvitePlayerCommand(seriesId, [userId]);
+      await command.execute();
+
+      const series = await Series.findById(seriesId);
+      if (!series) return; // make flow happy
+      assert.lengthOf(series.players, 1);
+      assert.equal(series.players[0].userId.toString(), userId.toString());
+    });
+    it('does not duplicate or overwrite players in series', async () => {
+      const userId = (await createUser()).getId();
+      const players = [{ userId, pesos: 100 }];
+      const seriesId = (await Series.create({ players })).getId();
+      const command = new InvitePlayerCommand(seriesId, [userId]);
+      await command.execute();
+
+      const series = await Series.findById(seriesId);
+      if (!series) return; // make flow happy
+      assert.lengthOf(series.players, 1);
+      const [player] = series.players;
+      assert.equal(player.userId.toString(), userId.toString());
+      assert.equal(player.pesos, 100);
     });
   });
 });

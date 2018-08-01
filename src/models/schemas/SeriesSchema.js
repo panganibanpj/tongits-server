@@ -1,7 +1,17 @@
 // @flow
-import { CreateTime, NaturalNumber, User } from '../../utils/modelHelpers';
+import { Schema } from 'mongoose';
+import { CreateTime, NaturalNumber, User } from './schemaHelpers';
 // import BET_TYPES from '../constants/BET_TYPES';
 // import type { BetType } from '../../types/betTypes';
+
+const PlayerSchema = new Schema({
+  userId: {
+    ...User,
+    required: true,
+  },
+  pesos: NaturalNumber, // pesos for series
+  joinTime: Date,
+});
 
 export default {
   createTime: CreateTime,
@@ -13,8 +23,6 @@ export default {
   },
   twoHits: User,
   jackpot: NaturalNumber, // current jackpot
-  players: [{
-    userId: User,
-    pesos: NaturalNumber, // pesos for series
-  }],
+  players: [PlayerSchema],
+  startTime: Date,
 };

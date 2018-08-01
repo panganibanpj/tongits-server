@@ -1,16 +1,16 @@
 // @flow
-import mongoose, { Schema, type BSONObjectId } from 'mongoose';
-import { CreateTime, NaturalNumber, User } from '../utils/modelHelpers';
+import mongoose, { Schema, type ObjectId } from 'mongoose';
+import { CreateTime, NaturalNumber, User } from './schemas/schemaHelpers';
 import COMMANDS, { type CommandsType } from '../commands';
 import { COLLECTION_NAME as Match } from './MatchModel';
 
 export type HistoryType = {|
   command: CommandsType,
   createTime?: Date,
-  matchId: bson$ObjectId,
+  matchId: ObjectId,
   turn: number,
   undo?: boolean,
-  userId: BSONObjectId,
+  userId: ObjectId,
 |};
 
 const schema = new Schema({
@@ -43,9 +43,9 @@ const schema = new Schema({
 
 class History /* :: extends Mongoose$Document */ {
   createTime: Date;
-  matchId: bson$ObjectId;
+  matchId: ObjectId;
   turn: number;
-  userId: BSONObjectId;
+  userId: ObjectId;
   command: CommandsType;
   undo: boolean;
 }

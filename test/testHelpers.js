@@ -1,9 +1,12 @@
 // @flow
-import { Types, type BSONObjectId } from 'mongoose';
+import { Types, type ObjectId } from 'mongoose';
 import User from '../src/models/UserModel';
 
 export const createId = () => new Types.ObjectId();
 export const createUser = () => User.create({ username: `${Math.random()}` });
-export const pickUserIds = (players: any): Array<{|
-  userId: BSONObjectId,
-|}> => players.map(({ userId }) => ({ userId }));
+type PlayerType = {
+  userId: ObjectId,
+};
+export const pickUserIds = (
+  players: any,
+): PlayerType[] => players.map(({ userId }) => ({ userId }));

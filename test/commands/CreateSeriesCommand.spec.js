@@ -63,6 +63,7 @@ describe('commands/CreateSeriesCommand', () => {
       assert.exists(match);
       if (!match) throw new Error(); // make flow happy
       assert.lengthOf(match.players, 1);
+      if (!match.players) throw new Error(); // make flow happy
       assert.equal(match.players[0].userId.toString(), userId.toString());
     });
     it('does not create a Match if createMatch: false', async () => {
@@ -75,7 +76,5 @@ describe('commands/CreateSeriesCommand', () => {
       const match = await Match.findOne({ seriesId: series.getId() });
       assert.notExists(match);
     });
-    // @NOTE: to be used for administration or testing
-    it('creates a series with 3 existing players');
   });
 });

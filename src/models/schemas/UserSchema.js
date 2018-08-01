@@ -1,11 +1,11 @@
 // @flow
-import { CreateTime, User as UserRef } from '../../utils/modelHelpers';
+import { CreateTime, User as UserRef } from './schemaHelpers';
 
 export default {
   username: {
     type: String,
     unique: true,
-    // required: true,
+    required: true,
   },
   email: String, // @TODO: email validation
   picture: String, // @TODO: url validation. gravatar? FB? G+?
@@ -14,10 +14,7 @@ export default {
     type: Boolean,
     // required: true,
   },
-  friends: {
-    type: [UserRef],
-    default: [],
-  },
+  friends: [UserRef],
   facebookId: {
     type: String,
     unique: true,

@@ -1,8 +1,8 @@
 // @flow
-import type { BSONObjectId } from 'mongoose';
+import type { ObjectId } from 'mongoose';
 
 export default class SeriesNotFoundError extends RangeError {
-  constructor(seriesId: BSONObjectId) {
+  constructor(seriesId: ObjectId) {
     super(`Cannot find series: "${seriesId.toString()}"`);
   }
 }

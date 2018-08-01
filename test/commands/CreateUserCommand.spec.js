@@ -18,6 +18,4 @@ describe('commands/CreateUserCommand', () => {
     user = await User.findOne({ username }).exec();
     assert.exists(user);
   });
-  // @NOTE: to be used for administration or testing
-  it('creates a user with many fields loaded');
 });

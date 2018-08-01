@@ -1,6 +1,6 @@
 // @flow
 import { assert } from 'chai';
-import { Types } from 'mongoose';
+import { createUser, createId } from '../testHelpers';
 import User from '../../src/models/UserModel';
 
 describe('models/UserModel', () => {
@@ -8,10 +8,7 @@ describe('models/UserModel', () => {
     const createUserIds = async (num) => {
       const creates = [];
       for (let i = 0; i < num; i++) { // eslint-disable-line no-plusplus
-        creates.push(User.create({
-          username: (new Types.ObjectId()).toString(),
-          isConnected: true,
-        }));
+        creates.push(createUser());
       }
       const users = await Promise.all(creates);
       return users.map(user => user.getId());
@@ -25,7 +22,7 @@ describe('models/UserModel', () => {
 
     it('returns false if some do not exist', async () => {
       const userIds = await createUserIds(3);
-      userIds.push(new Types.ObjectId());
+      userIds.push(createId());
       const allExist = await User.allExist(userIds);
       assert(!allExist);
     });
