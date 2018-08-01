@@ -38,9 +38,7 @@ class Series extends BaseModel {
   }
 
   hasPlayer(userId: ObjectId): boolean {
-    const { players } = this;
-    const userIdString = userId.toString();
-    return players.some(player => player.userId.toString() === userIdString);
+    return includesId(pluckUserIds(this.players), userId);
   }
 
   static makeNewPlayer(userId: ObjectId): PlayerType {
@@ -66,6 +64,7 @@ class Series extends BaseModel {
   }
 
   async playersJoined(userIds: ObjectId[], joinTime?: Date) {
+    const sharedJoinTime = joinTime || new Date();
     this.players.forEach((player, i) => {
       if (includesId(userIds, player.userId)) {
         this.players[i].joinTime = sharedJoinTime;

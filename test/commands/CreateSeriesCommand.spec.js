@@ -2,7 +2,7 @@
 import { assert } from 'chai';
 import Series from '../../src/models/SeriesModel';
 import Match from '../../src/models/MatchModel';
-import { createUserId, randomId } from '../testHelpers';
+import { createUserId, randomId, equalIds } from '../testHelpers';
 import NotEnoughPlayersError from '../../src/utils/NotEnoughPlayersError';
 import UserNotFoundError from '../../src/utils/UserNotFoundError';
 import CreateSeriesCommand from '../../src/commands/CreateSeriesCommand';
@@ -50,7 +50,7 @@ describe('commands/CreateSeriesCommand', () => {
       assert.exists(series);
       if (!series) throw new Error(); // make flow happy
       assert.lengthOf(series.players, 1);
-      assert.equal(series.players[0].userId.toString(), userId.toString());
+      assert(equalIds(series.players[0].userId, userId));
     });
     it('creates and saves a Match', async () => {
       const command = new CreateSeriesCommand({
@@ -64,7 +64,7 @@ describe('commands/CreateSeriesCommand', () => {
       if (!match) throw new Error(); // make flow happy
       assert.lengthOf(match.players, 1);
       if (!match.players) throw new Error(); // make flow happy
-      assert.equal(match.players[0].userId.toString(), userId.toString());
+      assert(equalIds(match.players[0].userId, userId));
     });
     it('does not create a Match if createMatch: false', async () => {
       const command = new CreateSeriesCommand({

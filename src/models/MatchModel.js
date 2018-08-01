@@ -2,7 +2,7 @@
 import mongoose, { Schema, type ObjectId } from 'mongoose';
 import BaseModel from './BaseModel';
 import MatchSchema from './schemas/MatchSchema';
-import { includesId } from './modelHelpers';
+import { includesId, pluckUserIds, equalIds } from './modelHelpers';
 import type { CardType } from '../types/deck';
 
 const schema = new Schema(MatchSchema);
@@ -53,9 +53,7 @@ class Match extends BaseModel {
   }
 
   hasPlayer(userId: ObjectId): boolean {
-    const { players } = this;
-    const userIdString = userId.toString();
-    return players.some(player => player.userId.toString() === userIdString);
+    return includesId(pluckUserIds(this.players), userId);
   }
 
   hasPlayers(userIds: ObjectId[]): boolean {
@@ -82,6 +80,10 @@ class Match extends BaseModel {
       }
     });
     await this.save();
+  }
+
+  getPlayer(userId: ObjectId): ?PlayerType {
+    return this.players.find(player => equalIds(player.userId, userId));
   }
 }
 

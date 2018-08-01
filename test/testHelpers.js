@@ -21,3 +21,4 @@ export const createMatchId = async (matchData: ?Object = {}) => {
   const match = await Match.create(matchData);
   return match.getId();
 };
+export * from '../src/models/modelHelpers';

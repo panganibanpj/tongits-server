@@ -4,7 +4,12 @@ import Series from '../../src/models/SeriesModel';
 import NotEnoughPlayersError from '../../src/utils/NotEnoughPlayersError';
 import UserNotFoundError from '../../src/utils/UserNotFoundError';
 import SeriesNotFoundError from '../../src/utils/SeriesNotFoundError';
-import { randomId, createUserId, createSeriesId } from '../testHelpers';
+import {
+  randomId,
+  createUserId,
+  createSeriesId,
+  equalIds,
+} from '../testHelpers';
 import InvitePlayerCommand, {
   SeriesAlreadyStartedError,
 } from '../../src/commands/InvitePlayerCommand';
@@ -66,7 +71,7 @@ describe('commands/InvitePlayerCommand', () => {
     const series = await Series.findById(seriesId);
     if (!series) return; // make flow happy
     assert.lengthOf(series.players, 1);
-    assert.equal(series.players[0].userId.toString(), userId.toString());
+    assert(equalIds(series.players[0].userId, userId));
   });
   it('does not duplicate or overwrite players in series', async () => {
     const userId = await createUserId();
@@ -79,7 +84,7 @@ describe('commands/InvitePlayerCommand', () => {
     if (!series) return; // make flow happy
     assert.lengthOf(series.players, 1);
     const [player] = series.players;
-    assert.equal(player.userId.toString(), userId.toString());
+    assert(equalIds(player.userId, userId));
     assert.equal(player.pesos, 100);
   });
 });
