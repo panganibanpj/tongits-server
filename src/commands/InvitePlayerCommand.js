@@ -36,8 +36,7 @@ export default class InvitePlayerCommand {
 
     // max player count?
 
-    const players = series.players.map(({ userId }) => ({ userId }));
-    addPlayers(players, userIds);
+    addPlayers(series.players, userIds);
     await series.save();
   }
 }
