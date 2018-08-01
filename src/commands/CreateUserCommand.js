@@ -21,6 +21,9 @@ export default class CreateUserCommand {
   }
 
   execute(): Promise<User> {
-    return User.create(this.userData);
+    return User.create({
+      ...User.defaults(),
+      ...this.userData,
+    });
   }
 }

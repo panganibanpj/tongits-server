@@ -3,7 +3,7 @@ import { assert } from 'chai';
 import mongoose, { Schema } from 'mongoose';
 import BaseModel from '../../src/models/BaseModel';
 
-describe('models/BaseModel', () => {
+xdescribe('models/BaseModel', () => {
   describe('static exists', () => {
     const TestSchema = new Schema({ foo: String });
     TestSchema.loadClass(class TestModel extends BaseModel { foo: string; });

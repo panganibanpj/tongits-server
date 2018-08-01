@@ -5,7 +5,7 @@ import UserSchema from './schemas/UserSchema';
 
 const schema = new Schema(UserSchema);
 
-class UserClass extends BaseModel {
+class User extends BaseModel {
   username: string;
   email: ?string;
   picture: ?string;
@@ -15,7 +15,13 @@ class UserClass extends BaseModel {
   facebookId: ?string;
   googleId: ?string;
 
-  static async allExist(userIds: Array<ObjectId> = []): Promise<boolean> {
+  static defaults() {
+    return {
+      friends: [],
+    };
+  }
+
+  static async allExist(userIds: ObjectId[] = []): Promise<boolean> {
     if (!userIds.length) return Promise.resolve(false);
     const existences = await Promise.all(
       userIds.map(userId => this.exists(userId)),
@@ -24,5 +30,5 @@ class UserClass extends BaseModel {
   }
 }
 
-schema.loadClass(UserClass);
+schema.loadClass(User);
 export default mongoose.model('user', schema);

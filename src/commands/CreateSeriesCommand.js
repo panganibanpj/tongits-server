@@ -18,8 +18,8 @@ type SeriesDataType = {|
 |};
 
 export default class CreateSeriesCommand {
-  createMatch: boolean;
   seriesData: SeriesDataType;
+  createMatch: boolean;
 
   constructor(seriesData: SeriesDataType, createMatch: boolean = true) {
     if (!seriesData.players.length) throw new NotEnoughPlayersError();
@@ -32,12 +32,16 @@ export default class CreateSeriesCommand {
     const userIds = this.seriesData.players.map(({ userId }) => userId);
     if (!(await User.allExist(userIds))) throw new UserNotFoundError(userIds);
 
-    const series = await Series.create(this.seriesData);
+    const series = await Series.create({
+      ...Series.defaults(),
+      ...this.seriesData,
+    });
     if (series && this.createMatch) {
       // @TODO: should wait and watch for error?
       await Match.create({
+        ...Match.defaults(),
         seriesId: series.getId(),
-        players: series.players.map(({ userId }) => ({ userId })),
+        players: userIds.map(Match.makeNewPlayer),
       });
     }
 

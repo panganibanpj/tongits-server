@@ -1,7 +1,8 @@
 // @flow
 import { Schema } from 'mongoose';
 import { CreateTime, NaturalNumber, User } from './schemaHelpers';
-import { COLLECTION_NAME as Series } from '../SeriesModel';
+// import { COLLECTION_NAME as Series } from '../SeriesModel';
+const Series = 'series';
 
 const Cards = [{
   type: String,

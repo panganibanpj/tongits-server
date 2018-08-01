@@ -8,5 +8,5 @@ type PlayerType = {
   userId: ObjectId,
 };
 export const pickUserIds = (
-  players: any,
+  players: any[],
 ): PlayerType[] => players.map(({ userId }) => ({ userId }));

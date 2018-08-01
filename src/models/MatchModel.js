@@ -20,7 +20,7 @@ type PlayerType = {|
   userId: ObjectId,
 |};
 
-class MatchClass extends BaseModel {
+class Match extends BaseModel {
   seriesId: ObjectId;
   round: ?number;
   better: ?ObjectId;
@@ -35,8 +35,29 @@ class MatchClass extends BaseModel {
   turnEnded: ?boolean;
   players: ?PlayerType[];
   button: ?boolean;
+
+  static defaults() {
+    return {
+      round: 0,
+      jackpot: 0,
+    };
+  }
+
+  static playerDefaults() {
+    return {
+      bet: null,
+      pesos: 0,
+    };
+  }
+
+  static makeNewPlayer(userId: ObjectId): PlayerType {
+    return {
+      ...Match.playerDefaults(),
+      userId,
+    };
+  }
 }
 
-schema.loadClass(MatchClass);
+schema.loadClass(Match);
 export const COLLECTION_NAME = 'match';
 export default mongoose.model(COLLECTION_NAME, schema);

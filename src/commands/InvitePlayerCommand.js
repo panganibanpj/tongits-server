@@ -2,7 +2,6 @@
 import type { ObjectId } from 'mongoose';
 import Series from '../models/SeriesModel';
 import User from '../models/UserModel';
-import addPlayers from '../utils/addPlayers';
 import NotEnoughPlayersError from '../utils/NotEnoughPlayersError';
 import UserNotFoundError from '../utils/UserNotFoundError';
 import SeriesNotFoundError from '../utils/SeriesNotFoundError';
@@ -36,7 +35,6 @@ export default class InvitePlayerCommand {
 
     // max player count?
 
-    addPlayers(series.players, userIds);
-    await series.save();
+    await series.addPlayers(userIds);
   }
 }
