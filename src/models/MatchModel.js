@@ -72,7 +72,7 @@ class Match extends BaseModel {
     return !!this.startTime;
   }
 
-  async playersJoined(userIds: ObjectId[], joinTime?: Date) {
+  async joinPlayers(userIds: ObjectId[], joinTime?: Date) {
     const sharedJoinTime = joinTime || new Date();
     this.players.forEach((player, i) => {
       if (includesId(userIds, player.userId)) {

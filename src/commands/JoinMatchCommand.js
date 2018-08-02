@@ -36,12 +36,12 @@ export default class JoinMatchCommand {
     }
 
     const joinTime = new Date();
-    await match.playersJoined(userIds, joinTime);
+    await match.joinPlayers(userIds, joinTime);
 
     if (match.isFirstRound) {
       const series = await Series.findById(match.seriesId);
       if (!series) throw new SeriesNotFoundError(match.seriesId);
-      await series.playersJoined(userIds, joinTime);
+      await series.joinPlayers(userIds, joinTime);
     }
   }
 }
