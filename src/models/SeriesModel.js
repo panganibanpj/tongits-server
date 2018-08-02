@@ -59,7 +59,7 @@ class Series extends BaseModel {
     return this.save();
   }
 
-  started() {
+  get hasStarted() {
     return !!this.startTime;
   }
 

@@ -68,7 +68,7 @@ class Match extends BaseModel {
     };
   }
 
-  started() {
+  get hasStarted() {
     return !!this.startTime;
   }
 
@@ -84,6 +84,10 @@ class Match extends BaseModel {
 
   getPlayer(userId: ObjectId): ?PlayerType {
     return this.players.find(player => equalIds(player.userId, userId));
+  }
+
+  get isFirstRound() {
+    return this.round === 0;
   }
 }
 

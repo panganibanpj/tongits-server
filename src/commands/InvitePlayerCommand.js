@@ -30,7 +30,7 @@ export default class InvitePlayerCommand {
 
     const series = await Series.findById(seriesId);
     if (!series) throw new SeriesNotFoundError(seriesId);
-    if (series.started()) throw new SeriesAlreadyStartedError(seriesId);
+    if (series.hasStarted) throw new SeriesAlreadyStartedError(seriesId);
 
     // max player count?
 

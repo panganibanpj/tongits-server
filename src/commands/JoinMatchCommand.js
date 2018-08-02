@@ -45,7 +45,7 @@ export default class JoinMatchCommand {
 
     const match = await Match.findById(matchId);
     if (!match) throw new MatchNotFoundError(matchId);
-    if (match.started()) throw new MatchAlreadyStartedError(matchId);
+    if (match.hasStarted) throw new MatchAlreadyStartedError(matchId);
     if (!match.hasPlayers(userIds)) {
       throw new PlayersNotInMatchError(userIds, matchId);
     }
@@ -53,7 +53,7 @@ export default class JoinMatchCommand {
     const joinTime = new Date();
     await match.playersJoined(userIds, joinTime);
 
-    if (match.round === 0) {
+    if (match.isFirstRound) {
       const series = await Series.findById(match.seriesId);
       if (!series) throw new SeriesNotFoundError(match.seriesId);
       await series.playersJoined(userIds, joinTime);
