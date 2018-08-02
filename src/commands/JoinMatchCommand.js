@@ -3,29 +3,14 @@ import type { ObjectId } from 'mongoose';
 import User from '../models/UserModel';
 import Match from '../models/MatchModel';
 import Series from '../models/SeriesModel';
-import NotEnoughPlayersError from '../utils/NotEnoughPlayersError';
-import UserNotFoundError from '../utils/UserNotFoundError';
-import SeriesNotFoundError from '../utils/SeriesNotFoundError';
-
-export class MatchNotFoundError extends RangeError {
-  constructor(matchId: ObjectId) {
-    super(`Cannot find match: "${matchId.toString()}"`);
-  }
-}
-
-export class MatchAlreadyStartedError extends RangeError {
-  constructor(matchId: ObjectId) {
-    super(`Match already started: "${matchId.toString()}"`);
-  }
-}
-
-export class PlayersNotInMatchError extends RangeError {
-  constructor(userIds: ObjectId[], matchId: ObjectId) {
-    const userIdsString = userIds.join('", "');
-    const matchIdString = matchId.toString();
-    super(`One of user "${userIdsString}" not in match "${matchIdString}"`);
-  }
-}
+import {
+  NotEnoughPlayersError,
+  UserNotFoundError,
+  MatchNotFoundError,
+  MatchAlreadyStartedError,
+  PlayersNotInMatchError,
+  SeriesNotFoundError,
+} from '../utils/errors';
 
 export default class JoinMatchCommand {
   matchId: ObjectId;

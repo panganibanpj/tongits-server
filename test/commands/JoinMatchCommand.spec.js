@@ -8,13 +8,14 @@ import {
   createMatchId,
   createSeriesId,
 } from '../testHelpers';
-import NotEnoughPlayersError from '../../src/utils/NotEnoughPlayersError';
-import UserNotFoundError from '../../src/utils/UserNotFoundError';
-import JoinMatchCommand, {
+import {
+  NotEnoughPlayersError,
+  UserNotFoundError,
   MatchNotFoundError,
   MatchAlreadyStartedError,
   PlayersNotInMatchError,
-} from '../../src/commands/JoinMatchCommand';
+} from '../../src/utils/errors';
+import JoinMatchCommand from '../../src/commands/JoinMatchCommand';
 
 describe('commands/JoinMatchCommand', () => {
   it('throws if not enough players', () => {

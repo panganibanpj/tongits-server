@@ -3,8 +3,10 @@ import { assert } from 'chai';
 import Series from '../../src/models/SeriesModel';
 import Match from '../../src/models/MatchModel';
 import { createUserId, randomId, equalIds } from '../testHelpers';
-import NotEnoughPlayersError from '../../src/utils/NotEnoughPlayersError';
-import UserNotFoundError from '../../src/utils/UserNotFoundError';
+import {
+  NotEnoughPlayersError,
+  UserNotFoundError,
+} from '../../src/utils/errors';
 import CreateSeriesCommand from '../../src/commands/CreateSeriesCommand';
 
 describe('commands/CreateSeriesCommand', () => {

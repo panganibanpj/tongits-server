@@ -1,9 +1,11 @@
 // @flow
 import { assert } from 'chai';
 import Series from '../../src/models/SeriesModel';
-import NotEnoughPlayersError from '../../src/utils/NotEnoughPlayersError';
-import UserNotFoundError from '../../src/utils/UserNotFoundError';
-import SeriesNotFoundError from '../../src/utils/SeriesNotFoundError';
+import {
+  NotEnoughPlayersError,
+  UserNotFoundError,
+  SeriesNotFoundError,
+} from '../../src/utils/errors';
 import {
   randomId,
   createUserId,

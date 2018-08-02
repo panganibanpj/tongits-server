@@ -2,9 +2,11 @@
 import type { ObjectId } from 'mongoose';
 import Series from '../models/SeriesModel';
 import User from '../models/UserModel';
-import NotEnoughPlayersError from '../utils/NotEnoughPlayersError';
-import UserNotFoundError from '../utils/UserNotFoundError';
-import SeriesNotFoundError from '../utils/SeriesNotFoundError';
+import {
+  NotEnoughPlayersError,
+  UserNotFoundError,
+  SeriesNotFoundError,
+} from '../utils/errors';
 
 export class SeriesAlreadyStartedError extends RangeError {
   constructor(seriesId: ObjectId) {

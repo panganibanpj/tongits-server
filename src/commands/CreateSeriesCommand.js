@@ -3,8 +3,7 @@ import type { ObjectId } from 'mongoose';
 import Series, { type PlayerType } from '../models/SeriesModel';
 import Match from '../models/MatchModel';
 import User from '../models/UserModel';
-import NotEnoughPlayersError from '../utils/NotEnoughPlayersError';
-import UserNotFoundError from '../utils/UserNotFoundError';
+import { NotEnoughPlayersError, UserNotFoundError } from '../utils/errors';
 import type { BetTypesType } from '../types/betTypes';
 
 type SeriesDataType = {|
