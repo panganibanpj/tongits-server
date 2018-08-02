@@ -12,6 +12,11 @@ export const NaturalNumber = {
   validate: Number.isInteger,
 };
 
+export const Integer = {
+  type: Number,
+  validate: Number.isInteger,
+};
+
 export const User = {
   type: Schema.Types.ObjectId,
   ref: 'user',

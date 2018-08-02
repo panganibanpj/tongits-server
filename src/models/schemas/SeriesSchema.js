@@ -1,6 +1,11 @@
 // @flow
 import { Schema } from 'mongoose';
-import { CreateTime, NaturalNumber, User } from './schemaHelpers';
+import {
+  CreateTime,
+  NaturalNumber,
+  User,
+  Integer,
+} from './schemaHelpers';
 // import BET_TYPES from '../constants/BET_TYPES';
 // import type { BetType } from '../../types/betTypes';
 
@@ -9,7 +14,7 @@ const PlayerSchema = new Schema({
     ...User,
     required: true,
   },
-  pesos: NaturalNumber, // pesos for series
+  pesos: Integer, // pesos for series
   joinTime: Date,
 });
 

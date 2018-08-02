@@ -1,6 +1,11 @@
 // @flow
 import { Schema } from 'mongoose';
-import { CreateTime, NaturalNumber, User } from './schemaHelpers';
+import {
+  CreateTime,
+  NaturalNumber,
+  User,
+  Integer,
+} from './schemaHelpers';
 // import { COLLECTION_NAME as Series } from '../SeriesModel';
 const Series = 'series';
 
@@ -15,7 +20,7 @@ const PlayerSchema = new Schema({
     required: true,
   },
   // series pesos snapshot
-  pesos: NaturalNumber,
+  pesos: Integer,
   hand: Cards,
   discard: Cards,
   melds: {
