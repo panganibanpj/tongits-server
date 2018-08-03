@@ -14,7 +14,3 @@ export const includesId = (
   ids: ObjectId[],
   id: ObjectId,
 ): boolean => ids.some(someId => equalIds(someId, id));
-
-export default {
-  includesId,
-};
