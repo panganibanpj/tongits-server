@@ -33,6 +33,7 @@
   "homepage": "https://github.com/panganibanpj/tongits-server#readme",
   "dependencies": {
     "express": "^4.16.3",
+    "lodash.shuffle": "^4.2.0",
     "mongoose": "^5.2.5"
   },
   "devDependencies": {

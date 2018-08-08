@@ -25,8 +25,8 @@ const PlayerSchema = new Schema({
   discard: Cards,
   melds: {
     sets: {
-      type: Map,
-      of: Cards,
+      type: Schema.Types.Mixed,
+      default: {},
     },
     runs: [Cards],
   },

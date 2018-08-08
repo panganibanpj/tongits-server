@@ -3,7 +3,8 @@ import mongoose, { Schema, type ObjectId } from 'mongoose';
 import BaseModel from './BaseModel';
 import SeriesSchema from './schemas/SeriesSchema';
 import { includesId, pluckUserIds, equalIds } from './modelHelpers';
-import type { BetTypesType } from '../types/betTypes';
+import BET_TYPES from '../constants/BET_TYPES.json';
+import type { BetType, BetTypesType } from '../types/betTypes';
 
 const schema = new Schema(SeriesSchema);
 
@@ -75,6 +76,30 @@ class Series extends BaseModel {
 
   getPlayer(userId: ObjectId): ?PlayerType {
     return this.players.find(player => equalIds(player.userId, userId));
+  }
+
+  setStartTime(startTime: ?Date) {
+    this.startTime = startTime || new Date();
+  }
+
+  get hasTwoHits() {
+    return !!this.twoHits;
+  }
+
+  anteUp() {
+    const betConfig = (BET_TYPES[this.betType]: BetType);
+    const ante = this.hasTwoHits ? betConfig.ANTE : betConfig.FIRST_ANTE;
+    this.jackpot += this.players.length * ante;
+    this.players.forEach((player, i) => {
+      this.players[i].pesos = player.pesos ? player.pesos - ante : -ante;
+    });
+  }
+
+  async startMatch(startTime: ?Date) {
+    this.anteUp();
+    if (!this.hasStarted) this.setStartTime(startTime);
+    await this.save();
+    return this;
   }
 }
 
