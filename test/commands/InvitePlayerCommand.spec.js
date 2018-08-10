@@ -1,15 +1,16 @@
 // @flow
 import { assert } from 'chai';
-import Series from '../../src/models/SeriesModel';
 import {
   NotEnoughPlayersError,
   UserNotFoundError,
   SeriesNotFoundError,
 } from '../../src/utils/errors';
 import {
+  resetDb,
   randomId,
-  createUserId,
-  createSeriesId,
+  createdIds,
+  executionError,
+  findSeriesById,
   equalIds,
 } from '../testHelpers';
 import InvitePlayerCommand, {
@@ -17,8 +18,10 @@ import InvitePlayerCommand, {
 } from '../../src/commands/InvitePlayerCommand';
 
 describe('commands/InvitePlayerCommand', () => {
+  before(() => resetDb());
+
   it('throws if not enough players', () => {
-    const seriesId = randomId();
+    const seriesId = createdIds.series.notStarted0;
     const userIds = [];
     assert.throws(
       () => new InvitePlayerCommand(seriesId, userIds),
@@ -26,67 +29,52 @@ describe('commands/InvitePlayerCommand', () => {
     );
   });
   it('throws if a given User does not exist', async () => {
-    const seriesId = randomId();
+    const seriesId = createdIds.series.notStarted0;
     const userId = randomId();
     const command = new InvitePlayerCommand(seriesId, [userId]);
 
-    let foundError = null;
-    try {
-      await command.execute();
-    } catch (error) {
-      foundError = error;
-    }
-    assert.instanceOf(foundError, UserNotFoundError);
+    const error = await executionError(command);
+    assert.instanceOf(error, UserNotFoundError);
   });
   it('throws if given Series does not exist', async () => {
     const seriesId = randomId();
-    const userId = await createUserId();
+    const userId = createdIds.user.basic0;
     const command = new InvitePlayerCommand(seriesId, [userId]);
 
-    let foundError = null;
-    try {
-      await command.execute();
-    } catch (error) {
-      foundError = error;
-    }
-    assert.instanceOf(foundError, SeriesNotFoundError);
+    const error = await executionError(command);
+    assert.instanceOf(error, SeriesNotFoundError);
   });
   it('throws if given Series has already started', async () => {
-    const seriesId = await createSeriesId({ startTime: new Date() });
-    const userId = await createUserId();
+    const seriesId = createdIds.series.started0;
+    const userId = createdIds.user.basic0;
     const command = new InvitePlayerCommand(seriesId, [userId]);
 
-    let foundError = null;
-    try {
-      await command.execute();
-    } catch (error) {
-      foundError = error;
-    }
-    assert.instanceOf(foundError, SeriesAlreadyStartedError);
+    const error = await executionError(command);
+    assert.instanceOf(error, SeriesAlreadyStartedError);
   });
   it('adds players to series', async () => {
-    const seriesId = await createSeriesId();
-    const userId = await createUserId();
+    const seriesId = createdIds.series.empty;
+    const userId = createdIds.user.empty;
     const command = new InvitePlayerCommand(seriesId, [userId]);
     await command.execute();
 
-    const series = await Series.findById(seriesId);
-    if (!series) return; // make flow happy
+    const series = await findSeriesById(seriesId);
     assert.lengthOf(series.players, 1);
     assert(equalIds(series.players[0].userId, userId));
   });
   it('does not duplicate or overwrite players in series', async () => {
-    const userId = await createUserId();
-    const players = [{ userId, pesos: 100 }];
-    const seriesId = await createSeriesId({ players });
+    const userId = createdIds.user.basic0;
+    const seriesId = createdIds.series.notStarted0;
+    let series = await findSeriesById(seriesId);
+    const { joinTime: timeBeforeExec } = series.players[0];
     const command = new InvitePlayerCommand(seriesId, [userId]);
     await command.execute();
 
-    const series = await Series.findById(seriesId);
-    if (!series) return; // make flow happy
-    assert.lengthOf(series.players, 1);
+    series = await findSeriesById(seriesId);
+    assert.lengthOf(series.players, 3);
     const [player] = series.players;
     assert(equalIds(player.userId, userId));
-    assert.equal(player.pesos, 100);
+    if (!player.joinTime || !timeBeforeExec) throw new Error(); // make flow happy
+    assert.equal(player.joinTime.getTime(), timeBeforeExec.getTime());
   });
 });

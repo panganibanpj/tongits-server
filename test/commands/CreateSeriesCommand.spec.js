@@ -2,7 +2,13 @@
 import { assert } from 'chai';
 import Series from '../../src/models/SeriesModel';
 import Match from '../../src/models/MatchModel';
-import { createUserId, randomId, equalIds } from '../testHelpers';
+import {
+  resetDb,
+  executionError,
+  createUserId,
+  randomId,
+  equalIds,
+} from '../testHelpers';
 import {
   NotEnoughPlayersError,
   UserNotFoundError,
@@ -10,6 +16,8 @@ import {
 import CreateSeriesCommand from '../../src/commands/CreateSeriesCommand';
 
 describe('commands/CreateSeriesCommand', () => {
+  before(() => resetDb());
+
   describe('failure', () => {
     it('throws if no players', () => {
       assert.throws(() => new CreateSeriesCommand({
@@ -17,17 +25,14 @@ describe('commands/CreateSeriesCommand', () => {
         players: [],
       }), NotEnoughPlayersError);
     });
+
     it('throws if a given player does not exist', async () => {
       const command = new CreateSeriesCommand({
         betType: 'BASIC',
         players: [{ userId: randomId() }],
       });
-      try {
-        await command.execute();
-      } catch (error) {
-        return assert.instanceOf(error, UserNotFoundError);
-      }
-      throw new Error('was supposed to fail!');
+      const error = await executionError(command);
+      return assert.instanceOf(error, UserNotFoundError);
     });
   });
 

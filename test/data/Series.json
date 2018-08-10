@@ -1,0 +1,62 @@
+{
+  "empty": {
+    "_id": "000000000000000000000000"
+  },
+  "started0": {
+    "description": "already started, on first round",
+    "_id": "000000000000000000000001",
+    "createTime": "2015-09-28T18:00:00.000Z",
+    "startTime": "2015-09-28T18:00:00.000Z",
+    "round": 0,
+    "betType": "BASIC",
+    "jackpot": 15,
+    "players": [{
+      "userId": "000000000000000000000001",
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "pesos": -5
+    }, {
+      "userId": "000000000000000000000002",
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "pesos": -5
+    }, {
+      "userId": "000000000000000000000003",
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "pesos": -5
+    }]
+  },
+  "notStarted0": {
+    "description": "not yet started, some players joined",
+    "_id": "000000000000000000000002",
+    "createTime": "2015-09-28T18:00:00.000Z",
+    "round": 0,
+    "jackpot": 0,
+    "betType": "BASIC",
+    "players": [{
+      "userId": "000000000000000000000001",
+      "joinTime": "2015-09-28T18:00:00.000Z"
+    }, {
+      "userId": "000000000000000000000002"
+    }, {
+      "userId": "000000000000000000000003",
+      "joinTime": "2015-09-28T18:00:00.000Z"
+    }]
+  },
+  "notStarted1": {
+    "description": "ready to start, all players joined.",
+    "_id": "000000000000000000000003",
+    "createTime": "2015-09-28T18:00:00.000Z",
+    "round": 0,
+    "jackpot": 0,
+    "betType": "BASIC",
+    "players": [{
+      "userId": "000000000000000000000001",
+      "joinTime": "2015-09-28T18:00:00.000Z"
+    }, {
+      "userId": "000000000000000000000002",
+      "joinTime": "2015-09-28T18:00:00.000Z"
+    }, {
+      "userId": "000000000000000000000003",
+      "joinTime": "2015-09-28T18:00:00.000Z"
+    }]
+  }
+}

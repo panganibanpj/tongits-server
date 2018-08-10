@@ -1,62 +1,35 @@
 // @flow
 import { assert } from 'chai';
 import {
+  resetDb,
   randomId,
-  createUserId,
-  createMatchId,
-  createSeriesId,
+  executionError,
+  createdIds,
+  findMatchById,
+  findSeriesById,
 } from '../testHelpers';
-import Series from '../../src/models/SeriesModel';
-import {
-  MatchNotFoundError,
-  SeriesNotFoundError,
-} from '../../src/utils/errors';
+import { MatchNotFoundError } from '../../src/utils/errors';
 import StartMatchCommand, {
   NotAllPlayersJoinedError,
 } from '../../src/commands/StartMatchCommand';
 
 describe('commands/StartMatchCommand', () => {
+  before(() => resetDb());
+
   describe('failure', () => {
     it('throws if given Match does not exist', async () => {
       const matchId = randomId();
       const command = new StartMatchCommand(matchId);
 
-      let foundError = null;
-      try {
-        await command.execute();
-      } catch (error) {
-        foundError = error;
-      }
-      assert.instanceOf(foundError, MatchNotFoundError);
+      const error = await executionError(command);
+      assert.instanceOf(error, MatchNotFoundError);
     });
     it('throws if not all players in match have joined', async () => {
-      const userId = await createUserId();
-      const matchId = await createMatchId({ players: [{ userId }] });
+      const matchId = createdIds.match.notStarted0;
       const command = new StartMatchCommand(matchId);
 
-      let foundError = null;
-      try {
-        await command.execute();
-      } catch (error) {
-        foundError = error;
-      }
-      assert.instanceOf(foundError, NotAllPlayersJoinedError);
-    });
-    it('throws if given Series for match does not exist', async () => {
-      const userId = await createUserId();
-      const matchId = await createMatchId({
-        seriesId: randomId(),
-        players: [{ userId, joinTime: new Date() }],
-      });
-      const command = new StartMatchCommand(matchId);
-
-      let foundError = null;
-      try {
-        await command.execute();
-      } catch (error) {
-        foundError = error;
-      }
-      assert.instanceOf(foundError, SeriesNotFoundError);
+      const error = await executionError(command);
+      assert.instanceOf(error, NotAllPlayersJoinedError);
     });
   });
 
@@ -64,25 +37,12 @@ describe('commands/StartMatchCommand', () => {
     let match;
     let series;
     before(async () => {
-      const userIds = [
-        await createUserId(),
-        await createUserId(),
-        await createUserId(),
-      ];
-      const seriesId = await createSeriesId({
-        betType: 'BASIC',
-        jackpot: 1234,
-        players: userIds.map(userId => ({ userId })),
-      });
-      const matchId = await createMatchId({
-        seriesId,
-        players: userIds.map(userId => ({ userId, joinTime: new Date() })),
-      });
+      const matchId = createdIds.match.notStarted1;
       const command = new StartMatchCommand(matchId);
-      match = await command.execute();
-      if (!match) throw new Error(); // make flow happy
+      await command.execute();
+      match = await findMatchById(matchId);
       assert.lengthOf(match.players, 3);
-      series = await Series.findById(match.seriesId);
+      series = await findSeriesById(match.seriesId);
     });
 
     it('sets some meta values', () => {
@@ -90,16 +50,12 @@ describe('commands/StartMatchCommand', () => {
       assert(match.players.every(
         player => player.bet === null && 'blockedTurns' in player,
       ));
-
-      if (!series) throw new Error(); // make flow happy
       assert.exists(series.startTime);
     });
     it('sets money values', () => {
       assert(match.players.every(({ pesos }) => pesos === -5));
-
-      if (!series) throw new Error(); // make flow happy
       assert(series.players.every(({ pesos }) => pesos === -5));
-      assert(series.jackpot === 1249);
+      assert.equal(series.jackpot, 15);
     });
     it('sets card values', () => {
       match.players.forEach(({ hand, discard, melds }, index) => {
@@ -111,22 +67,18 @@ describe('commands/StartMatchCommand', () => {
       });
       assert.lengthOf(match.pile, 15);
     });
-    it('does not set series.startTime if series already started', async () => {
-      const { seriesId, players } = match;
-      const matchId = await createMatchId({
-        seriesId,
-        players: players.map(({ userId }) => ({
-          userId,
-          joinTime: new Date(),
-        })),
-      });
-      if (!series) throw new Error(); // make flow happy
-      const { startTime } = series;
+    it('does not start series already started', async () => {
+      const matchId = createdIds.match.notStarted2;
+      const seriesId = createdIds.series.started0;
+      let series2 = await findSeriesById(seriesId);
+      const { startTime: timeBeforeExec } = series2;
 
       const command = new StartMatchCommand(matchId);
       await command.execute();
 
-      assert.equal(series.startTime, startTime);
+      series2 = await findSeriesById(seriesId);
+      if (!series2.startTime || !timeBeforeExec) throw new Error(); // make flow happy
+      assert.equal(series2.startTime.getTime(), timeBeforeExec.getTime());
     });
   });
 });

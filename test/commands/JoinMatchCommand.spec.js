@@ -1,12 +1,13 @@
 // @flow
 import { assert } from 'chai';
-import Match from '../../src/models/MatchModel';
-import Series from '../../src/models/SeriesModel';
 import {
+  resetDb,
   randomId,
-  createUserId,
-  createMatchId,
-  createSeriesId,
+  createdIds,
+  executionError,
+  resetDocuments,
+  findMatchById,
+  findSeriesById,
 } from '../testHelpers';
 import {
   NotEnoughPlayersError,
@@ -18,6 +19,8 @@ import {
 import JoinMatchCommand from '../../src/commands/JoinMatchCommand';
 
 describe('commands/JoinMatchCommand', () => {
+  before(() => resetDb());
+
   it('throws if not enough players', () => {
     const matchId = randomId();
     const userIds = [];
@@ -27,84 +30,63 @@ describe('commands/JoinMatchCommand', () => {
     );
   });
   it('throws if a given User does not exist', async () => {
-    const matchId = randomId();
+    const matchId = createdIds.match.notStarted0;
     const userId = randomId();
     const command = new JoinMatchCommand(matchId, [userId]);
 
-    let foundError: ?Error = null;
-    try {
-      await command.execute();
-    } catch (error) {
-      foundError = error;
-    }
-    assert.instanceOf(foundError, UserNotFoundError);
+    const error = await executionError(command);
+    assert.instanceOf(error, UserNotFoundError);
   });
   it('throws if given Match does not exist', async () => {
     const matchId = randomId();
-    const userId = await createUserId();
+    const userId = createdIds.user.basic0;
     const command = new JoinMatchCommand(matchId, [userId]);
 
-    let foundError = null;
-    try {
-      await command.execute();
-    } catch (error) {
-      foundError = error;
-    }
-    assert.instanceOf(foundError, MatchNotFoundError);
+    const error = await executionError(command);
+    assert.instanceOf(error, MatchNotFoundError);
   });
   it('throws if given Match has already started', async () => {
-    const matchId = await createMatchId({ startTime: new Date() });
-    const userId = await createUserId();
+    const matchId = createdIds.match.started0;
+    const userId = createdIds.user.basic0;
     const command = new JoinMatchCommand(matchId, [userId]);
 
-    let foundError = null;
-    try {
-      await command.execute();
-    } catch (error) {
-      foundError = error;
-    }
-    assert.instanceOf(foundError, MatchAlreadyStartedError);
+    const error = await executionError(command);
+    assert.instanceOf(error, MatchAlreadyStartedError);
   });
   it('throws if given Match does not include all given players', async () => {
-    const matchId = await createMatchId();
-    const userId = await createUserId();
+    const matchId = createdIds.match.notStarted0;
+    const userId = createdIds.user.empty;
     const command = new JoinMatchCommand(matchId, [userId]);
 
-    let foundError = null;
-    try {
-      await command.execute();
-    } catch (error) {
-      foundError = error;
-    }
-    assert.instanceOf(foundError, PlayersNotInMatchError);
+    const error = await executionError(command);
+    assert.instanceOf(error, PlayersNotInMatchError);
   });
-  it('adds joinTime to given players for given Match', async () => {
-    const userId = await createUserId();
-    const matchId = await createMatchId({ players: [{ userId }] });
-    const command = new JoinMatchCommand(matchId, [userId]);
-    await command.execute();
-
-    const match = await Match.findById(matchId);
-    if (!match) return; // make flow happy
-    const player = match.getPlayer(userId);
-    if (!player) throw new Error(); // make flow happy;
-    assert.isOk(player.joinTime);
-  });
-  it('adds joinTime to given players for given Series if needed', async () => {
-    const userId = await createUserId();
-    const seriesId = await createSeriesId({ players: [{ userId }] });
-    const matchId = await createMatchId({
-      seriesId,
-      players: [{ userId }],
-      round: 0,
+  it('joins given players for Match', async () => {
+    await resetDocuments({
+      user: 'basic1',
+      match: 'notStarted0',
     });
+    const matchId = createdIds.match.notStarted0;
+    const userId = createdIds.user.basic1;
     const command = new JoinMatchCommand(matchId, [userId]);
     await command.execute();
 
-    const series = await Series.findById(seriesId);
-    if (!series) return; // make flow happy
-    const player = series.getPlayer(userId);
-    if (!player) throw new Error(); // make flow happy;
-    assert.isOk(player.joinTime);
+    const match = await findMatchById(matchId);
+    assert(match.playerHasJoined(userId));
+  });
+  it('joins given players for Series if needed', async () => {
+    await resetDocuments({
+      user: 'basic1',
+      series: 'notStarted0',
+      match: 'notStarted0',
+    });
+    const matchId = createdIds.match.notStarted0;
+    const userId = createdIds.user.basic1;
+    const command = new JoinMatchCommand(matchId, [userId]);
+    await command.execute();
+
+    const seriesId = createdIds.series.notStarted0;
+    const series = await findSeriesById(seriesId);
+    assert(series.playerHasJoined(userId));
   });
 });

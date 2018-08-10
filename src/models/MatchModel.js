@@ -95,6 +95,11 @@ class Match extends BaseModel {
     return this.players.find(player => equalIds(player.userId, userId));
   }
 
+  playerHasJoined(userId: ObjectId) {
+    const player = this.getPlayer(userId);
+    return player && !!player.joinTime;
+  }
+
   get isFirstRound() {
     return this.round === 0;
   }
