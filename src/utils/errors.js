@@ -44,3 +44,25 @@ export class PlayersNotInMatchError extends RangeError {
     );
   }
 }
+
+export class MatchNotStartedError extends RangeError {
+  constructor(matchId: ObjectId) {
+    super(`Match not yet started: "${matchId.toString()}"`);
+  }
+}
+
+export class PlayerNotActiveError extends RangeError {
+  constructor(matchId: ObjectId, userId: ObjectId) {
+    super(`Player "${
+      userId.toString()
+    }" not the active player in match "${
+      matchId.toString()
+    }"`);
+  }
+}
+
+export class MatchAlreadyEndedError extends RangeError {
+  constructor(matchId: ObjectId) {
+    super(`Match already ended: "${matchId.toString()}"`);
+  }
+}

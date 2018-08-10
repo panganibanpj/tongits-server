@@ -108,13 +108,14 @@ class Match extends BaseModel {
     return this.players.every(({ joinTime }) => !!joinTime);
   }
 
-  nextTurn() {
-    if (this.turn === 0 || !!this.turn) {
+  nextTurn(turnStarted: ?boolean = false) {
+    if (typeof this.turn === 'number' && this.turn >= 0) {
       this.turn += 1;
     } else {
       this.turn = 0;
     }
-    this.turnStarted = true;
+
+    this.turnStarted = turnStarted;
     this.turnEnded = false;
   }
 
@@ -122,7 +123,8 @@ class Match extends BaseModel {
     this.startTime = startTime || new Date();
     this.jackpot = series.jackpot;
     this.pile = pile;
-    this.nextTurn();
+    // @NOTE(pj): turn automatically started on turn 0 because player drew
+    this.nextTurn(true);
   }
 
   preparePlayers(series: Series, dealtCards: DealtCardsType) {
@@ -140,7 +142,42 @@ class Match extends BaseModel {
   async startMatch(series: Series, startTime: ?Date) {
     const dealtCards = dealCards(this.players.length);
     this.prepareMatch(series, dealtCards.pile, startTime);
+    // @TODO: hands must be sorted
     this.preparePlayers(series, dealtCards);
+    await this.save();
+    return this;
+  }
+
+  activePlayer() {
+    if (!this.turn && this.turn !== 0) throw new Error(); // make flow happy
+    const activePlayerIndex = this.turn % this.players.length;
+    return this.players[activePlayerIndex];
+  }
+
+  get hasEnded() {
+    return !!this.endTime;
+  }
+
+  isActivePlayer(userId: ObjectId) {
+    const activePlayer = this.activePlayer();
+    return equalIds(activePlayer.userId, userId);
+  }
+
+  async drawCard() {
+    const player = this.activePlayer();
+
+    if (!this.pile) throw new Error(); // make flow happy
+    const card: CardType = this.pile.shift();
+
+    if (!player.hand) throw new Error(); // make flow happy
+    player.hand.push(card);
+
+    this.turnStarted = true;
+    await this.save();
+  }
+
+  async endMatch(endTime: ?Date) {
+    this.endTime = endTime || new Date();
     await this.save();
     return this;
   }

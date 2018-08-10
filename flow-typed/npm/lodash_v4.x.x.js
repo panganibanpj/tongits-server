@@ -3591,10 +3591,6 @@ declare module "lodash/shuffle" {
   declare module.exports: $PropertyType<$Exports<"lodash">, "shuffle">;
 }
 
-declare module "lodash.shuffle" {
-  declare module.exports: $PropertyType<$Exports<"lodash">, "shuffle">;
-}
-
 declare module "lodash/size" {
   declare module.exports: $PropertyType<$Exports<"lodash">, "size">;
 }

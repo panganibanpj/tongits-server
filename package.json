@@ -19,7 +19,8 @@
     "test:unit-one": "mocha -r @babel/register ./test/setup.js",
     "coverage": "run-p coverage:flow coverage:unit",
     "coverage:flow": "flow-coverage-report -i 'src/**/*.js' -i 'test/**/*.js' -t html -t text -o ./coverage/flow",
-    "coverage:unit": "BABEL_ENV=test nyc npm run test:unit"
+    "coverage:unit": "BABEL_ENV=test nyc npm run test:unit",
+    "create-id": "node -p 'const { ObjectId } = require(\"mongoose\").Types; new ObjectId();'"
   },
   "repository": {
     "type": "git",
@@ -33,7 +34,7 @@
   "homepage": "https://github.com/panganibanpj/tongits-server#readme",
   "dependencies": {
     "express": "^4.16.3",
-    "lodash.shuffle": "^4.2.0",
+    "lodash": "^4.17.10",
     "mongoose": "^5.2.5"
   },
   "devDependencies": {

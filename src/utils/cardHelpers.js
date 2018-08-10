@@ -1,5 +1,5 @@
 // @flow
-import shuffle from 'lodash.shuffle';
+import shuffle from 'lodash/shuffle';
 import DECK from '../constants/DECK';
 import type { CardType } from '../types/deck';
 
