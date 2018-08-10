@@ -2,6 +2,7 @@
 import BET_TYPES from '../constants/BET_TYPES';
 
 export type BetType = {|
+  ACES: number,
   ANTE: number,
   CALL_BET: number,
   FIRST_ANTE: number,
