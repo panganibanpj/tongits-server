@@ -3,7 +3,8 @@
     "_id": "000000000000000000000000"
   },
   "notStarted0": {
-    "description": "not yet started, some players joined",
+    "key": "notStarted0",
+    "description": "not yet started, some players joined. users: basic0, basic1, basic2. matches: notStarted0",
     "_id": "5b6db8242a07d67ccdfd83d3",
     "createTime": "2015-09-28T18:00:00.000Z",
     "round": 0,
@@ -20,7 +21,8 @@
     }]
   },
   "notStarted1": {
-    "description": "ready to start, all players joined.",
+    "key": "notStarted1",
+    "description": "ready to start, all players joined. users: basic0, basic1, basic2. matches: notStarted1",
     "_id": "5b6db84360dcba7ce401583a",
     "createTime": "2015-09-28T18:00:00.000Z",
     "round": 0,
@@ -38,7 +40,8 @@
     }]
   },
   "started0": {
-    "description": "already started, on first round",
+    "key": "started0",
+    "description": "already started, on first round. match just started. users: basic0, basic1, basic2. matches: started0",
     "_id": "5b6db874c00d637d0f53ec90",
     "createTime": "2015-09-28T18:00:00.000Z",
     "startTime": "2015-09-28T18:00:00.000Z",
@@ -60,7 +63,8 @@
     }]
   },
   "started1": {
-    "description": "already started, on second round",
+    "key": "started1",
+    "description": "second round ready to start. users: basic0, basic1, basic2. matches: notStarted2, ended0",
     "_id": "5b6db8a138178a7d71b12296",
     "createTime": "2015-09-28T18:00:00.000Z",
     "startTime": "2015-09-28T18:00:00.000Z",
@@ -80,6 +84,29 @@
       "userId": "5b6db8036c00607c936ee99e",
       "joinTime": "2015-09-28T18:00:00.000Z",
       "pesos": -8
+    }]
+  },
+  "started2": {
+    "key": "started2",
+    "description": "first round ready to start second turn. users: basic0, basic1, basic2. matches: started1",
+    "_id": "5b6dd0af477cd536ea6f87f6",
+    "createTime": "2015-09-28T18:00:00.000Z",
+    "startTime": "2015-09-28T18:00:00.000Z",
+    "round": 0,
+    "betType": "BASIC",
+    "jackpot": 15,
+    "players": [{
+      "userId": "5b6db723aee95b7b97fd559f",
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "pesos": -5
+    }, {
+      "userId": "5b6db7a47179c07c2b8afe22",
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "pesos": -5
+    }, {
+      "userId": "5b6db8036c00607c936ee99e",
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "pesos": -5
     }]
   }
 }

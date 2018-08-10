@@ -3,14 +3,20 @@
     "_id": "000000000000000000000000"
   },
   "basic0": {
+    "key": "basic0",
+    "description": "used in several matches and series",
     "_id": "5b6db723aee95b7b97fd559f",
     "username": "basic 0"
   },
   "basic1": {
+    "key": "basic1",
+    "description": "used in several matches and series",
     "_id": "5b6db7a47179c07c2b8afe22",
     "username": "basic 1"
   },
   "basic2": {
+    "key": "basic2",
+    "description": "used in several matches and series",
     "_id": "5b6db8036c00607c936ee99e",
     "username": "basic 2"
   }
