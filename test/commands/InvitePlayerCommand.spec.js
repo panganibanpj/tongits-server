@@ -6,10 +6,11 @@ import {
   SeriesNotFoundError,
 } from '../../src/utils/errors';
 import {
-  resetDb,
+  createDocuments,
   randomId,
   createdIds,
   executionError,
+  resetSeries,
   findSeriesById,
   equalIds,
 } from '../testHelpers';
@@ -18,7 +19,10 @@ import InvitePlayerCommand, {
 } from '../../src/commands/InvitePlayerCommand';
 
 describe('commands/InvitePlayerCommand', () => {
-  before(() => resetDb());
+  before(() => createDocuments({
+    user: ['basic0', 'empty'],
+    series: ['notStarted0', 'started0', 'empty'],
+  }));
 
   it('throws if not enough players', () => {
     const seriesId = createdIds.series.notStarted0;
@@ -55,6 +59,7 @@ describe('commands/InvitePlayerCommand', () => {
   it('adds players to series', async () => {
     const seriesId = createdIds.series.empty;
     const userId = createdIds.user.empty;
+    await resetSeries('empty');
     const command = new InvitePlayerCommand(seriesId, [userId]);
     await command.execute();
 
@@ -65,6 +70,7 @@ describe('commands/InvitePlayerCommand', () => {
   it('does not duplicate or overwrite players in series', async () => {
     const userId = createdIds.user.basic0;
     const seriesId = createdIds.series.notStarted0;
+    await resetSeries('notStarted0');
     let series = await findSeriesById(seriesId);
     const { joinTime: timeBeforeExec } = series.players[0];
     const command = new InvitePlayerCommand(seriesId, [userId]);

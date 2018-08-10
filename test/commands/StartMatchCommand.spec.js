@@ -1,10 +1,11 @@
 // @flow
 import { assert } from 'chai';
 import {
-  resetDb,
+  createDocuments,
   randomId,
   executionError,
   createdIds,
+  resetDocuments,
   findMatchById,
   findSeriesById,
 } from '../testHelpers';
@@ -14,7 +15,10 @@ import StartMatchCommand, {
 } from '../../src/commands/StartMatchCommand';
 
 describe('commands/StartMatchCommand', () => {
-  before(() => resetDb());
+  before(() => createDocuments({
+    series: ['notStarted1', 'started1', 'notStarted0'],
+    match: ['notStarted0', 'notStarted1', 'notStarted2'],
+  }));
 
   describe('failure', () => {
     it('throws if given Match does not exist', async () => {
@@ -37,12 +41,17 @@ describe('commands/StartMatchCommand', () => {
     let match;
     let series;
     before(async () => {
+      await resetDocuments({
+        match: 'notStarted1',
+        series: 'notStarted1',
+      });
       const matchId = createdIds.match.notStarted1;
+      const seriesId = createdIds.series.notStarted1;
       const command = new StartMatchCommand(matchId);
       await command.execute();
       match = await findMatchById(matchId);
       assert.lengthOf(match.players, 3);
-      series = await findSeriesById(match.seriesId);
+      series = await findSeriesById(seriesId);
     });
 
     it('sets some meta values', () => {
@@ -68,8 +77,12 @@ describe('commands/StartMatchCommand', () => {
       assert.lengthOf(match.pile, 15);
     });
     it('does not start series already started', async () => {
+      await resetDocuments({
+        match: 'notStarted2',
+        series: 'started1',
+      });
       const matchId = createdIds.match.notStarted2;
-      const seriesId = createdIds.series.started0;
+      const seriesId = createdIds.series.started1;
       let series2 = await findSeriesById(seriesId);
       const { startTime: timeBeforeExec } = series2;
 

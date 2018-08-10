@@ -1,7 +1,7 @@
 // @flow
 import { assert } from 'chai';
 import {
-  resetDb,
+  createDocuments,
   randomId,
   createdIds,
   executionError,
@@ -19,7 +19,11 @@ import {
 import JoinMatchCommand from '../../src/commands/JoinMatchCommand';
 
 describe('commands/JoinMatchCommand', () => {
-  before(() => resetDb());
+  before(() => createDocuments({
+    user: ['basic0', 'empty', 'basic1'],
+    series: ['notStarted0'],
+    match: ['notStarted0', 'started0'],
+  }));
 
   it('throws if not enough players', () => {
     const matchId = randomId();
@@ -62,10 +66,7 @@ describe('commands/JoinMatchCommand', () => {
     assert.instanceOf(error, PlayersNotInMatchError);
   });
   it('joins given players for Match', async () => {
-    await resetDocuments({
-      user: 'basic1',
-      match: 'notStarted0',
-    });
+    await resetDocuments({ match: 'notStarted0' });
     const matchId = createdIds.match.notStarted0;
     const userId = createdIds.user.basic1;
     const command = new JoinMatchCommand(matchId, [userId]);
@@ -76,7 +77,6 @@ describe('commands/JoinMatchCommand', () => {
   });
   it('joins given players for Series if needed', async () => {
     await resetDocuments({
-      user: 'basic1',
       series: 'notStarted0',
       match: 'notStarted0',
     });

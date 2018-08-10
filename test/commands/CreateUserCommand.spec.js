@@ -1,12 +1,9 @@
 // @flow
 import { assert } from 'chai';
 import User from '../../src/models/UserModel';
-import { resetDb } from '../testHelpers';
 import CreateUserCommand from '../../src/commands/CreateUserCommand';
 
 describe('commands/CreateUserCommand', () => {
-  before(() => resetDb());
-
   it('creates a user w given username', async () => {
     const username = 'commands.CreateUserCommand.test1';
     let user = await User.findOne({ username });

@@ -3,7 +3,6 @@ import { assert } from 'chai';
 import Series from '../../src/models/SeriesModel';
 import Match from '../../src/models/MatchModel';
 import {
-  resetDb,
   executionError,
   createUserId,
   randomId,
@@ -16,8 +15,6 @@ import {
 import CreateSeriesCommand from '../../src/commands/CreateSeriesCommand';
 
 describe('commands/CreateSeriesCommand', () => {
-  before(() => resetDb());
-
   describe('failure', () => {
     it('throws if no players', () => {
       assert.throws(() => new CreateSeriesCommand({

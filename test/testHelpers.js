@@ -108,6 +108,7 @@ export const resetDocuments = ({ user, series, match }: {
   ...([].concat(series || [])).map(seriesKey => resetSeries(seriesKey)),
   ...([].concat(match || [])).map(matchKey => resetMatch(matchKey)),
 ]);
+export const createDocuments = resetDocuments;
 export const resetDb = async () => {
   await Promise.all([
     User.remove({}),
