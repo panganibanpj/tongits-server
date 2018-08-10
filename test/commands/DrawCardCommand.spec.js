@@ -13,10 +13,9 @@ import {
   MatchNotStartedError,
   MatchAlreadyEndedError,
   PlayerNotActiveError,
-} from '../../src/utils/errors';
-import DrawCardCommand, {
   TurnAlreadyStartedError,
-} from '../../src/commands/DrawCardCommand';
+} from '../../src/utils/errors';
+import DrawCardCommand from '../../src/commands/DrawCardCommand';
 import type { CardType } from '../../src/types/deck';
 
 describe('commands/DrawCardCommand', () => {

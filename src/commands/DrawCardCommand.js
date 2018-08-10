@@ -6,13 +6,8 @@ import {
   MatchNotStartedError,
   MatchAlreadyEndedError,
   PlayerNotActiveError,
+  TurnAlreadyStartedError,
 } from '../utils/errors';
-
-export class TurnAlreadyStartedError extends Error {
-  constructor(matchId: ObjectId, turn: number) {
-    super(`Turn ${turn} already started for match "${matchId.toString()}"`);
-  }
-}
 
 export default class DrawCardCommand {
   matchId: ObjectId;
