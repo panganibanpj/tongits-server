@@ -2,10 +2,61 @@
   "empty": {
     "_id": "000000000000000000000000"
   },
+  "notStarted0": {
+    "description": "not yet started, some players joined",
+    "_id": "5b6db8b441b36c7d9d0bc753",
+    "seriesId": "5b6db8242a07d67ccdfd83d3",
+    "createTime": "2015-09-28T18:00:00.000Z",
+    "round": 0,
+    "players": [{
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "userId": "5b6db723aee95b7b97fd559f"
+    }, {
+      "userId": "5b6db7a47179c07c2b8afe22"
+    }, {
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "userId": "5b6db8036c00607c936ee99e"
+    }]
+  },
+  "notStarted1": {
+    "description": "ready to start, all players joined",
+    "_id": "5b6db8c4322bdd7db604ac3b",
+    "seriesId": "5b6db84360dcba7ce401583a",
+    "createTime": "2015-09-28T18:00:00.000Z",
+    "round": 0,
+    "players": [{
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "userId": "5b6db723aee95b7b97fd559f"
+    }, {
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "userId": "5b6db7a47179c07c2b8afe22"
+    }, {
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "userId": "5b6db8036c00607c936ee99e"
+    }]
+  },
+  "notStarted2": {
+    "description": "ready to start, all players joined. series already started",
+    "_id": "5b6db8cb0fe1687ddda7b01c",
+    "seriesId": "5b6db8a138178a7d71b12296",
+    "createTime": "2015-09-28T18:00:00.000Z",
+    "round": 1,
+    "players": [{
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "userId": "5b6db7a47179c07c2b8afe22"
+    }, {
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "userId": "5b6db8036c00607c936ee99e"
+    }, {
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "userId": "5b6db723aee95b7b97fd559f"
+    }],
+    "button": true
+  },
   "started0": {
-    "description": "already started, first round. no moves yet",
-    "_id": "000000000000000000000001",
-    "seriesId": "000000000000000000000001",
+    "description": "first round + turn. no moves yet",
+    "_id": "5b6db8d49ba74d7ddfb24fae",
+    "seriesId": "5b6db874c00d637d0f53ec90",
     "round": 0,
     "createTime": "2015-09-28T18:00:00.000Z",
     "startTime": "2015-09-28T18:00:00.000Z",
@@ -18,86 +69,98 @@
       "blockedTurns": -1,
       "discard": [],
       "hand": ["CA","C6","C7","CK","DA","H4","H9","HJ","HK","S4","S7","S9","S0"],
-      "joinTime": "",
+      "joinTime": "2015-09-28T18:00:00.000Z",
       "melds": {
         "runs": [],
         "sets": {}
       },
       "pesos": -5,
-      "userId": "000000000000000000000001"
+      "userId": "5b6db723aee95b7b97fd559f"
     }, {
       "blockedTurns": -1,
       "discard": [],
       "hand": ["C2","C4","C9","C0","CJ","D2","D5","D0","H5","H7","H0","S2","SQ"],
-      "joinTime": "",
+      "joinTime": "2015-09-28T18:00:00.000Z",
       "melds": {
         "runs": [],
         "sets": {}
       },
       "pesos": -5,
-      "userId": "000000000000000000000002"
+      "userId": "5b6db7a47179c07c2b8afe22"
     }, {
       "blockedTurns": -1,
       "discard": [],
       "hand": ["C3","C5","C8","D4","D7","DJ","HA","H2","H3","S3","SJ","SK"],
-      "joinTime": "",
+      "joinTime": "2015-09-28T18:00:00.000Z",
       "melds": {
         "runs": [],
         "sets": {}
       },
       "pesos": -5,
-      "userId": "000000000000000000000003"
+      "userId": "5b6db8036c00607c936ee99e"
     }],
     "button": false
   },
-  "notStarted0": {
-    "description": "not yet started, some players joined",
-    "_id": "000000000000000000000002",
-    "seriesId": "000000000000000000000002",
-    "createTime": "2015-09-28T18:00:00.000Z",
+  "ended0": {
+    "description": "copy of 5b6db8d49ba74d7ddfb24fae but played to completion",
+    "_id": "5b6db979b63a077f66966daf",
+    "seriesId": "5b6db8a138178a7d71b12296",
     "round": 0,
-    "players": [{
-      "joinTime": "2015-09-28T18:00:00.000Z",
-      "userId": "000000000000000000000001"
-    }, {
-      "userId": "000000000000000000000002"
-    }, {
-      "joinTime": "2015-09-28T18:00:00.000Z",
-      "userId": "000000000000000000000003"
-    }]
-  },
-  "notStarted1": {
-    "description": "ready to start, all players joined",
-    "_id": "000000000000000000000003",
-    "seriesId": "000000000000000000000003",
     "createTime": "2015-09-28T18:00:00.000Z",
-    "round": 0,
+    "startTime": "2015-09-28T18:00:00.000Z",
+    "endTime": "2015-09-28T18:00:00.000Z",
+    "winner": "5b6db7a47179c07c2b8afe22",
+    "jackpot": 15,
+    "turn": 16,
+    "pile": ["D6"],
+    "turnStarted": true,
+    "turnEnded": true,
     "players": [{
+      "blockedTurns": -1,
+      "discard": ["CK","C6","HK","HJ","H9"],
+      "hand": ["CA","DA","H6","S4"],
       "joinTime": "2015-09-28T18:00:00.000Z",
-      "userId": "000000000000000000000001"
+      "melds": {
+        "runs": [
+          ["S9","S0","SJ"]
+        ],
+        "sets": {
+          "7": ["C7","S7","D7","H7"]
+        }
+      },
+      "pesos": -5,
+      "userId": "5b6db723aee95b7b97fd559f"
     }, {
+      "blockedTurns": 0,
+      "discard": ["D0","H0","S8","DK","D9","C4"],
+      "hand": [],
       "joinTime": "2015-09-28T18:00:00.000Z",
-      "userId": "000000000000000000000002"
+      "melds": {
+        "runs": [
+          ["C8","C9","C0","CJ"],
+          ["D5","H5","S5"],
+          ["C2","D2","S2"]
+        ],
+        "sets": {
+          "Q": ["HQ","SQ","DQ","CQ"]
+        }
+      },
+      "pesos": -5,
+      "userId": "5b6db7a47179c07c2b8afe22"
     }, {
+      "blockedTurns": 2,
+      "discard": ["H8","SK","DJ"],
+      "hand": ["C3","C5","D3","D4","D8","SA","S3","S6"],
       "joinTime": "2015-09-28T18:00:00.000Z",
-      "userId": "000000000000000000000003"
-    }]
-  },
-  "notStarted2": {
-    "description": "ready to start, all players joined. series already started",
-    "_id": "000000000000000000000004",
-    "seriesId": "000000000000000000000001",
-    "createTime": "2015-09-28T18:00:00.000Z",
-    "round": 1,
-    "players": [{
-      "joinTime": "2015-09-28T18:00:00.000Z",
-      "userId": "000000000000000000000001"
-    }, {
-      "joinTime": "2015-09-28T18:00:00.000Z",
-      "userId": "000000000000000000000002"
-    }, {
-      "joinTime": "2015-09-28T18:00:00.000Z",
-      "userId": "000000000000000000000003"
-    }]
+      "melds": {
+        "runs": [
+          ["HA","H2","H3","H4"]
+        ],
+        "sets": {}
+      },
+      "pesos": -5,
+      "userId": "5b6db8036c00607c936ee99e"
+    }],
+    "button": false
   }
 }
