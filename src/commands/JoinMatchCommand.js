@@ -1,11 +1,9 @@
 // @flow
 import type { ObjectId } from 'mongoose';
-import User from '../models/UserModel';
 import Match from '../models/MatchModel';
 import Series from '../models/SeriesModel';
 import {
   NotEnoughPlayersError,
-  UserNotFoundError,
   MatchNotFoundError,
   MatchAlreadyStartedError,
   PlayersNotInMatchError,
@@ -25,8 +23,6 @@ export default class JoinMatchCommand {
 
   async execute(): Promise<void> {
     const { matchId, userIds } = this;
-
-    if (!(await User.allExist(userIds))) throw new UserNotFoundError(userIds);
 
     const match = await Match.findById(matchId);
     if (!match) throw new MatchNotFoundError(matchId);

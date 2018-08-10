@@ -11,7 +11,6 @@ import {
 } from '../testHelpers';
 import {
   NotEnoughPlayersError,
-  UserNotFoundError,
   MatchNotFoundError,
   MatchAlreadyStartedError,
   PlayersNotInMatchError,
@@ -32,14 +31,6 @@ describe('commands/JoinMatchCommand', () => {
       () => new JoinMatchCommand(matchId, userIds),
       NotEnoughPlayersError,
     );
-  });
-  it('throws if a given User does not exist', async () => {
-    const matchId = createdIds.match.notStarted0;
-    const userId = randomId();
-    const command = new JoinMatchCommand(matchId, [userId]);
-
-    const error = await executionError(command);
-    assert.instanceOf(error, UserNotFoundError);
   });
   it('throws if given Match does not exist', async () => {
     const matchId = randomId();

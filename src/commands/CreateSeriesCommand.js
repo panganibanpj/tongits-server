@@ -36,7 +36,6 @@ export default class CreateSeriesCommand {
       ...this.seriesData,
     });
     if (series && this.createMatch) {
-      // @TODO: should wait and watch for error?
       await Match.create({
         ...Match.defaults(),
         seriesId: series.getId(),

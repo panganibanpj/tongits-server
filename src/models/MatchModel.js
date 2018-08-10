@@ -142,7 +142,6 @@ class Match extends BaseModel {
   async startMatch(series: Series, startTime: ?Date) {
     const dealtCards = dealCards(this.players.length);
     this.prepareMatch(series, dealtCards.pile, startTime);
-    // @TODO: hands must be sorted
     this.preparePlayers(series, dealtCards);
     await this.save();
     return this;
