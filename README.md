@@ -11,4 +11,4 @@ Server API for Tong-its
 
 ## TODO
 - Should rematches start automatically?
-- `CONTRIBUTING.md` to remind myself what I'm doing lol
+- multiple active matches can exist for given series. consider an `activeMatch` field
