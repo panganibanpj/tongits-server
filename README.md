@@ -17,3 +17,5 @@ Server API for Tong-its
   - another option is blockedTurns could be the exact turn player was blocked. then oh bet, just have to check if enough turns have gone by since being blocked to bet
 - consider replacing `turnEnded` with `!turnStarted` and just upon discard, `turnStarted = false;`
 - must sort hands when dealing
+- add tests to StartMatchCommand for 4 player deals
+- DrawFromDiscardCommand must check if game should end
