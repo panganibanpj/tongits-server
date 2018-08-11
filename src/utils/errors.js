@@ -52,12 +52,12 @@ export class MatchNotStartedError extends RangeError {
 }
 
 export class PlayerNotActiveError extends RangeError {
-  constructor(matchId: ObjectId, userId: ObjectId) {
+  constructor(matchId: ObjectId, userId: ObjectId, turn: number) {
     super(`Player "${
       userId.toString()
     }" not the active player in match "${
       matchId.toString()
-    }"`);
+    }" at turn ${turn}`);
   }
 }
 

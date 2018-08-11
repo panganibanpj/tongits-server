@@ -29,7 +29,7 @@ export default class DrawCardCommand {
       throw new TurnAlreadyStartedError(matchId, match.turn || 0);
     }
     if (!match.isActivePlayer(userId)) {
-      throw new PlayerNotActiveError(matchId, userId);
+      throw new PlayerNotActiveError(matchId, userId, match.turn || 0);
     }
 
     await match.drawCard();
