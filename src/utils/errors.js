@@ -1,5 +1,6 @@
 // @flow
 import type { ObjectId } from 'mongoose';
+import type { CardType } from '../types/deck';
 
 const str = (userId: ObjectId | ObjectId[]) => (
   (Array.isArray(userId) ? userId[0] : userId).toString()
@@ -70,5 +71,32 @@ export class MatchAlreadyEndedError extends RangeError {
 export class TurnAlreadyStartedError extends Error {
   constructor(matchId: ObjectId, turn: number) {
     super(`Turn ${turn} already started for match "${matchId.toString()}"`);
+  }
+}
+
+export class NotEnoughCardsError extends RangeError {
+  constructor(cards: CardType[], expected: number) {
+    super(`Expected ${cards.join()} to have minimum length ${expected}`);
+  }
+}
+
+export class PlayerDoesNotHaveCards extends Error {
+  constructor(
+    matchId: ObjectId,
+    userId: ObjectId,
+    cards: CardType[],
+    turn: number,
+  ) {
+    super(`Player "${
+      userId.toString()
+    }" does not have some of cards ${cards.join()} in match "${
+      matchId.toString()
+    }" at turn ${turn}`);
+  }
+}
+
+export class CardsAreNotMeldError extends Error {
+  constructor(cards: CardType[]) {
+    super(`Cards ${cards.join()} are not valid meld`);
   }
 }

@@ -3,7 +3,8 @@ import mongoose, { Schema, type ObjectId } from 'mongoose';
 import BaseModel from './BaseModel';
 import MatchSchema from './schemas/MatchSchema';
 import { includesId, pluckUserIds, equalIds } from './modelHelpers';
-import { dealCards, type DealtCardsType } from '../utils/cardHelpers';
+import { dealCards, getRank, type DealtCardsType } from '../utils/cardHelpers';
+import { RUN_MELD, SET_MELD, type MeldType } from '../constants/MELD_TYPES';
 import type Series from './SeriesModel';
 import type { CardType } from '../types/deck';
 
@@ -147,10 +148,15 @@ class Match extends BaseModel {
     return this;
   }
 
+  playerForTurn(turn: number) {
+    const playerIndex = turn % this.players.length;
+    return this.players[playerIndex];
+  }
+
   activePlayer() {
-    if (!this.turn && this.turn !== 0) throw new Error(); // make flow happy
-    const activePlayerIndex = this.turn % this.players.length;
-    return this.players[activePlayerIndex];
+    const { turn } = this;
+    if (!turn && turn !== 0) throw new Error(); // make flow happy
+    return this.playerForTurn(turn);
   }
 
   get hasEnded() {
@@ -179,6 +185,66 @@ class Match extends BaseModel {
     this.endTime = endTime || new Date();
     await this.save();
     return this;
+  }
+
+  playerHasCards(userId: ObjectId, cards: CardType[]) {
+    const player = this.getPlayer(userId);
+    if (!player || !player.hand) throw new Error(); // make flow happy
+    const { hand } = player;
+    return cards.every((card: CardType) => hand.includes(card));
+  }
+
+  get lastDiscard(): ?CardType {
+    if (!this.turn) return null;
+    const { discard } = this.previousPlayer();
+    if (!discard) throw new Error(); // make flow happy
+    return discard[discard.length - 1];
+  }
+
+  previousPlayer() {
+    const { turn } = this;
+    if (!turn) throw new Error(); // make flow happy
+    return this.playerForTurn(turn - 1);
+  }
+
+  retreiveDiscard(): CardType {
+    const previousPlayer = this.previousPlayer();
+    if (!previousPlayer.discard) throw new Error(); // make flow happy
+    return previousPlayer.discard.shift();
+  }
+
+  removeCardsFromHand(userId: ObjectId, cardsToRemove: CardType[]) {
+    const player = this.getPlayer(userId);
+    if (!player || !player.hand) throw new Error(); // make flow happy
+    player.hand = player.hand.filter((card: CardType) => {
+      const shouldRemoveCard = cardsToRemove.includes(card);
+      return shouldRemoveCard;
+    });
+  }
+
+  addToMelds(userId: ObjectId, meld: CardType[], meldType: MeldType) {
+    const player = this.getPlayer(userId);
+    if (!player) throw new Error(); // make flow happy;
+    player.melds = player.melds || { runs: [], sets: {} }; // make flow happy;
+    if (meldType === RUN_MELD) {
+      player.melds.runs.push(meld);
+    } else if (meldType === SET_MELD) {
+      player.melds.sets[getRank(meld[0])] = meld;
+    }
+  }
+
+  async acceptDiscard(partialMeld: CardType[], meldType: MeldType) {
+    const player = this.activePlayer();
+    const discard = this.retreiveDiscard();
+
+    if (!player.hand) throw new Error(); // make flow happy
+    this.removeCardsFromHand(player.userId, partialMeld);
+
+    const meld = partialMeld.concat(discard);
+    this.addToMelds(player.userId, meld, meldType);
+
+    this.turnStarted = true;
+    await this.save();
   }
 }
 
