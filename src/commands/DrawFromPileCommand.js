@@ -9,7 +9,7 @@ import {
   TurnAlreadyStartedError,
 } from '../utils/errors';
 
-export default class DrawCardCommand {
+export default class DrawFromPileCommand {
   matchId: ObjectId;
   userId: ObjectId;
 

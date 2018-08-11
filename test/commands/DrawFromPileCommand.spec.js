@@ -15,10 +15,10 @@ import {
   PlayerNotActiveError,
   TurnAlreadyStartedError,
 } from '../../src/utils/errors';
-import DrawCardCommand from '../../src/commands/DrawCardCommand';
+import DrawFromPileCommand from '../../src/commands/DrawFromPileCommand';
 import type { CardType } from '../../src/types/deck';
 
-describe('commands/DrawCardCommand', () => {
+describe('commands/DrawFromPileCommand', () => {
   before(() => createDocuments({
     user: ['basic1', 'basic0'],
     match: ['notStarted0', 'ended0', 'started0', 'started1'],
@@ -27,7 +27,7 @@ describe('commands/DrawCardCommand', () => {
   it('throws if given Match does not exist', async () => {
     const matchId = randomId();
     const userId = createdIds.user.basic1;
-    const command = new DrawCardCommand(matchId, userId);
+    const command = new DrawFromPileCommand(matchId, userId);
 
     const error = await executionError(command);
     assert.instanceOf(error, MatchNotFoundError);
@@ -35,7 +35,7 @@ describe('commands/DrawCardCommand', () => {
   it('throws if given Match has not yet started', async () => {
     const userId = createdIds.user.basic1;
     const matchId = createdIds.match.notStarted0;
-    const command = new DrawCardCommand(matchId, userId);
+    const command = new DrawFromPileCommand(matchId, userId);
 
     const error = await executionError(command);
     assert.instanceOf(error, MatchNotStartedError);
@@ -43,7 +43,7 @@ describe('commands/DrawCardCommand', () => {
   it('throws if match has already ended', async () => {
     const userId = createdIds.user.basic1;
     const matchId = createdIds.match.ended0;
-    const command = new DrawCardCommand(matchId, userId);
+    const command = new DrawFromPileCommand(matchId, userId);
 
     const error = await executionError(command);
     assert.instanceOf(error, MatchAlreadyEndedError);
@@ -51,7 +51,7 @@ describe('commands/DrawCardCommand', () => {
   it('throws if turn has already started', async () => {
     const userId = createdIds.user.basic0;
     const matchId = createdIds.match.started0;
-    const command = new DrawCardCommand(matchId, userId);
+    const command = new DrawFromPileCommand(matchId, userId);
 
     const error = await executionError(command);
     assert.instanceOf(error, TurnAlreadyStartedError);
@@ -59,7 +59,7 @@ describe('commands/DrawCardCommand', () => {
   it('throws if given User is not the active player', async () => {
     const userId = createdIds.user.basic0;
     const matchId = createdIds.match.started1;
-    const command = new DrawCardCommand(matchId, userId);
+    const command = new DrawFromPileCommand(matchId, userId);
 
     const error = await executionError(command);
     assert.instanceOf(error, PlayerNotActiveError);
@@ -68,7 +68,7 @@ describe('commands/DrawCardCommand', () => {
     const userId = createdIds.user.basic1;
     const matchId = createdIds.match.started1;
     await resetMatch('started1');
-    const command = new DrawCardCommand(matchId, userId);
+    const command = new DrawFromPileCommand(matchId, userId);
 
     let match = await findMatchById(matchId);
     if (!match.pile) throw new Error(); // make flow happy
@@ -92,7 +92,7 @@ describe('commands/DrawCardCommand', () => {
     const userId = createdIds.user.basic1;
     const matchId = createdIds.match.started1;
     await resetMatch('started1');
-    const command = new DrawCardCommand(matchId, userId);
+    const command = new DrawFromPileCommand(matchId, userId);
 
     await command.execute();
 
