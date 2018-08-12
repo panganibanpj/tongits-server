@@ -33,7 +33,6 @@ const PlayerSchema = new Schema({
   // is calling or started the bet
   bet: Boolean,
   // turns left before can bet
-  // why -1?
   blockedTurns: {
     type: Number,
     min: -1,
@@ -61,7 +60,6 @@ export default {
   turn: NaturalNumber,
   pile: Cards,
   turnStarted: Boolean,
-  turnEnded: Boolean,
   players: [PlayerSchema],
   // if true, button is first player
   button: Boolean,

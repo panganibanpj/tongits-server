@@ -36,7 +36,6 @@ class Match extends BaseModel {
   turn: ?number;
   pile: ?CardType[];
   turnStarted: ?boolean;
-  turnEnded: ?boolean;
   players: PlayerType[];
   button: ?boolean;
 
@@ -117,7 +116,6 @@ class Match extends BaseModel {
     }
 
     this.turnStarted = turnStarted;
-    this.turnEnded = false;
   }
 
   prepareMatch(series: Series, pile: CardType[], startTime: ?Date) {
