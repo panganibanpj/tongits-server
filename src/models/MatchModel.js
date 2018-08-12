@@ -36,6 +36,7 @@ class Match extends BaseModel {
   turn: ?number;
   pile: ?CardType[];
   turnStarted: ?boolean;
+  shouldEnd: ?boolean;
   players: PlayerType[];
   button: ?boolean;
 

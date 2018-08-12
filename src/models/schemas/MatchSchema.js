@@ -60,6 +60,7 @@ export default {
   turn: NaturalNumber,
   pile: Cards,
   turnStarted: Boolean,
+  shouldEnd: Boolean,
   players: [PlayerSchema],
   // if true, button is first player
   button: Boolean,

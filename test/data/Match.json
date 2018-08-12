@@ -68,6 +68,7 @@
     "turn": 0,
     "pile": ["HQ","SA","S8","H8","DQ","D8","CQ","DK","S6","D9","D3","H6","S5","D6"],
     "turnStarted": true,
+    "shouldEnd": false,
     "players": [{
       "blockedTurns": -1,
       "discard": [],
@@ -116,6 +117,7 @@
     "turn": 1,
     "pile": ["HQ","SA","S8","H8","DQ","D8","CQ","DK","S6","D9","D3","H6","S5","D6"],
     "turnStarted": false,
+    "shouldEnd": false,
     "players": [{
       "blockedTurns": -1,
       "discard": ["C5"],
@@ -164,6 +166,7 @@
     "turn": 1,
     "pile": ["SA","S8","H8","DQ","D8","CQ","DK","S6","D9","D3","H6","S5","D6"],
     "turnStarted": true,
+    "shouldEnd": false,
     "players": [{
       "blockedTurns": -1,
       "discard": ["CK"],
@@ -218,6 +221,7 @@
     "turn": 16,
     "pile": ["D6"],
     "turnStarted": true,
+    "shouldEnd": true,
     "players": [{
       "blockedTurns": -1,
       "discard": ["CK","C6","HK","HJ","H9"],
