@@ -233,9 +233,20 @@ class Match extends BaseModel {
     }
   }
 
+  async layDownMeld(meld: CardType[], meldType: MeldType) {
+    const player = this.activePlayer();
+
+    if (!player.hand) throw new Error(); // make flow happy
+    this.removeCardsFromHand(player.userId, meld);
+
+    this.addToMelds(player.userId, meld, meldType);
+
+    await this.save();
+  }
+
   async acceptDiscard(partialMeld: CardType[], meldType: MeldType) {
     const player = this.activePlayer();
-    const discard = this.retreiveDiscard();
+    const discard: CardType = this.retreiveDiscard();
 
     if (!player.hand) throw new Error(); // make flow happy
     this.removeCardsFromHand(player.userId, partialMeld);

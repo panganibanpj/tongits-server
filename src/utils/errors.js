@@ -100,3 +100,9 @@ export class CardsAreNotMeldError extends Error {
     super(`Cards ${cards.join()} are not valid meld`);
   }
 }
+
+export class TurnNotYetStartedError extends Error {
+  constructor(matchId: ObjectId, turn: number) {
+    super(`Turn ${turn} not yet started for match "${matchId.toString()}"`);
+  }
+}
