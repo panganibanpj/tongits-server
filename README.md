@@ -18,3 +18,7 @@ Server API for Tong-its
 - must sort hands when dealing
 - add tests to StartMatchCommand for 4 player deals
 - limit players per match in InvitePlayerCommand
+- JoinMatchCommand test not-first round (no dupe/override players in Series)
+- Meld, AppendMeld, and Discard are all commands that don't _need_ to run on the server (turn-based API vs component-based API)
+- test MeldCommand (DrawFromDiscardCommand?) w 4 sets and longer straights
+- throw error StartMatchCommand on round 0 but Series already started?
