@@ -12,8 +12,6 @@ const CARDS: CardType[] = Object.keys(DECK);
 //  this leaves 15 in pile, leading to < 4 turns
 const PILE_INDEX = 37;
 
-export const shuffleCards = () => shuffle(CARDS);
-
 export type DealtCardsType = {|
   [number]: CardType[],
   pile: CardType[],
