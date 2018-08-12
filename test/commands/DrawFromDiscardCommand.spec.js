@@ -22,7 +22,7 @@ import DrawFromDiscardCommand from '../../src/commands/DrawFromDiscardCommand';
 describe('commands/DrawFromDiscardCommand', () => {
   before(() => createDocuments({
     user: ['basic1', 'basic0'],
-    match: ['notStarted0', 'ended0', 'started0', 'started1'],
+    match: ['notStarted0', 'ended0', 'started0', 'started1', 'started3'],
   }));
 
   it('throws if not enough cards', () => {
@@ -99,6 +99,10 @@ describe('commands/DrawFromDiscardCommand', () => {
     let previousPlayer = match.previousPlayer();
     let activePlayer = match.activePlayer();
     assert.lengthOf(previousPlayer.discard, 0);
+    let { hand } = activePlayer;
+    if (!hand) throw new Error(); // make flow happy
+    assert.notInclude(hand, 'C3');
+    assert.notInclude(hand, 'C4');
     assert.deepEqual((activePlayer.melds || {}).runs[0], ['C3', 'C4', 'C5']);
 
     await resetMatch('started1');
@@ -109,6 +113,10 @@ describe('commands/DrawFromDiscardCommand', () => {
     previousPlayer = match.previousPlayer();
     activePlayer = match.activePlayer();
     assert.lengthOf(previousPlayer.discard, 0);
+    ({ hand } = activePlayer);
+    if (!hand) throw new Error(); // make flow happy
+    assert.notInclude(hand, 'D5');
+    assert.notInclude(hand, 'H5');
     assert.deepEqual((activePlayer.melds || {}).sets.FIVE, ['D5', 'H5', 'C5']);
   });
   it('starts turn', async () => {
@@ -121,5 +129,16 @@ describe('commands/DrawFromDiscardCommand', () => {
 
     const match = await findMatchById(matchId);
     assert(match.turnStarted);
+  });
+  it('sets match.shouldEnd if drawing will result in tong-its', async () => {
+    const userId = createdIds.user.basic1;
+    const matchId = createdIds.match.started3;
+    await resetMatch('started3');
+    const command = new DrawFromDiscardCommand(matchId, userId, ['C3', 'C4', 'C6', 'C7']);
+
+    await command.execute();
+
+    const match = await findMatchById(matchId);
+    assert(match.shouldEnd);
   });
 });

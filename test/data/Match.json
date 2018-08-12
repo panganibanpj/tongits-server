@@ -207,6 +207,60 @@
     }],
     "button": false
   },
+  "started3": {
+    "key": "started3",
+    "description": "second turn ready to start. users: basic0, basic1, basic2. series: started4",
+    "_id": "5b6f9c6ca0b63bb10851202e",
+    "seriesId": "5b6f9c33adf1e8b0b7908757",
+    "round": 0,
+    "createTime": "2015-09-28T18:00:00.000Z",
+    "startTime": "2015-09-28T18:00:00.000Z",
+    "jackpot": 15,
+    "turn": 4,
+    "pile": ["S8","H8","DQ","D8","CQ","DK","S6","D9","D3","H6","H7","D6"],
+    "turnStarted": false,
+    "shouldEnd": false,
+    "players": [{
+      "blockedTurns": -1,
+      "discard": ["C5"],
+      "hand": ["CA","DA","H4","H9","H0","HJ","HK","SA","S4","S7","S9","S0"],
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "melds": {
+        "runs": [],
+        "sets": {}
+      },
+      "pesos": -5,
+      "userId": "5b6db723aee95b7b97fd559f"
+    }, {
+      "blockedTurns": -1,
+      "discard": ["D0"],
+      "hand": ["C3","C4","C6","C7"],
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "melds": {
+        "runs": [
+          ["C9","C0","CJ"]
+        ],
+        "sets": {
+          "TWO": ["D2","S2","C2"],
+          "FIVE": ["D5","H5","S5"]
+        }
+      },
+      "pesos": -5,
+      "userId": "5b6db7a47179c07c2b8afe22"
+    }, {
+      "blockedTurns": -1,
+      "discard": ["DJ"],
+      "hand": ["C8","CK","D4","D7","HA","H2","H3","HQ","S3","SJ","SQ","SK"],
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "melds": {
+        "runs": [],
+        "sets": {}
+      },
+      "pesos": -5,
+      "userId": "5b6db8036c00607c936ee99e"
+    }],
+    "button": false
+  },
   "ended0": {
     "key": "ended0",
     "description": "played to completion. users: basic0, basic1, basic2. series: started0",

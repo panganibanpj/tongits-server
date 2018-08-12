@@ -131,5 +131,28 @@
       "joinTime": "2015-09-28T18:00:00.000Z",
       "pesos": -5
     }]
+  },
+  "started4": {
+    "key": "started4",
+    "description": "about to end after drawing discard. users: basic0, basic1, basic2. matches: started3",
+    "_id": "5b6f9c33adf1e8b0b7908757",
+    "createTime": "2015-09-28T18:00:00.000Z",
+    "startTime": "2015-09-28T18:00:00.000Z",
+    "round": 0,
+    "betType": "BASIC",
+    "jackpot": 15,
+    "players": [{
+      "userId": "5b6db723aee95b7b97fd559f",
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "pesos": -5
+    }, {
+      "userId": "5b6db7a47179c07c2b8afe22",
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "pesos": -5
+    }, {
+      "userId": "5b6db8036c00607c936ee99e",
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "pesos": -5
+    }]
   }
 }

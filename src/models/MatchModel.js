@@ -217,8 +217,9 @@ class Match extends BaseModel {
     if (!player || !player.hand) throw new Error(); // make flow happy
     player.hand = player.hand.filter((card: CardType) => {
       const shouldRemoveCard = cardsToRemove.includes(card);
-      return shouldRemoveCard;
+      return !shouldRemoveCard;
     });
+    if (!player.hand.length) this.shouldEnd = true;
   }
 
   addToMelds(userId: ObjectId, meld: CardType[], meldType: MeldType) {
