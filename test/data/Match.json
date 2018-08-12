@@ -209,7 +209,7 @@
   },
   "started3": {
     "key": "started3",
-    "description": "second turn ready to start. users: basic0, basic1, basic2. series: started4",
+    "description": "can end by drawing discard. users: basic0, basic1, basic2. series: started4",
     "_id": "5b6f9c6ca0b63bb10851202e",
     "seriesId": "5b6f9c33adf1e8b0b7908757",
     "round": 0,
