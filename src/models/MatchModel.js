@@ -206,7 +206,7 @@ class Match extends BaseModel {
     return this.playerForTurn(turn - 1);
   }
 
-  retreiveDiscard(): CardType {
+  pickUpDiscard(): CardType {
     const previousPlayer = this.previousPlayer();
     if (!previousPlayer.discard) throw new Error(); // make flow happy
     return previousPlayer.discard.shift();
@@ -246,7 +246,7 @@ class Match extends BaseModel {
 
   async acceptDiscard(partialMeld: CardType[], meldType: MeldType) {
     const player = this.activePlayer();
-    const discard: CardType = this.retreiveDiscard();
+    const discard: CardType = this.pickUpDiscard();
 
     if (!player.hand) throw new Error(); // make flow happy
     this.removeCardsFromHand(player.userId, partialMeld);
