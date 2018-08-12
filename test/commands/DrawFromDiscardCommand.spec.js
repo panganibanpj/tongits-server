@@ -54,14 +54,6 @@ describe('commands/DrawFromDiscardCommand', () => {
     const error = await executionError(command);
     assert.instanceOf(error, MatchAlreadyEndedError);
   });
-  it('throws if turn has already started', async () => {
-    const userId = createdIds.user.basic0;
-    const matchId = createdIds.match.started0;
-    const command = new DrawFromDiscardCommand(matchId, userId, ['C3', 'C4']);
-
-    const error = await executionError(command);
-    assert.instanceOf(error, TurnAlreadyStartedError);
-  });
   it('throws if given User is not the active player', async () => {
     const userId = createdIds.user.basic0;
     const matchId = createdIds.match.started1;
@@ -77,6 +69,14 @@ describe('commands/DrawFromDiscardCommand', () => {
 
     const error = await executionError(command);
     assert.instanceOf(error, PlayerDoesNotHaveCards);
+  });
+  it('throws if turn has already started', async () => {
+    const userId = createdIds.user.basic0;
+    const matchId = createdIds.match.started0;
+    const command = new DrawFromDiscardCommand(matchId, userId, ['C6', 'C7']);
+
+    const error = await executionError(command);
+    assert.instanceOf(error, TurnAlreadyStartedError);
   });
   xit('throws if no last discarded card'); // i don't think this is possible
   it('throws if attempted meld is not valid', async () => {

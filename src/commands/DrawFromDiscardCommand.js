@@ -1,14 +1,10 @@
 // @flow
 import type { ObjectId } from 'mongoose';
 import Match from '../models/MatchModel';
+import { playerHasCardsInMatch } from './commandHelpers';
 import {
-  MatchNotFoundError,
-  MatchNotStartedError,
-  MatchAlreadyEndedError,
   NotEnoughCardsError,
-  PlayerNotActiveError,
   TurnAlreadyStartedError,
-  PlayerDoesNotHaveCards,
   CardsAreNotMeldError,
 } from '../utils/errors';
 import { getMeldType } from '../utils/cardHelpers';
@@ -36,24 +32,16 @@ export default class DrawFromDiscardCommand {
   async execute() {
     const { matchId, userId, partialMeld } = this;
 
-    const match = await Match.findById(matchId);
-    if (!match) throw new MatchNotFoundError(matchId);
-    if (!match.hasStarted) throw new MatchNotStartedError(matchId);
-    if (match.hasEnded) throw new MatchAlreadyEndedError(matchId);
+    const match = playerHasCardsInMatch({
+      match: await Match.findById(matchId),
+      matchId,
+      userId,
+      cards: partialMeld,
+    });
     if (match.turnStarted) {
       throw new TurnAlreadyStartedError(matchId, match.turn || 0);
     }
-    if (!match.isActivePlayer(userId)) {
-      throw new PlayerNotActiveError(matchId, userId, match.turn || 0);
-    }
-    if (!match.playerHasCards(userId, partialMeld)) {
-      throw new PlayerDoesNotHaveCards(
-        matchId,
-        userId,
-        partialMeld,
-        match.turn || 0,
-      );
-    }
+
     const discard = match.lastDiscard;
     if (!discard) throw new NoDiscardedCard(matchId, match.turn || 0);
     const meld = partialMeld.concat(discard);
