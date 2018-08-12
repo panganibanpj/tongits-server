@@ -9,15 +9,18 @@ import {
   findMatchById,
   findSeriesById,
 } from '../testHelpers';
-import { MatchNotFoundError } from '../../src/utils/errors';
+import {
+  MatchNotFoundError,
+  MatchAlreadyStartedError,
+} from '../../src/utils/errors';
 import StartMatchCommand, {
   NotAllPlayersJoinedError,
 } from '../../src/commands/StartMatchCommand';
 
 describe('commands/StartMatchCommand', () => {
   before(() => createDocuments({
-    series: ['notStarted1', 'started1', 'notStarted0'],
-    match: ['notStarted0', 'notStarted1', 'notStarted2'],
+    series: ['notStarted1', 'started1', 'notStarted0', 'started0'],
+    match: ['notStarted0', 'notStarted1', 'notStarted2', 'started0'],
   }));
 
   describe('failure', () => {
@@ -34,6 +37,13 @@ describe('commands/StartMatchCommand', () => {
 
       const error = await executionError(command);
       assert.instanceOf(error, NotAllPlayersJoinedError);
+    });
+    it('throws if match has already started', async () => {
+      const matchId = createdIds.match.started0;
+      const command = new StartMatchCommand(matchId);
+
+      const error = await executionError(command);
+      assert.instanceOf(error, MatchAlreadyStartedError);
     });
   });
 

@@ -4,6 +4,7 @@ import Match from '../models/MatchModel';
 import Series from '../models/SeriesModel';
 import {
   MatchNotFoundError,
+  MatchAlreadyStartedError,
   SeriesNotFoundError,
 } from '../utils/errors';
 
@@ -26,6 +27,7 @@ export default class StartMatchCommand {
     const match = await Match.findById(matchId);
     if (!match) throw new MatchNotFoundError(matchId);
     if (!match.allPlayersJoined) throw new NotAllPlayersJoinedError(matchId);
+    if (match.hasStarted) throw new MatchAlreadyStartedError(matchId);
 
     let series = await Series.findById(match.seriesId);
     if (!series) throw new SeriesNotFoundError(match.seriesId);
