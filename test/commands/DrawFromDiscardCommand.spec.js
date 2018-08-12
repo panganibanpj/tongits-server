@@ -18,7 +18,6 @@ import {
   CardsAreNotMeldError,
 } from '../../src/utils/errors';
 import DrawFromDiscardCommand from '../../src/commands/DrawFromDiscardCommand';
-// import type { CardType } from '../../src/types/deck';
 
 describe('commands/DrawFromDiscardCommand', () => {
   before(() => createDocuments({

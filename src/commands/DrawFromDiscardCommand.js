@@ -58,9 +58,7 @@ export default class DrawFromDiscardCommand {
     if (!discard) throw new NoDiscardedCard(matchId, match.turn || 0);
     const meld = partialMeld.concat(discard);
     const meldType = getMeldType(meld);
-    if (!meldType) {
-      throw new CardsAreNotMeldError(meld);
-    }
+    if (!meldType) throw new CardsAreNotMeldError(meld);
 
     await match.acceptDiscard(partialMeld, meldType);
   }

@@ -55,11 +55,8 @@ describe('commands/StartMatchCommand', () => {
     });
 
     it('sets some meta values', () => {
-      assert.exists(match.startTime);
-      assert(match.players.every(
-        player => player.bet === null && 'blockedTurns' in player,
-      ));
-      assert.exists(series.startTime);
+      assert(match.hasStarted);
+      assert(series.hasStarted);
     });
     it('sets money values', () => {
       assert(match.players.every(({ pesos }) => pesos === -5));

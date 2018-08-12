@@ -6,7 +6,6 @@ import {
   executionError,
   createUserId,
   randomId,
-  equalIds,
 } from '../testHelpers';
 import {
   NotEnoughPlayersError,
@@ -54,7 +53,7 @@ describe('commands/CreateSeriesCommand', () => {
       assert.exists(series);
       if (!series) throw new Error(); // make flow happy
       assert.lengthOf(series.players, 1);
-      assert(equalIds(series.players[0].userId, userId));
+      assert(series.hasPlayer(userId));
     });
     it('creates and saves a Match', async () => {
       const command = new CreateSeriesCommand({
@@ -67,8 +66,7 @@ describe('commands/CreateSeriesCommand', () => {
       assert.exists(match);
       if (!match) throw new Error(); // make flow happy
       assert.lengthOf(match.players, 1);
-      if (!match.players) throw new Error(); // make flow happy
-      assert(equalIds(match.players[0].userId, userId));
+      assert(match.hasPlayer(userId));
     });
     it('does not create a Match if createMatch: false', async () => {
       const command = new CreateSeriesCommand({

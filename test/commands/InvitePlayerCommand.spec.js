@@ -65,7 +65,7 @@ describe('commands/InvitePlayerCommand', () => {
 
     const series = await findSeriesById(seriesId);
     assert.lengthOf(series.players, 1);
-    assert(equalIds(series.players[0].userId, userId));
+    assert(series.hasPlayer(userId));
   });
   it('does not duplicate or overwrite players in series', async () => {
     const userId = createdIds.user.basic0;

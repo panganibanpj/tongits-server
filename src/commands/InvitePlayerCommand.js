@@ -34,8 +34,6 @@ export default class InvitePlayerCommand {
     if (!series) throw new SeriesNotFoundError(seriesId);
     if (series.hasStarted) throw new SeriesAlreadyStartedError(seriesId);
 
-    // max player count?
-
     await series.addPlayers(userIds);
   }
 }

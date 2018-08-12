@@ -19,5 +19,6 @@ Server API for Tong-its
 - must sort hands when dealing
 - add tests to StartMatchCommand for 4 player deals
 - DrawFromDiscardCommand must check if game should end
-- Add `shouldEnd` proprty to MatchModel
+- Add `shouldEnd` property to MatchModel
   - Iff commands should not be triggering match endings automatically
+- limit players per match in InvitePlayerCommand
