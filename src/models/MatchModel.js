@@ -257,6 +257,16 @@ class Match extends BaseModel {
     this.turnStarted = true;
     await this.save();
   }
+
+  async discard(card: CardType) {
+    const player = this.activePlayer();
+    this.removeCardsFromHand(player.userId, [card]);
+    if (!player.discard) throw new Error(); // make flow happy
+    player.discard.push(card);
+
+    this.nextTurn();
+    await this.save();
+  }
 }
 
 schema.loadClass(Match);
