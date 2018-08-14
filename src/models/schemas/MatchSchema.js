@@ -32,12 +32,7 @@ const PlayerSchema = new Schema({
   },
   // is calling or started the bet
   bet: Boolean,
-  // turns left before can bet
-  blockedTurns: {
-    type: Number,
-    min: -1,
-    validate: Number.isInteger,
-  },
+  canBet: Boolean,
   // time ante'd into match
   // also indicator that player has ante'd up
   joinTime: Date,

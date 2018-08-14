@@ -12,7 +12,7 @@ const schema = new Schema(MatchSchema);
 
 type PlayerType = {|
   bet?: ?boolean,
-  blockedTurns?: number,
+  blocked?: boolean,
   discard?: CardType[],
   hand?: CardType[],
   joinTime?: Date,
@@ -53,7 +53,7 @@ class Match extends BaseModel {
   static joinedPlayerDefaults() {
     return {
       bet: null,
-      blockedTurns: -1,
+      blocked: false,
       discard: [],
       melds: {
         runs: [],
