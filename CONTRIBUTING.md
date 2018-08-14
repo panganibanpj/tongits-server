@@ -7,9 +7,7 @@
 
 ### Tests
 - memory mongodb database is created
-- use `resetDb()` to reset it
-- can reset individual documents
-- reset is based on JSON files
+- use `resetDocuments()` to reset from JSON files
 - access `createdIds` to reference test JSON documents
 - use `randomId()` to create IDs not associated to any created documents
 - flow validates method calls
