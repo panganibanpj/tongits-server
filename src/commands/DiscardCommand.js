@@ -1,8 +1,6 @@
 // @flow
 import type { ObjectId } from 'mongoose';
-import Match from '../models/MatchModel';
 import fetchAndValidateMatch from './commandHelpers';
-import { TurnNotYetStartedError } from '../utils/errors';
 import type { CardType } from '../types/deck';
 
 export default class DiscardCommand {
