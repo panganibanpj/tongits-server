@@ -67,6 +67,11 @@
     "include": [
       "src/**"
     ],
+    "exclude": [
+      "src/constants/**",
+      "src/models/schemas/**",
+      "src/types/**"
+    ],
     "reporter": [
       "lcov",
       "text"
