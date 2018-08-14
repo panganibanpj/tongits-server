@@ -177,6 +177,7 @@ class Match extends BaseModel {
     player.hand.push(card);
 
     this.turnStarted = true;
+    if (player.blocked) player.blocked = false;
     await this.save();
   }
 
@@ -255,6 +256,7 @@ class Match extends BaseModel {
     this.addToMelds(player.userId, meld, meldType);
 
     this.turnStarted = true;
+    if (player.blocked) player.blocked = false;
     await this.save();
   }
 
