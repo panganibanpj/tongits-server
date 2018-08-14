@@ -1,12 +1,8 @@
 // @flow
 import type { ObjectId } from 'mongoose';
-import Match from '../models/MatchModel';
 import Series from '../models/SeriesModel';
-import {
-  MatchNotFoundError,
-  MatchAlreadyStartedError,
-  SeriesNotFoundError,
-} from '../utils/errors';
+import fetchAndValidateMatch from './commandHelpers';
+import { SeriesNotFoundError } from '../utils/errors';
 
 export class NotAllPlayersJoinedError extends Error {
   constructor(matchId: ObjectId) {
@@ -24,10 +20,8 @@ export default class StartMatchCommand {
   async execute() {
     const { matchId } = this;
 
-    const match = await Match.findById(matchId);
-    if (!match) throw new MatchNotFoundError(matchId);
+    const match = await fetchAndValidateMatch(matchId, { hasStarted: false });
     if (!match.allPlayersJoined) throw new NotAllPlayersJoinedError(matchId);
-    if (match.hasStarted) throw new MatchAlreadyStartedError(matchId);
 
     let series = await Series.findById(match.seriesId);
     if (!series) throw new SeriesNotFoundError(match.seriesId);

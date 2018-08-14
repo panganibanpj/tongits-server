@@ -1,11 +1,9 @@
 // @flow
 import type { ObjectId } from 'mongoose';
-import Match from '../models/MatchModel';
 import Series from '../models/SeriesModel';
+import fetchAndValidateMatch from './commandHelpers';
 import {
   NotEnoughPlayersError,
-  MatchNotFoundError,
-  MatchAlreadyStartedError,
   PlayersNotInMatchError,
   SeriesNotFoundError,
 } from '../utils/errors';
@@ -24,9 +22,7 @@ export default class JoinMatchCommand {
   async execute(): Promise<void> {
     const { matchId, userIds } = this;
 
-    const match = await Match.findById(matchId);
-    if (!match) throw new MatchNotFoundError(matchId);
-    if (match.hasStarted) throw new MatchAlreadyStartedError(matchId);
+    const match = await fetchAndValidateMatch(matchId, { hasStarted: false });
     if (!match.hasPlayers(userIds)) {
       throw new PlayersNotInMatchError(userIds, matchId);
     }

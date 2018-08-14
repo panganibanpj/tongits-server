@@ -6,6 +6,7 @@ import Match from '../models/MatchModel';
 import {
   MatchNotFoundError,
   MatchNotStartedError,
+  MatchAlreadyStartedError,
   MatchAlreadyEndedError,
   PlayerNotActiveError,
   PlayerDoesNotHaveCards,
@@ -19,8 +20,13 @@ const matchExists = (matchId: ObjectId) => (match: ?Match): Match => {
   return match;
 };
 
-const hasStarted = (match: Match) => {
-  if (!match.hasStarted) throw new MatchNotStartedError(match.getId());
+const startStatus = (hasStarted: boolean) => (match: Match): Match => {
+  if (match.hasStarted !== hasStarted) {
+    const ErrorToThrow = hasStarted
+      ? MatchNotStartedError
+      : MatchAlreadyStartedError;
+    throw new ErrorToThrow(match.getId());
+  }
   return match;
 };
 
@@ -62,9 +68,9 @@ const turnStatus = (turnStarted: boolean) => (match: Match) => {
   return match;
 };
 
-// @NOTE(pj): calls validator iff args exists
+// @NOTE(pj): calls validator iff args exist
 //  e.g. `validateIfExists(hasActivePlayer, activePlayerId)` means
-//  call `hasActivePlayer(activePlayerId)(match)` if `activePlayerId`
+//  call `hasActivePlayer(activePlayerId)(match)` if `activePlayerId` exists
 //  this makes validations optional
 const validateIfExists = (
   func: (...partials: any) => (match: Match) => Match,
@@ -76,6 +82,7 @@ const validateIfExists = (
 type ValidateMatchArgsType = {|
   activePlayerUserId?: ObjectId,
   cardsInActiveHand?: CardType[],
+  hasStarted?: boolean,
   turnStarted?: boolean,
 |};
 export default async (
@@ -83,13 +90,14 @@ export default async (
   validations?: ValidateMatchArgsType,
 ): Promise<Match> => {
   const {
+    hasStarted = true,
     activePlayerUserId,
     cardsInActiveHand,
     turnStarted,
   } = validations || {};
   const validate: (match: ?Match) => Match = flow([
     matchExists(matchId),
-    hasStarted,
+    startStatus(hasStarted),
     hasNotEnded,
     validateIfExists(hasActivePlayer, activePlayerUserId),
     validateIfExists(
