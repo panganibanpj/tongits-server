@@ -1,10 +1,8 @@
 // @flow
 import type { ObjectId } from 'mongoose';
-import Match from '../models/MatchModel';
-import { playerHasCardsInMatch } from './commandHelpers';
+import fetchAndValidateMatch from './commandHelpers';
 import {
   NotEnoughCardsError,
-  TurnAlreadyStartedError,
   CardsAreNotMeldError,
 } from '../utils/errors';
 import { getMeldType } from '../utils/cardHelpers';
@@ -32,15 +30,11 @@ export default class DrawFromDiscardCommand {
   async execute() {
     const { matchId, userId, partialMeld } = this;
 
-    const match = playerHasCardsInMatch({
-      match: await Match.findById(matchId),
-      matchId,
-      userId,
-      cards: partialMeld,
+    const match = await fetchAndValidateMatch(matchId, {
+      activePlayerUserId: userId,
+      cardsInActiveHand: partialMeld,
+      turnStarted: false,
     });
-    if (match.turnStarted) {
-      throw new TurnAlreadyStartedError(matchId, match.turn || 0);
-    }
 
     const discard = match.lastDiscard;
     if (!discard) throw new NoDiscardedCard(matchId, match.turn || 0);

@@ -1,17 +1,20 @@
 // @flow
 import flow from 'lodash/flow';
+import identity from 'lodash/identity';
 import type { ObjectId } from 'mongoose';
+import Match from '../models/MatchModel';
 import {
   MatchNotFoundError,
   MatchNotStartedError,
   MatchAlreadyEndedError,
   PlayerNotActiveError,
   PlayerDoesNotHaveCards,
+  TurnNotYetStartedError,
+  TurnAlreadyStartedError,
 } from '../utils/errors';
-import type Match from '../models/MatchModel';
 import type { CardType } from '../types/deck';
 
-export const matchExists = (match: ?Match, matchId: ObjectId): Match => {
+const matchExists = (matchId: ObjectId) => (match: ?Match): Match => {
   if (!match) throw new MatchNotFoundError(matchId);
   return match;
 };
@@ -26,38 +29,76 @@ const hasNotEnded = (match: Match) => {
   return match;
 };
 
-const matchAvailableForMoves: (
-  match: ?Match,
-  matchId: ObjectId,
-) => Match = flow([
-  matchExists,
-  hasStarted,
-  hasNotEnded,
-]);
-
-type PlayerHasCardsInMatchArgsType = {|
-  cards: CardType[],
-  match: ?Match,
-  matchId: ObjectId,
-  userId: ObjectId,
-|};
-export const playerHasCardsInMatch = ({
-  userId,
-  cards,
-  match,
-  matchId,
-}: PlayerHasCardsInMatchArgsType): Match => {
-  const safeMatch = matchAvailableForMoves(match, matchId);
-  if (!safeMatch.isActivePlayer(userId)) {
-    throw new PlayerNotActiveError(matchId, userId, safeMatch.turn || 0);
+const hasActivePlayer = (userId: ObjectId) => (match: Match) => {
+  if (!match.isActivePlayer(userId)) {
+    throw new PlayerNotActiveError(match.getId(), userId, match.turn || 0);
   }
-  if (!safeMatch.playerHasCards(userId, cards)) {
+  return match;
+};
+
+const activePlayerHasCards = (
+  cards: CardType[],
+  userId: ObjectId,
+) => (match: Match) => {
+  if (!match.playerHasCards(userId, cards)) {
     throw new PlayerDoesNotHaveCards(
-      safeMatch.getId(),
+      match.getId(),
       userId,
       cards,
-      safeMatch.turn || 0,
+      match.turn || 0,
     );
   }
-  return safeMatch;
+  return match;
+};
+
+const turnStatus = (turnStarted: boolean) => (match: Match) => {
+  if (match.turnStarted !== turnStarted) {
+    const ErrorToThrow = turnStarted
+      ? TurnNotYetStartedError
+      : TurnAlreadyStartedError;
+    throw new ErrorToThrow(match.getId(), match.turn || 0);
+  }
+
+  return match;
+};
+
+// @NOTE(pj): calls validator iff args exists
+//  e.g. `validateIfExists(hasActivePlayer, activePlayerId)` means
+//  call `hasActivePlayer(activePlayerId)(match)` if `activePlayerId`
+//  this makes validations optional
+const validateIfExists = (
+  func: (...partials: any) => (match: Match) => Match,
+  ...args: (?any)[]
+) => (
+  args.some(arg => typeof arg === 'undefined') ? identity : func(...args)
+);
+
+type ValidateMatchArgsType = {|
+  activePlayerUserId?: ObjectId,
+  cardsInActiveHand?: CardType[],
+  turnStarted?: boolean,
+|};
+export default async (
+  matchId: ObjectId,
+  validations?: ValidateMatchArgsType,
+): Promise<Match> => {
+  const {
+    activePlayerUserId,
+    cardsInActiveHand,
+    turnStarted,
+  } = validations || {};
+  const validate: (match: ?Match) => Match = flow([
+    matchExists(matchId),
+    hasStarted,
+    hasNotEnded,
+    validateIfExists(hasActivePlayer, activePlayerUserId),
+    validateIfExists(
+      activePlayerHasCards,
+      cardsInActiveHand,
+      activePlayerUserId,
+    ),
+    validateIfExists(turnStatus, turnStarted),
+  ]);
+  const match = await Match.findById(matchId);
+  return validate(match);
 };

@@ -1,13 +1,8 @@
 // @flow
 import type { ObjectId } from 'mongoose';
-import Match from '../models/MatchModel';
-import { playerHasCardsInMatch } from './commandHelpers';
+import fetchAndValidateMatch from './commandHelpers';
 import { getMeldType } from '../utils/cardHelpers';
-import {
-  NotEnoughCardsError,
-  TurnNotYetStartedError,
-  CardsAreNotMeldError,
-} from '../utils/errors';
+import { NotEnoughCardsError, CardsAreNotMeldError } from '../utils/errors';
 import type { CardType } from '../types/deck';
 
 export default class MeldCommand {
@@ -26,15 +21,12 @@ export default class MeldCommand {
   async execute() {
     const { matchId, userId, meld } = this;
 
-    const match = playerHasCardsInMatch({
-      match: await Match.findById(matchId),
-      userId,
-      cards: meld,
-      matchId,
+    const match = await fetchAndValidateMatch(matchId, {
+      activePlayerUserId: userId,
+      cardsInActiveHand: meld,
+      turnStarted: true,
     });
-    if (!match.turnStarted) {
-      throw new TurnNotYetStartedError(matchId, match.turn || 0);
-    }
+
     const meldType = getMeldType(meld);
     if (!meldType) throw new CardsAreNotMeldError(meld);
 

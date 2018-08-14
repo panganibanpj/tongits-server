@@ -1,7 +1,7 @@
 // @flow
 import type { ObjectId } from 'mongoose';
 import Match from '../models/MatchModel';
-import { playerHasCardsInMatch } from './commandHelpers';
+import fetchAndValidateMatch from './commandHelpers';
 import { TurnNotYetStartedError } from '../utils/errors';
 import type { CardType } from '../types/deck';
 
@@ -18,15 +18,12 @@ export default class DiscardCommand {
 
   async execute() {
     const { matchId, userId, discard } = this;
-    const match = playerHasCardsInMatch({
-      match: await Match.findById(matchId),
-      userId,
-      cards: [discard],
-      matchId,
+
+    const match = await fetchAndValidateMatch(matchId, {
+      activePlayerUserId: userId,
+      cardsInActiveHand: [discard],
+      turnStarted: true,
     });
-    if (!match.turnStarted) {
-      throw new TurnNotYetStartedError(matchId, match.turn || 0);
-    }
 
     await match.discard(discard);
   }
