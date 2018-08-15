@@ -16,13 +16,13 @@ const PlayerSchema = new Schema({
   },
   pesos: Integer, // pesos for series
   joinTime: Date,
-});
+}, { typeKey: '$type' });
 
 export default {
   createTime: CreateTime,
   round: NaturalNumber,
   betType: {
-    type: String,
+    $type: String,
     enum: ['BASIC'], // @TODO: Object.keys(BET_TYPES),
     // required: true,
   },

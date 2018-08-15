@@ -10,7 +10,7 @@ import {
 const Series = 'series';
 
 const Cards = [{
-  type: String,
+  $type: String,
   match: /[SHDC][A2-90JQK]/,
 }];
 
@@ -23,24 +23,22 @@ const PlayerSchema = new Schema({
   pesos: Integer,
   hand: Cards,
   discard: Cards,
-  melds: {
-    sets: {
-      type: Schema.Types.Mixed,
-      default: {},
-    },
-    runs: [Cards],
-  },
+  melds: [{
+    type: String,
+    cards: Cards,
+    setRank: String,
+  }],
   // is calling or started the bet
   bet: Boolean,
   canBet: Boolean,
   // time ante'd into match
   // also indicator that player has ante'd up
   joinTime: Date,
-});
+}, { typeKey: '$type' });
 
 export default {
   seriesId: {
-    type: Schema.Types.ObjectId,
+    $type: Schema.Types.ObjectId,
     ref: Series,
     // required: true,
   },

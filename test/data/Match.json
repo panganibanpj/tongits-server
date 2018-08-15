@@ -74,10 +74,7 @@
       "discard": [],
       "hand": ["CA","C6","C7","CK","DA","H4","H9","HJ","HK","S4","S7","S9","S0"],
       "joinTime": "2015-09-28T18:00:00.000Z",
-      "melds": {
-        "runs": [],
-        "sets": {}
-      },
+      "melds": [],
       "pesos": -5,
       "userId": "5b6db723aee95b7b97fd559f"
     }, {
@@ -85,10 +82,7 @@
       "discard": [],
       "hand": ["C2","C4","C9","C0","CJ","D2","D5","D0","H5","H7","H0","S2","SQ"],
       "joinTime": "2015-09-28T18:00:00.000Z",
-      "melds": {
-        "runs": [],
-        "sets": {}
-      },
+      "melds": [],
       "pesos": -5,
       "userId": "5b6db7a47179c07c2b8afe22"
     }, {
@@ -96,10 +90,7 @@
       "discard": [],
       "hand": ["C3","C5","C8","D4","D7","DJ","HA","H2","H3","S3","SJ","SK"],
       "joinTime": "2015-09-28T18:00:00.000Z",
-      "melds": {
-        "runs": [],
-        "sets": {}
-      },
+      "melds": [],
       "pesos": -5,
       "userId": "5b6db8036c00607c936ee99e"
     }],
@@ -123,10 +114,7 @@
       "discard": ["C5"],
       "hand": ["CA","DA","H4","H9","H0","HJ","HK","S4","S7","S9","S0","SQ"],
       "joinTime": "2015-09-28T18:00:00.000Z",
-      "melds": {
-        "runs": [],
-        "sets": {}
-      },
+      "melds": [],
       "pesos": -5,
       "userId": "5b6db723aee95b7b97fd559f"
     }, {
@@ -134,10 +122,7 @@
       "discard": [],
       "hand": ["C3","C4","C6","C7","C9","C0","CJ","D2","D5","D0","H5","H7","S2"],
       "joinTime": "2015-09-28T18:00:00.000Z",
-      "melds": {
-        "runs": [],
-        "sets": {}
-      },
+      "melds": [],
       "pesos": -5,
       "userId": "5b6db7a47179c07c2b8afe22"
     }, {
@@ -145,10 +130,7 @@
       "discard": [],
       "hand": ["C2","C8","CK","D4","D7","DJ","HA","H2","H3","S3","SJ","SK"],
       "joinTime": "2015-09-28T18:00:00.000Z",
-      "melds": {
-        "runs": [],
-        "sets": {}
-      },
+      "melds": [],
       "pesos": -5,
       "userId": "5b6db8036c00607c936ee99e"
     }],
@@ -172,14 +154,17 @@
       "discard": ["CK"],
       "hand": ["CA","C6","DA","H4","H9","S4"],
       "joinTime": "2015-09-28T18:00:00.000Z",
-      "melds": {
-        "runs": [
-          ["S9","S0","SJ"]
-        ],
-        "sets": {
-          "SEVEN": ["C7","D7","S7"]
+      "melds": [
+        {
+          "type": "RUN_MELD",
+          "cards": ["S9","S0","SJ"]
+        },
+        {
+          "type": "SET_MELD",
+          "setRank": "SEVEN",
+          "cards": ["C7","D7","S7"]
         }
-      },
+      ],
       "pesos": -5,
       "userId": "5b6db723aee95b7b97fd559f"
     }, {
@@ -187,10 +172,7 @@
       "discard": [],
       "hand": ["C2","C4","C9","C0","CJ","D2","D5","D0","H5","H7","H0","HQ","S2","SQ"],
       "joinTime": "2015-09-28T18:00:00.000Z",
-      "melds": {
-        "runs": [],
-        "sets": {}
-      },
+      "melds": [],
       "pesos": -5,
       "userId": "5b6db7a47179c07c2b8afe22"
     }, {
@@ -198,10 +180,7 @@
       "discard": [],
       "hand": ["C3","C5","C8","D4","DJ","HA","H2","H3","HJ","HK","S3","SK"],
       "joinTime": "2015-09-28T18:00:00.000Z",
-      "melds": {
-        "runs": [],
-        "sets": {}
-      },
+      "melds": [],
       "pesos": -5,
       "userId": "5b6db8036c00607c936ee99e"
     }],
@@ -225,10 +204,7 @@
       "discard": ["C5"],
       "hand": ["CA","DA","H4","H9","H0","HJ","HK","SA","S4","S7","S9","S0"],
       "joinTime": "2015-09-28T18:00:00.000Z",
-      "melds": {
-        "runs": [],
-        "sets": {}
-      },
+      "melds": [],
       "pesos": -5,
       "userId": "5b6db723aee95b7b97fd559f"
     }, {
@@ -236,15 +212,22 @@
       "discard": ["D0"],
       "hand": ["C3","C4","C6","C7"],
       "joinTime": "2015-09-28T18:00:00.000Z",
-      "melds": {
-        "runs": [
-          ["C9","C0","CJ"]
-        ],
-        "sets": {
-          "TWO": ["D2","S2","C2"],
-          "FIVE": ["D5","H5","S5"]
+      "melds": [
+        {
+          "type": "RUN_MELD",
+          "cards": ["C9","C0","CJ"]
+        },
+        {
+          "type": "SET_MELD",
+          "setRank": "TWO",
+          "cards": ["D2","S2","C2"]
+        },
+        {
+          "type": "SET_MELD",
+          "setRank": "FIVE",
+          "cards": ["D5","H5","S5"]
         }
-      },
+      ],
       "pesos": -5,
       "userId": "5b6db7a47179c07c2b8afe22"
     }, {
@@ -252,10 +235,7 @@
       "discard": ["DJ"],
       "hand": ["C8","CK","D4","D7","HA","H2","H3","HQ","S3","SJ","SQ","SK"],
       "joinTime": "2015-09-28T18:00:00.000Z",
-      "melds": {
-        "runs": [],
-        "sets": {}
-      },
+      "melds": [],
       "pesos": -5,
       "userId": "5b6db8036c00607c936ee99e"
     }],
@@ -281,14 +261,17 @@
       "discard": ["CK","C6","HK","HJ","H9"],
       "hand": ["CA","DA","H6","S4"],
       "joinTime": "2015-09-28T18:00:00.000Z",
-      "melds": {
-        "runs": [
-          ["S9","S0","SJ"]
-        ],
-        "sets": {
-          "SEVEN": ["C7","S7","D7","H7"]
+      "melds": [
+        {
+          "type": "RUN_MELD",
+          "cards": ["S9","S0","SJ"]
+        },
+        {
+          "type": "SET_MELD",
+          "setRank": "SEVEN",
+          "cards": ["C7","S7","D7","H7"]
         }
-      },
+      ],
       "pesos": -5,
       "userId": "5b6db723aee95b7b97fd559f"
     }, {
@@ -296,16 +279,25 @@
       "discard": ["D0","H0","S8","DK","D9","C4"],
       "hand": [],
       "joinTime": "2015-09-28T18:00:00.000Z",
-      "melds": {
-        "runs": [
-          ["C8","C9","C0","CJ"],
-          ["D5","H5","S5"],
-          ["C2","D2","S2"]
-        ],
-        "sets": {
-          "QUEEN": ["HQ","SQ","DQ","CQ"]
+      "melds": [
+        {
+          "type": "RUN_MELD",
+          "cards": ["C8","C9","C0","CJ"]
+        },
+        {
+          "type": "RUN_MELD",
+          "cards": ["D5","H5","S5"]
+        },
+        {
+          "type": "RUN_MELD",
+          "cards": ["C2","D2","S2"]
+        },
+        {
+          "type": "SET_MELD",
+          "setRank": "QUEEN",
+          "cards": ["HQ","SQ","DQ","CQ"]
         }
-      },
+      ],
       "pesos": -5,
       "userId": "5b6db7a47179c07c2b8afe22"
     }, {
@@ -313,12 +305,12 @@
       "discard": ["H8","SK","DJ"],
       "hand": ["C3","C5","D3","D4","D8","SA","S3","S6"],
       "joinTime": "2015-09-28T18:00:00.000Z",
-      "melds": {
-        "runs": [
-          ["HA","H2","H3","H4"]
-        ],
-        "sets": {}
-      },
+      "melds": [
+        {
+          "type": "RUN_MELD",
+          "cards": ["HA","H2","H3","H4"]
+        }
+      ],
       "pesos": -5,
       "userId": "5b6db8036c00607c936ee99e"
     }],

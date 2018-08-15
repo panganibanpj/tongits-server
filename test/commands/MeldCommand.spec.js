@@ -98,7 +98,7 @@ describe('commands/MeldCommand', () => {
       const playerHasCard = match.playerHasCards(userId, [card]);
       return !playerHasCard;
     }));
-    const [run] = (match.players[1].melds || {}).runs;
+    const [{ cards: run }] = match.players[1].melds || [];
     assert.deepEqual(run, ['C9', 'C0', 'CJ']);
 
     await resetMatch('started2');
@@ -109,7 +109,8 @@ describe('commands/MeldCommand', () => {
       const playerHasCard = match.playerHasCards(userId, [card]);
       return !playerHasCard;
     }));
-    const { TWO: set } = (match.players[1].melds || {}).sets;
-    assert.deepEqual(set, ['C2', 'D2', 'S2']);
+    const [{ setRank, cards }] = match.players[1].melds || [];
+    assert.equal(setRank, 'TWO');
+    assert.deepEqual(cards, ['C2', 'D2', 'S2']);
   });
 });

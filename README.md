@@ -17,7 +17,6 @@ Server API for Tong-its
   - don't iterate turns
   - update commands to to validate that active player has not bet
 - tests for unblocking players on draw commands
-- Change melds to be an array of { cards, type }
 - rename commandHelpers
   - it's only export only helps match commands
 - must sort hands when dealing

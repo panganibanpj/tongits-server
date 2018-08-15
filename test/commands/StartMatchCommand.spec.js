@@ -78,8 +78,7 @@ describe('commands/StartMatchCommand', () => {
         assert.lengthOf(hand, index === 0 ? 13 : 12);
         assert.isEmpty(discard);
         if (!melds) throw new Error(); // make flow happy
-        assert.isEmpty(melds.runs);
-        assert.isEmpty(melds.sets);
+        assert.isEmpty(melds);
       });
       assert.lengthOf(match.pile, 15);
     });

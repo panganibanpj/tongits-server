@@ -3,7 +3,7 @@ import mongoose, { Schema, type ObjectId } from 'mongoose';
 import BaseModel from './BaseModel';
 import UserSchema from './schemas/UserSchema';
 
-const schema = new Schema(UserSchema);
+const schema = new Schema(UserSchema, { typeKey: '$type' });
 
 class User extends BaseModel {
   username: string;

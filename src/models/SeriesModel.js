@@ -6,7 +6,7 @@ import { includesId, pluckUserIds, equalIds } from './modelHelpers';
 import BET_TYPES from '../constants/BET_TYPES.json';
 import type { BetType, BetTypesType } from '../types/betTypes';
 
-const schema = new Schema(SeriesSchema);
+const schema = new Schema(SeriesSchema, { typeKey: '$type' });
 
 export type PlayerType = {|
   joinTime?: Date,

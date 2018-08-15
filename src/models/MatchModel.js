@@ -4,22 +4,24 @@ import BaseModel from './BaseModel';
 import MatchSchema from './schemas/MatchSchema';
 import { includesId, pluckUserIds, equalIds } from './modelHelpers';
 import { dealCards, getRank, type DealtCardsType } from '../utils/cardHelpers';
-import { RUN_MELD, SET_MELD, type MeldType } from '../constants/MELD_TYPES';
+import { SET_MELD, type MeldType } from '../constants/MELD_TYPES';
 import type Series from './SeriesModel';
-import type { CardType } from '../types/deck';
+import type { CardType, RankType } from '../types/deck';
 
-const schema = new Schema(MatchSchema);
+const schema = new Schema(MatchSchema, { typeKey: '$type' });
 
+type PlayerMeldType = {|
+  cards: CardType[],
+  setRank?: RankType,
+  type: MeldType,
+|};
 type PlayerType = {|
   bet?: ?boolean,
   blocked?: boolean,
   discard?: CardType[],
   hand?: CardType[],
   joinTime?: Date,
-  melds?: {|
-    runs: CardType[][],
-    sets: { [string]: CardType[] },
-  |},
+  melds?: PlayerMeldType[],
   pesos?: number,
   userId: ObjectId,
 |};
@@ -55,10 +57,7 @@ class Match extends BaseModel {
       bet: null,
       blocked: false,
       discard: [],
-      melds: {
-        runs: [],
-        sets: {},
-      },
+      melds: [],
     };
   }
 
@@ -226,12 +225,12 @@ class Match extends BaseModel {
   addToMelds(userId: ObjectId, meld: CardType[], meldType: MeldType) {
     const player = this.getPlayer(userId);
     if (!player) throw new Error(); // make flow happy;
-    player.melds = player.melds || { runs: [], sets: {} }; // make flow happy;
-    if (meldType === RUN_MELD) {
-      player.melds.runs.push(meld);
-    } else if (meldType === SET_MELD) {
-      player.melds.sets[getRank(meld[0])] = meld;
-    }
+    player.melds = player.melds || []; // make flow happy;
+    player.melds.push({
+      type: meldType,
+      cards: meld,
+      ...(meldType === SET_MELD ? { setRank: getRank(meld[0]) } : {}),
+    });
   }
 
   async layDownMeld(meld: CardType[], meldType: MeldType) {

@@ -6,7 +6,7 @@ type SuitsType =
   | 'HEARTS'
   | 'DIAMONDS'
   | 'CLUBS';
-type RankType =
+export type RankType =
   | 'ACE'
   | 'TWO'
   | 'THREE'

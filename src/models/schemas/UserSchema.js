@@ -3,7 +3,7 @@ import { CreateTime, User as UserRef } from './schemaHelpers';
 
 export default {
   username: {
-    type: String,
+    $type: String,
     unique: true,
     required: true,
   },
@@ -11,17 +11,17 @@ export default {
   picture: String, // @TODO: url validation. gravatar? FB? G+?
   createTime: CreateTime,
   isConnected: {
-    type: Boolean,
+    $type: Boolean,
     // required: true,
   },
   friends: [UserRef],
   facebookId: {
-    type: String,
+    $type: String,
     unique: true,
     sparse: true,
   },
   googleId: {
-    type: String,
+    $type: String,
     unique: true,
     sparse: true,
   },

@@ -103,7 +103,7 @@ describe('commands/DrawFromDiscardCommand', () => {
     if (!hand) throw new Error(); // make flow happy
     assert.notInclude(hand, 'C3');
     assert.notInclude(hand, 'C4');
-    assert.deepEqual((activePlayer.melds || {}).runs[0], ['C3', 'C4', 'C5']);
+    assert.deepEqual((activePlayer.melds || [])[0].cards, ['C3', 'C4', 'C5']);
 
     await resetMatch('started1');
     command = new DrawFromDiscardCommand(matchId, userId, ['D5', 'H5']);
@@ -117,7 +117,8 @@ describe('commands/DrawFromDiscardCommand', () => {
     if (!hand) throw new Error(); // make flow happy
     assert.notInclude(hand, 'D5');
     assert.notInclude(hand, 'H5');
-    assert.deepEqual((activePlayer.melds || {}).sets.FIVE, ['D5', 'H5', 'C5']);
+    assert.deepEqual((activePlayer.melds || [])[0].setRank, 'FIVE');
+    assert.deepEqual((activePlayer.melds || [])[0].cards, ['D5', 'H5', 'C5']);
   });
   it('starts turn', async () => {
     const userId = createdIds.user.basic1;
