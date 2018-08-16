@@ -1,6 +1,6 @@
 // @flow
 import type { ObjectId } from 'mongoose';
-import fetchAndValidateMatch from './commandHelpers';
+import { fetchAndValidateMatch } from './commandHelpers';
 
 export class PlayerHasNoMeldsError extends Error {
   constructor(matchId: ObjectId, userId: ObjectId) {

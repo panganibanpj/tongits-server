@@ -1,7 +1,7 @@
 // @flow
 import type { ObjectId } from 'mongoose';
 import Series from '../models/SeriesModel';
-import fetchAndValidateMatch from './commandHelpers';
+import { fetchAndValidateMatch } from './commandHelpers';
 import { SeriesNotFoundError } from '../utils/errors';
 
 export class NotAllPlayersJoinedError extends Error {

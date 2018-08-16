@@ -1,6 +1,6 @@
 // @flow
 import type { ObjectId } from 'mongoose';
-import fetchAndValidateMatch from './commandHelpers';
+import { fetchAndValidateMatch } from './commandHelpers';
 import type { CardType } from '../types/deck';
 
 export default class DiscardCommand {

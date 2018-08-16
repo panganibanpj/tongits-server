@@ -1,6 +1,6 @@
 // @flow
 import type { ObjectId } from 'mongoose';
-import fetchAndValidateMatch from './commandHelpers';
+import { fetchAndValidateMatch } from './commandHelpers';
 import { getMeldType } from '../utils/cardHelpers';
 import { NotEnoughCardsError, CardsAreNotMeldError } from '../utils/errors';
 import type { CardType } from '../types/deck';

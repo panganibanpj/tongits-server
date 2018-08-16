@@ -1,6 +1,6 @@
 // @flow
 import type { ObjectId } from 'mongoose';
-import fetchAndValidateMatch from './commandHelpers';
+import { fetchAndValidateMatch } from './commandHelpers';
 
 export default class DrawFromPileCommand {
   matchId: ObjectId;

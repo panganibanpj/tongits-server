@@ -85,7 +85,7 @@ type ValidateMatchArgsType = {|
   hasStarted?: boolean,
   turnStarted?: boolean,
 |};
-export default async (
+export const fetchAndValidateMatch = async (
   matchId: ObjectId,
   validations?: ValidateMatchArgsType,
 ): Promise<Match> => {
@@ -109,4 +109,9 @@ export default async (
   ]);
   const match = await Match.findById(matchId);
   return validate(match);
+};
+
+export const cardsAreUnique = (cards: CardType[]) => {
+  const set = new Set(cards);
+  return set.size === cards.length;
 };
