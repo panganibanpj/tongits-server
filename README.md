@@ -11,13 +11,19 @@ Server API for Tong-its
 - e2e tests
 
 ## TODO
+- create test match for `shouldEnd` after sapaw
 - tests for unblocking players on draw commands
+- Call, Fold commands
+- last bunot (DiscardCommand) shouldEnd
 - update draw commands to to validate that active player has not bet
 - must sort hands when dealing
+- create TongItsClient for invoking the commands
+  - good way to abstract triggering WinnerCommand (on shouldEnd), logging, creating ObjectIds from strings, and history
+  - maybe all commands should only throw on executes (remove constructor validations)
 - break down MatchModel. too many methods, file is getting big
 - try making constants JSON files into JS to make flow happier in some cases
-- add tests to StartMatchCommand for 4 player deals
 - Commands w CardType[] args should guarantee uniqueness
+- add tests to StartMatchCommand for 4 player deals
 - JoinMatchCommand test not-first round (no dupe/override players in Series)
 - test MeldCommand (DrawFromDiscardCommand?) w 4-card sets and longer straights
 - should throw error in StartMatchCommand on round 0 but Series already started
