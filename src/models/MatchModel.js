@@ -16,29 +16,29 @@ type PlayerMeldType = {|
   type: MeldType,
 |};
 type PlayerType = {|
-  bet?: ?boolean,
-  blocked?: boolean,
-  discard?: CardType[],
-  hand?: CardType[],
-  joinTime?: Date,
-  melds?: PlayerMeldType[],
-  pesos?: number,
+  bet: ?boolean,
+  blocked: ?boolean,
+  discard: CardType[],
+  hand: CardType[],
+  joinTime: ?Date,
+  melds: PlayerMeldType[],
+  pesos: number,
   userId: ObjectId,
 |};
 
 class Match extends BaseModel {
   seriesId: ObjectId;
-  round: ?number;
+  round: number;
   better: ?ObjectId;
   createTime: Date;
   startTime: ?Date;
   endTime: ?Date;
   winner: ?ObjectId;
-  jackpot: ?number;
-  turn: ?number;
-  pile: ?CardType[];
-  turnStarted: ?boolean;
-  shouldEnd: ?boolean;
+  jackpot: number;
+  turn: number;
+  pile: CardType[];
+  turnStarted: boolean;
+  shouldEnd: boolean;
   players: PlayerType[];
   button: ?boolean;
 
@@ -48,15 +48,14 @@ class Match extends BaseModel {
     };
   }
 
-  static invitedPlayerDefaults() {
-    return {};
-  }
-
-  static joinedPlayerDefaults() {
+  static playerDefaults() {
     return {
       bet: null,
       blocked: false,
+      joinTime: null,
+      pesos: 0,
       discard: [],
+      hand: [],
       melds: [],
     };
   }
@@ -70,9 +69,9 @@ class Match extends BaseModel {
     return userIds.every(userId => this.hasPlayer(userId));
   }
 
-  static makeNewPlayer(userId: ObjectId): PlayerType {
+  static makeNewPlayer(userId: ObjectId) {
     return {
-      ...Match.invitedPlayerDefaults(),
+      ...Match.playerDefaults(),
       userId,
     };
   }
@@ -91,13 +90,17 @@ class Match extends BaseModel {
     await this.save();
   }
 
-  getPlayer(userId: ObjectId): ?PlayerType {
-    return this.players.find(player => equalIds(player.userId, userId));
+  getPlayer(userId: ObjectId): PlayerType {
+    const targetPlayer = this.players.find(
+      player => equalIds(player.userId, userId),
+    );
+    if (!targetPlayer) throw new Error(); // make flow happy guarantee existence
+    return targetPlayer;
   }
 
   playerHasJoined(userId: ObjectId) {
     const player = this.getPlayer(userId);
-    return player && !!player.joinTime;
+    return !!player.joinTime;
   }
 
   get isFirstRound() {
@@ -108,7 +111,7 @@ class Match extends BaseModel {
     return this.players.every(({ joinTime }) => !!joinTime);
   }
 
-  nextTurn(turnStarted: ?boolean = false) {
+  nextTurn(turnStarted?: boolean = false) {
     if (typeof this.turn === 'number' && this.turn >= 0) {
       this.turn += 1;
     } else {
@@ -129,9 +132,8 @@ class Match extends BaseModel {
   preparePlayers(series: Series, dealtCards: DealtCardsType) {
     this.players.forEach((player, i) => {
       const seriesPlayer = series.getPlayer(player.userId);
-      if (!seriesPlayer) return; // make flow happy
-      Object.assign(this.players[i], {
-        ...Match.joinedPlayerDefaults(),
+      const matchPlayer = this.players[i];
+      Object.assign(matchPlayer, {
         hand: dealtCards[i],
         pesos: seriesPlayer.pesos,
       });
@@ -152,9 +154,7 @@ class Match extends BaseModel {
   }
 
   activePlayer() {
-    const { turn } = this;
-    if (!turn && turn !== 0) throw new Error(); // make flow happy
-    return this.playerForTurn(turn);
+    return this.playerForTurn(this.turn);
   }
 
   get hasEnded() {
@@ -169,10 +169,7 @@ class Match extends BaseModel {
   async drawCard() {
     const player = this.activePlayer();
 
-    if (!this.pile) throw new Error(); // make flow happy
     const card: CardType = this.pile.shift();
-
-    if (!player.hand) throw new Error(); // make flow happy
     player.hand.push(card);
 
     this.turnStarted = true;
@@ -188,33 +185,26 @@ class Match extends BaseModel {
 
   playerHasCards(userId: ObjectId, cards: CardType[]) {
     const player = this.getPlayer(userId);
-    if (!player || !player.hand) throw new Error(); // make flow happy
-    const { hand } = player;
-    return cards.every((card: CardType) => hand.includes(card));
+    return cards.every((card: CardType) => player.hand.includes(card));
   }
 
   get lastDiscard(): ?CardType {
     if (!this.turn) return null;
     const { discard } = this.previousPlayer();
-    if (!discard) throw new Error(); // make flow happy
     return discard[discard.length - 1];
   }
 
   previousPlayer() {
-    const { turn } = this;
-    if (!turn) throw new Error(); // make flow happy
-    return this.playerForTurn(turn - 1);
+    return this.playerForTurn(this.turn - 1);
   }
 
   pickUpDiscard(): CardType {
     const previousPlayer = this.previousPlayer();
-    if (!previousPlayer.discard) throw new Error(); // make flow happy
     return previousPlayer.discard.shift();
   }
 
   removeCardsFromHand(userId: ObjectId, cardsToRemove: CardType[]) {
     const player = this.getPlayer(userId);
-    if (!player || !player.hand) throw new Error(); // make flow happy
     player.hand = player.hand.filter((card: CardType) => {
       const shouldRemoveCard = cardsToRemove.includes(card);
       return !shouldRemoveCard;
@@ -222,10 +212,8 @@ class Match extends BaseModel {
     if (!player.hand.length) this.shouldEnd = true;
   }
 
-  addToMelds(userId: ObjectId, meld: CardType[], meldType: MeldType) {
+  addMeld(userId: ObjectId, meld: CardType[], meldType: MeldType) {
     const player = this.getPlayer(userId);
-    if (!player) throw new Error(); // make flow happy;
-    player.melds = player.melds || []; // make flow happy;
     player.melds.push({
       type: meldType,
       cards: meld,
@@ -236,10 +224,9 @@ class Match extends BaseModel {
   async layDownMeld(meld: CardType[], meldType: MeldType) {
     const player = this.activePlayer();
 
-    if (!player.hand) throw new Error(); // make flow happy
     this.removeCardsFromHand(player.userId, meld);
 
-    this.addToMelds(player.userId, meld, meldType);
+    this.addMeld(player.userId, meld, meldType);
 
     await this.save();
   }
@@ -248,11 +235,10 @@ class Match extends BaseModel {
     const player = this.activePlayer();
     const discard: CardType = this.pickUpDiscard();
 
-    if (!player.hand) throw new Error(); // make flow happy
     this.removeCardsFromHand(player.userId, partialMeld);
 
     const meld = partialMeld.concat(discard);
-    this.addToMelds(player.userId, meld, meldType);
+    this.addMeld(player.userId, meld, meldType);
 
     this.turnStarted = true;
     if (player.blocked) player.blocked = false;
@@ -262,7 +248,6 @@ class Match extends BaseModel {
   async discard(card: CardType) {
     const player = this.activePlayer();
     this.removeCardsFromHand(player.userId, [card]);
-    if (!player.discard) throw new Error(); // make flow happy
     player.discard.push(card);
 
     this.nextTurn();
@@ -278,11 +263,11 @@ class Match extends BaseModel {
 
   playerHasMelds(userId: ObjectId) {
     const player = this.getPlayer(userId);
-    return player ? !!(player.melds || []).length : false; // make flow happy
+    return !!player.melds.length;
   }
 
   playerIsBlocked(userId: ObjectId) {
-    const player = this.getPlayer(userId) || {};
+    const player = this.getPlayer(userId);
     return !!player.blocked;
   }
 }

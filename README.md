@@ -11,8 +11,6 @@ Server API for Tong-its
 - e2e tests
 
 ## TODO
-- Refactor create commands to use test data
-  - then can make less optional model class props and probably get rid of a bunch of `// make flow happy`s
 - BetCommand
   - `player.bet = true`
   - players can respond to bet in parallel

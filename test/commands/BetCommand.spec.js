@@ -101,9 +101,7 @@ describe('commands/BetCommand', () => {
 
     const match = await findMatchById(matchId);
     assert.exists(match.better);
-    // flow does not know that assert.exists guarantees existence
-    if (!match.better) throw new Error();
-    assert(equalIds(match.better, userId));
+    assert(equalIds(match.better || randomId(), userId));
     const player = match.getPlayer(userId);
     if (!player) throw new Error();
     assert(player.bet);

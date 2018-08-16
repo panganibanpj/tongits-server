@@ -77,7 +77,6 @@ describe('commands/StartMatchCommand', () => {
       match.players.forEach(({ hand, discard, melds }, index) => {
         assert.lengthOf(hand, index === 0 ? 13 : 12);
         assert.isEmpty(discard);
-        if (!melds) throw new Error(); // make flow happy
         assert.isEmpty(melds);
       });
       assert.lengthOf(match.pile, 15);
@@ -89,15 +88,15 @@ describe('commands/StartMatchCommand', () => {
       });
       const matchId = createdIds.match.notStarted2;
       const seriesId = createdIds.series.started1;
-      let series2 = await findSeriesById(seriesId);
-      const { startTime: timeBeforeExec } = series2;
 
       const command = new StartMatchCommand(matchId);
       await command.execute();
 
-      series2 = await findSeriesById(seriesId);
-      if (!series2.startTime || !timeBeforeExec) throw new Error(); // make flow happy
-      assert.equal(series2.startTime.getTime(), timeBeforeExec.getTime());
+      const series2 = await findSeriesById(seriesId);
+      assert.equal(
+        Number(series2.startTime),
+        Number(new Date('2015-09-28T18:00:00.000Z')),
+      );
     });
   });
 });

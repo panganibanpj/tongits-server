@@ -71,16 +71,16 @@ describe('commands/InvitePlayerCommand', () => {
     const userId = createdIds.user.basic0;
     const seriesId = createdIds.series.notStarted0;
     await resetSeries('notStarted0');
-    let series = await findSeriesById(seriesId);
-    const { joinTime: timeBeforeExec } = series.players[0];
     const command = new InvitePlayerCommand(seriesId, [userId]);
     await command.execute();
 
-    series = await findSeriesById(seriesId);
+    const series = await findSeriesById(seriesId);
     assert.lengthOf(series.players, 3);
     const [player] = series.players;
     assert(equalIds(player.userId, userId));
-    if (!player.joinTime || !timeBeforeExec) throw new Error(); // make flow happy
-    assert.equal(player.joinTime.getTime(), timeBeforeExec.getTime());
+    assert.equal(
+      Number(player.joinTime),
+      Number(new Date('2015-09-28T18:00:00.000Z')),
+    );
   });
 });

@@ -74,13 +74,17 @@ class Series extends BaseModel {
     await this.save();
   }
 
-  getPlayer(userId: ObjectId): ?PlayerType {
-    return this.players.find(player => equalIds(player.userId, userId));
+  getPlayer(userId: ObjectId): PlayerType {
+    const targetPlayer = this.players.find(
+      player => equalIds(player.userId, userId),
+    );
+    if (!targetPlayer) throw new Error(); // make flow happy guarantee existence
+    return targetPlayer;
   }
 
   playerHasJoined(userId: ObjectId) {
     const player = this.getPlayer(userId);
-    return player && !!player.joinTime;
+    return !!player.joinTime;
   }
 
   setStartTime(startTime: ?Date) {

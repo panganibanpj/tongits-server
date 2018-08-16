@@ -71,22 +71,20 @@ describe('commands/DrawFromPileCommand', () => {
     const command = new DrawFromPileCommand(matchId, userId);
 
     let match = await findMatchById(matchId);
-    if (!match.pile) throw new Error(); // make flow happy
-    const { pile: pileBeforeDraw } = match;
-    const expectedDrawnCard: CardType = pileBeforeDraw[0];
 
     await command.execute();
 
     match = await findMatchById(matchId);
     const player = match.activePlayer();
-    if (!player.hand) throw new Error(); // make flow happy
-    const { hand: activeHand } = player;
+    const activeHand = player.hand;
     const actualDrawnCard: CardType = activeHand[13];
 
-    assert.lengthOf(pileBeforeDraw, 14);
     assert.lengthOf(match.pile, 13);
-    assert.equal(expectedDrawnCard, actualDrawnCard);
-    assert.deepEqual([actualDrawnCard].concat(match.pile), pileBeforeDraw);
+    assert.equal(actualDrawnCard, 'HQ');
+    assert.deepEqual(
+      [actualDrawnCard, ...match.pile],
+      ['HQ', 'SA', 'S8', 'H8', 'DQ', 'D8', 'CQ', 'DK', 'S6', 'D9', 'D3', 'H6', 'S5', 'D6'],
+    );
   });
   it('starts turn', async () => {
     const userId = createdIds.user.basic1;

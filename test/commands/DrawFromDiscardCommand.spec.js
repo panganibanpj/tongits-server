@@ -95,30 +95,26 @@ describe('commands/DrawFromDiscardCommand', () => {
     let command = new DrawFromDiscardCommand(matchId, userId, ['C3', 'C4']);
     await command.execute();
     let match = await findMatchById(matchId);
-    if (!match) throw new Error(); // make flow happy
     let previousPlayer = match.previousPlayer();
     let activePlayer = match.activePlayer();
     assert.lengthOf(previousPlayer.discard, 0);
-    let { hand } = activePlayer;
-    if (!hand) throw new Error(); // make flow happy
+    let { hand, melds } = activePlayer;
     assert.notInclude(hand, 'C3');
     assert.notInclude(hand, 'C4');
-    assert.deepEqual((activePlayer.melds || [])[0].cards, ['C3', 'C4', 'C5']);
+    assert.deepEqual(melds[0].cards, ['C3', 'C4', 'C5']);
 
     await resetMatch('started1');
     command = new DrawFromDiscardCommand(matchId, userId, ['D5', 'H5']);
     await command.execute();
     match = await findMatchById(matchId);
-    if (!match) throw new Error(); // make flow happy
     previousPlayer = match.previousPlayer();
     activePlayer = match.activePlayer();
     assert.lengthOf(previousPlayer.discard, 0);
-    ({ hand } = activePlayer);
-    if (!hand) throw new Error(); // make flow happy
+    ({ hand, melds } = activePlayer);
     assert.notInclude(hand, 'D5');
     assert.notInclude(hand, 'H5');
-    assert.deepEqual((activePlayer.melds || [])[0].setRank, 'FIVE');
-    assert.deepEqual((activePlayer.melds || [])[0].cards, ['D5', 'H5', 'C5']);
+    assert.deepEqual(melds[0].setRank, 'FIVE');
+    assert.deepEqual(melds[0].cards, ['D5', 'H5', 'C5']);
   });
   it('starts turn', async () => {
     const userId = createdIds.user.basic1;
