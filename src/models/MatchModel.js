@@ -268,6 +268,23 @@ class Match extends BaseModel {
     this.nextTurn();
     await this.save();
   }
+
+  async bet() {
+    const player = this.activePlayer();
+    player.bet = true;
+    this.better = player.userId;
+    await this.save();
+  }
+
+  playerHasMelds(userId: ObjectId) {
+    const player = this.getPlayer(userId);
+    return player ? !!(player.melds || []).length : false; // make flow happy
+  }
+
+  playerIsBlocked(userId: ObjectId) {
+    const player = this.getPlayer(userId) || {};
+    return !!player.blocked;
+  }
 }
 
 schema.loadClass(Match);

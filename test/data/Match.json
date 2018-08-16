@@ -241,6 +241,61 @@
     }],
     "button": false
   },
+  "started4": {
+    "key": "started4",
+    "description": "can draw but blocked. users: basic0, basic1, basic2. series: started5",
+    "_id": "5b74c0e3d86c03d84d896610",
+    "seriesId": "5b74c1457b87efd92a7cf77f",
+    "round": 0,
+    "createTime": "2015-09-28T18:00:00.000Z",
+    "startTime": "2015-09-28T18:00:00.000Z",
+    "jackpot": 15,
+    "turn": 4,
+    "pile": ["S8","H8","DQ","D8","S7","DK","S6","D9","D3","H6","H7","D6"],
+    "turnStarted": false,
+    "shouldEnd": false,
+    "players": [{
+      "blocked": false,
+      "discard": ["C5"],
+      "hand": ["CA","DA","H4","H9","H0","HJ","HK","SA","S4","S9","S0"],
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "melds": [],
+      "pesos": -5,
+      "userId": "5b6db723aee95b7b97fd559f"
+    }, {
+      "blocked": true,
+      "discard": ["D0"],
+      "hand": ["C3","C4","C6","C7"],
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "melds": [
+        {
+          "type": "RUN_MELD",
+          "cards": ["C9","C0","CJ","CQ"]
+        },
+        {
+          "type": "SET_MELD",
+          "setRank": "TWO",
+          "cards": ["D2","S2","C2"]
+        },
+        {
+          "type": "SET_MELD",
+          "setRank": "FIVE",
+          "cards": ["D5","H5","S5"]
+        }
+      ],
+      "pesos": -5,
+      "userId": "5b6db7a47179c07c2b8afe22"
+    }, {
+      "blocked": false,
+      "discard": ["DJ"],
+      "hand": ["C8","CK","D4","D7","HA","H2","H3","HQ","S3","SJ","SQ","SK"],
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "melds": [],
+      "pesos": -5,
+      "userId": "5b6db8036c00607c936ee99e"
+    }],
+    "button": false
+  },
   "ended0": {
     "key": "ended0",
     "description": "played to completion. users: basic0, basic1, basic2. series: started0",
