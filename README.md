@@ -11,6 +11,7 @@ Server API for Tong-its
 - e2e tests
 
 ## TODO
+- Commands w CardType[] args should guarantee uniqueness
 - BetCommand
   - `player.bet = true`
   - players can respond to bet in parallel
