@@ -30,7 +30,7 @@ const PlayerSchema = new Schema({
   }],
   // is calling or started the bet
   bet: Boolean,
-  canBet: Boolean,
+  blocked: Boolean,
   // time ante'd into match
   // also indicator that player has ante'd up
   joinTime: Date,
