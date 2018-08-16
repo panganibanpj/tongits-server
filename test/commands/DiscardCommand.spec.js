@@ -1,7 +1,7 @@
 // @flow
 import { assert } from 'chai';
 import {
-  createDocuments,
+  resetDb,
   randomId,
   createdIds,
   executionError,
@@ -19,10 +19,7 @@ import {
 import DiscardCommand from '../../src/commands/DiscardCommand';
 
 describe('commands/DiscardCommand', () => {
-  before(() => createDocuments({
-    user: ['basic1', 'basic0'],
-    match: ['started2', 'notStarted0', 'ended0', 'started0', 'started1'],
-  }));
+  before(() => resetDb());
 
   it('throws if given Match does not exist', async () => {
     const matchId = randomId();

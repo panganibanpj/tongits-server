@@ -6,7 +6,7 @@ import {
   SeriesNotFoundError,
 } from '../../src/utils/errors';
 import {
-  createDocuments,
+  resetDb,
   randomId,
   createdIds,
   executionError,
@@ -19,10 +19,7 @@ import InvitePlayerCommand, {
 } from '../../src/commands/InvitePlayerCommand';
 
 describe('commands/InvitePlayerCommand', () => {
-  before(() => createDocuments({
-    user: ['basic0', 'empty'],
-    series: ['notStarted0', 'started0', 'empty'],
-  }));
+  before(() => resetDb());
 
   it('throws if not enough players', () => {
     const seriesId = createdIds.series.notStarted0;

@@ -1,7 +1,7 @@
 // @flow
 import { assert } from 'chai';
 import {
-  createDocuments,
+  resetDb,
   randomId,
   executionError,
   createdIds,
@@ -19,10 +19,7 @@ import DrawFromPileCommand from '../../src/commands/DrawFromPileCommand';
 import type { CardType } from '../../src/types/deck';
 
 describe('commands/DrawFromPileCommand', () => {
-  before(() => createDocuments({
-    user: ['basic1', 'basic0'],
-    match: ['notStarted0', 'ended0', 'started0', 'started1'],
-  }));
+  before(() => resetDb());
 
   it('throws if given Match does not exist', async () => {
     const matchId = randomId();

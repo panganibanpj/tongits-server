@@ -1,7 +1,7 @@
 // @flow
 import { assert } from 'chai';
 import {
-  createDocuments,
+  resetDb,
   randomId,
   executionError,
   createdIds,
@@ -18,10 +18,7 @@ import StartMatchCommand, {
 } from '../../src/commands/StartMatchCommand';
 
 describe('commands/StartMatchCommand', () => {
-  before(() => createDocuments({
-    series: ['notStarted1', 'started1', 'notStarted0', 'started0'],
-    match: ['notStarted0', 'notStarted1', 'notStarted2', 'started0'],
-  }));
+  before(() => resetDb());
 
   describe('failure', () => {
     it('throws if given Match does not exist', async () => {

@@ -1,7 +1,7 @@
 // @flow
 import { assert } from 'chai';
 import {
-  createDocuments,
+  resetDb,
   randomId,
   executionError,
   createdIds,
@@ -20,10 +20,7 @@ import {
 import DrawFromDiscardCommand from '../../src/commands/DrawFromDiscardCommand';
 
 describe('commands/DrawFromDiscardCommand', () => {
-  before(() => createDocuments({
-    user: ['basic1', 'basic0'],
-    match: ['notStarted0', 'ended0', 'started0', 'started1', 'started3'],
-  }));
+  before(() => resetDb());
 
   it('throws if not enough cards', () => {
     const userId = createdIds.user.basic1;

@@ -1,7 +1,7 @@
 // @flow
 import { assert } from 'chai';
 import {
-  createDocuments,
+  resetDb,
   randomId,
   createdIds,
   executionError,
@@ -18,11 +18,7 @@ import {
 import JoinMatchCommand from '../../src/commands/JoinMatchCommand';
 
 describe('commands/JoinMatchCommand', () => {
-  before(() => createDocuments({
-    user: ['basic0', 'empty', 'basic1'],
-    series: ['notStarted0'],
-    match: ['notStarted0', 'started0'],
-  }));
+  before(() => resetDb());
 
   it('throws if not enough players', () => {
     const matchId = randomId();

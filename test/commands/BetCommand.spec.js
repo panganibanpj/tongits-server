@@ -1,7 +1,7 @@
 // @flow
 import { assert } from 'chai';
 import {
-  createDocuments,
+  resetDb,
   randomId,
   createdIds,
   executionError,
@@ -22,18 +22,7 @@ import BetCommand, {
 } from '../../src/commands/BetCommand';
 
 describe('commands/BetCommand', () => {
-  before(() => createDocuments({
-    user: ['basic1'],
-    match: [
-      'notStarted0',
-      'ended0',
-      'started2',
-      'started0',
-      'started1',
-      'started3',
-      'started4',
-    ],
-  }));
+  before(() => resetDb());
 
   it('throws if given Match does not exist', async () => {
     const matchId = randomId();
