@@ -15,7 +15,6 @@ import {
   MatchAlreadyEndedError,
   PlayerNotActiveError,
   TurnAlreadyStartedError,
-  PlayerDoesNotHaveCards,
 } from '../../src/utils/errors';
 import BetCommand, {
   PlayerHasNoMeldsError,

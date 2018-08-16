@@ -27,7 +27,7 @@ Server API for Tong-its
 - JoinMatchCommand test not-first round (no dupe/override players in Series)
 - Meld, AppendMeld, and Discard are all commands that don't _need_ to run on the server (turn-based API vs component-based API)
 - test MeldCommand (DrawFromDiscardCommand?) w 4-card sets and longer straights
-- throw error StartMatchCommand on round 0 but Series already started?
+- should throw error StartMatchCommand on round 0 but Series already started
 - undo commands
 - Should rematches start automatically?
   - maybe matches are created automatically but don't start until all players accept
