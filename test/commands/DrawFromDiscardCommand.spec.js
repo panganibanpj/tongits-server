@@ -135,4 +135,15 @@ describe('commands/DrawFromDiscardCommand', () => {
     const match = await findMatchById(matchId);
     assert(match.shouldEnd);
   });
+  it('unblocks active player', async () => {
+    const userId = createdIds.user.basic1;
+    const matchId = createdIds.match.started4;
+    await resetMatch('started3');
+    const command = new DrawFromDiscardCommand(matchId, userId, ['C3', 'C4', 'C6', 'C7']);
+
+    await command.execute();
+
+    const match = await findMatchById(matchId);
+    assert(!match.playerIsBlocked(userId));
+  });
 });

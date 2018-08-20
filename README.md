@@ -11,7 +11,6 @@ Server API for Tong-its
 - e2e tests
 
 ## TODO
-- tests for unblocking players on draw commands
 - Call, Fold commands
 - last bunot (DiscardCommand) shouldEnd
 - draw commands should validate that active player has not bet

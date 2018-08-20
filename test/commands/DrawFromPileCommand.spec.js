@@ -94,4 +94,15 @@ describe('commands/DrawFromPileCommand', () => {
     const match = await findMatchById(matchId);
     assert(match.turnStarted);
   });
+  it('unblocks active player', async () => {
+    const userId = createdIds.user.basic1;
+    const matchId = createdIds.match.started4;
+    await resetMatch('started4');
+    const command = new DrawFromPileCommand(matchId, userId);
+
+    await command.execute();
+
+    const match = await findMatchById(matchId);
+    assert(!match.playerIsBlocked(userId));
+  });
 });
