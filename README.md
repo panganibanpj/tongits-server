@@ -11,11 +11,11 @@ Server API for Tong-its
 - e2e tests
 
 ## TODO
-- create test match for `shouldEnd` after sapaw
 - tests for unblocking players on draw commands
 - Call, Fold commands
 - last bunot (DiscardCommand) shouldEnd
-- update draw commands to to validate that active player has not bet
+- draw commands should validate that active player has not bet
+- WinnerCommand
 - must sort hands when dealing
 - create TongItsClient for invoking the commands
   - good way to abstract triggering WinnerCommand (on shouldEnd), logging, creating ObjectIds from strings, and history
