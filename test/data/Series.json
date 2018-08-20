@@ -177,5 +177,28 @@
       "joinTime": "2015-09-28T18:00:00.000Z",
       "pesos": -5
     }]
+  },
+  "started6": {
+    "key": "started6",
+    "description": "tong-its w sapaw. users: basic0, basic1, basic2. matches: started5",
+    "_id": "5b7b28fe6aeb3d59723246a4",
+    "createTime": "2015-09-28T18:00:00.000Z",
+    "startTime": "2015-09-28T18:00:00.000Z",
+    "round": 0,
+    "betType": "BASIC",
+    "jackpot": 15,
+    "players": [{
+      "userId": "5b6db723aee95b7b97fd559f",
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "pesos": -5
+    }, {
+      "userId": "5b6db7a47179c07c2b8afe22",
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "pesos": -5
+    }, {
+      "userId": "5b6db8036c00607c936ee99e",
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "pesos": -5
+    }]
   }
 }

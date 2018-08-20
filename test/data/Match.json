@@ -296,6 +296,70 @@
     }],
     "button": false
   },
+  "started5": {
+    "key": "started5",
+    "description": "tong-its w sapaw. users: basic0, basic1, basic2. series: started6",
+    "_id": "5b7b2915d478815989b26e50",
+    "seriesId": "5b7b28fe6aeb3d59723246a4",
+    "round": 0,
+    "createTime": "2015-09-28T18:00:00.000Z",
+    "startTime": "2015-09-28T18:00:00.000Z",
+    "jackpot": 15,
+    "turn": 4,
+    "pile": ["S8","DQ","D8","S7","DK","S6","D9","D3","H6","H7","D6"],
+    "turnStarted": true,
+    "shouldEnd": false,
+    "players": [{
+      "blocked": false,
+      "discard": ["C7"],
+      "hand": ["CA","DA","H4","HK","SA","S4","S9","S0"],
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "melds": [
+        {
+          "type": "RUN_MELD",
+          "cards": ["H9","H0","HJ"]
+        }
+      ],
+      "pesos": -5,
+      "userId": "5b6db723aee95b7b97fd559f"
+    }, {
+      "blocked": true,
+      "discard": ["D0"],
+      "hand": ["H8"],
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "melds": [
+        {
+          "type": "RUN_MELD",
+          "cards": ["C9","C0","CJ","CQ"]
+        },
+        {
+          "type": "SET_MELD",
+          "setRank": "TWO",
+          "cards": ["D2","S2","C2"]
+        },
+        {
+          "type": "SET_MELD",
+          "setRank": "FIVE",
+          "cards": ["D5","H5","S5"]
+        },
+        {
+          "type": "RUN_MELD",
+          "cards": ["C3","C4","C5","C6"]
+        }
+      ],
+      "pesos": -5,
+      "userId": "5b6db7a47179c07c2b8afe22"
+    }, {
+      "blocked": false,
+      "discard": ["DJ"],
+      "hand": ["C8","CK","D4","D7","HA","H2","H3","HQ","S3","SJ","SQ","SK"],
+      "joinTime": "2015-09-28T18:00:00.000Z",
+      "melds": [],
+      "pesos": -5,
+      "userId": "5b6db8036c00607c936ee99e"
+    }],
+    "button": false
+  },
   "ended0": {
     "key": "ended0",
     "description": "played to completion. users: basic0, basic1, basic2. series: started0",

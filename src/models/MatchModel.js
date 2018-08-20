@@ -2,7 +2,12 @@
 import mongoose, { Schema, type ObjectId } from 'mongoose';
 import BaseModel from './BaseModel';
 import MatchSchema from './schemas/MatchSchema';
-import { includesId, pluckUserIds, equalIds } from './modelHelpers';
+import {
+  includesId,
+  pluckUserIds,
+  equalIds,
+  cardsetsMatch,
+} from './modelHelpers';
 import { dealCards, getRank, type DealtCardsType } from '../utils/cardHelpers';
 import { SET_MELD, type MeldType } from '../constants/MELD_TYPES';
 import type Series from './SeriesModel';
@@ -269,6 +274,31 @@ class Match extends BaseModel {
   playerIsBlocked(userId: ObjectId) {
     const player = this.getPlayer(userId);
     return !!player.blocked;
+  }
+
+  playerHasMeld(userId: ObjectId, expectedMeld: CardType[]) {
+    const player = this.getPlayer(userId);
+    return player.melds.some(meld => cardsetsMatch(meld.cards, expectedMeld));
+  }
+
+  async appendToMeld(
+    sourceUserId: ObjectId,
+    sourceCards: CardType[],
+    targetUserId: ObjectId,
+    targetCards: CardType[],
+  ) {
+    this.removeCardsFromHand(sourceUserId, sourceCards);
+    const targetPlayer = this.getPlayer(targetUserId);
+
+    const targetMeld = targetPlayer.melds.find(
+      meld => cardsetsMatch(meld.cards, targetCards),
+    );
+    if (!targetMeld) return;
+    targetMeld.cards.push(...sourceCards);
+
+    targetPlayer.blocked = true;
+
+    await this.save();
   }
 }
 

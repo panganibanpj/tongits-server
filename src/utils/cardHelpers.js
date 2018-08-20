@@ -67,3 +67,4 @@ export const getMeldType = (cards: CardType[]): ?MeldType => {
   if (cardsAreTone(safeCards) && cardsAreStraight(safeCards)) return RUN_MELD;
   return null;
 };
+export const validMeld = (cards: CardType[]): boolean => !!getMeldType(cards);
