@@ -1,35 +1,15 @@
-# tongits-server
-Server API for Tong-its
+Counting Card Values
+====================
 
-## Roadmap
-- ~platform~
-- ~models~
-- commands
-- auth
-- routes
-  - sockets?
-- e2e tests
+The purpose of this project is to test out algorithms for an online card game I've been working on. The game is called [tong-its](https://en.wikipedia.org/wiki/Tong-its). Each card has a number value - aces are 1, faces are 10. The goal is to count the total as quick as possible. Here are the rules:
 
-## TODO
-- Call, Fold commands
-- last bunot (DiscardCommand) shouldEnd
-- draw commands should validate that active player has not bet
-- WinnerCommand
-- must sort hands when dealing
-- create TongItsClient for invoking the commands
-  - good way to abstract triggering WinnerCommand (on shouldEnd), logging, creating ObjectIds from strings, and history
-  - maybe all commands should only throw on executes (remove constructor validations)
-- break down MatchModel. too many methods, file is getting big
-- try making constants JSON files into JS to make flow happier in some cases
-- Commands w CardType[] args should guarantee uniqueness
-- add tests to StartMatchCommand for 4 player deals
-- JoinMatchCommand test not-first round (no dupe/override players in Series)
-- test MeldCommand (DrawFromDiscardCommand?) w 4-card sets and longer straights
-- should throw error in StartMatchCommand on round 0 but Series already started
-- undo commands
-- must sort melds?
-- limit players per match in InvitePlayerCommand
-- Meld, AppendMeld, and Discard are all commands that don't _need_ to run on the server (turn-based API vs component-based API)
-- Should rematches start automatically?
-  - maybe matches are created automatically but don't start until all players accept
-- multiple active matches can exist for given series. consider an `activeMatch` field
+- The most number of cards to have to count are 13
+- At least 3 cards in a row of the same suit **do not count** (Aces are low). I'm calling these "runs"
+- Neither do "sets" of at least 3 value cards e.g. 3 Aces
+
+
+Sidenote: I haven't figued out how to rename this project lol
+
+Sidenote 2: I plan on hosting the entire project here or some other platform, but wanted to continue working on this algorithm before having to figure out how to hook my project up
+
+\- PJ
